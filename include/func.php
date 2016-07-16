@@ -1,7 +1,7 @@
 <?php
 
-include '../include/parameter.php';
-include '../include/message.php';
+include 'parameter.php';
+include 'message.php';
 
 /**
  * 結果をjsonで返却する
@@ -42,7 +42,7 @@ function createDbo() {
 }
 
 // 1週間後の日付取得
-funcition getDateYmdAfterOneWeek() {
+function getDateYmdAfterOneWeek() {
     $date = new DateTime(date('Ymd'));
     $date->add(new DateInterval('P6D'));
     return $date->format('Ymd');

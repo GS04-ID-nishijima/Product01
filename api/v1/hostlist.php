@@ -1,7 +1,7 @@
 <?php
 
-include '../include/func.php';
-include '../include/message.php';
+include '../../include/func.php';
+include '../../include/message.php';
 
 /**
  * 開催情報リストを返す
@@ -26,6 +26,8 @@ include '../include/message.php';
  *
  * @author nishijima
  **/
+error_log('....', 0);
+error_log(var_dump($_REQUEST), 0);
 $mode = (string)filter_input(INPUT_GET, $_REQUEST['mode']);
 $weekFlag = (string)filter_input(INPUT_GET, $_REQUEST['withinOneWeekFlag']);
 $strLati = (double)filter_input(INPUT_GET, $_REQUEST['startingPointLatitudo']);
@@ -45,27 +47,39 @@ try {
     }
  
     $pdo = createDbo();
+    $stmt = NULL;
+
+error_log('start', 0);
+error_log($mode, 0);
+error_log($weekFlag, 0);
 
     if($mode === '1') {
+error_log('start1', 0);
         // 表示地図内開催情報取得
         if($weekFlag === "0") {
             // 開催日制限なし
             $stmt = $pdo->prepare($getHostListScopeMap);
 
+            $stmt->bindValue(':current_date_ymd', date('Ymd'));
             $stmt->bindValue(':strLati', $strLati, PDO::PARAM_STR);
-            $stmt->bindValue(':strLong', $strLati, PDO::PARAM_STR);
-            $stmt->bindValue(':endLati', $strLati, PDO::PARAM_STR);
-            $stmt->bindValue(':endLong', $strLati, PDO::PARAM_STR);
+            $stmt->bindValue(':strLong', $strLong, PDO::PARAM_STR);
+            $stmt->bindValue(':endLati', $endLati, PDO::PARAM_STR);
+            $stmt->bindValue(':endLong', $endLong, PDO::PARAM_STR);
+error_log(1, 0);
+error_log(var_dump($stmt), 0);
             $stmt->execute();
         } else if($weekFlag === "1") {
             // 1週間以内に開催
             $stmt = $pdo->prepare($getHostListScopwMapOneWeek);
 
-            $stmt->bindValue(':date_ymd', getDateYmdAfterOneWeek());
+            $stmt->bindValue(':current_date_ymd', date('Ymd'));
+            $stmt->bindValue(':to_date_ymd', getDateYmdAfterOneWeek());
             $stmt->bindValue(':strLati', $strLati, PDO::PARAM_STR);
-            $stmt->bindValue(':strLong', $strLati, PDO::PARAM_STR);
-            $stmt->bindValue(':endLati', $strLati, PDO::PARAM_STR);
-            $stmt->bindValue(':endLong', $strLati, PDO::PARAM_STR);
+            $stmt->bindValue(':strLong', $strLong, PDO::PARAM_STR);
+            $stmt->bindValue(':endLati', $endLati, PDO::PARAM_STR);
+            $stmt->bindValue(':endLong', $endLong, PDO::PARAM_STR);
+error_log(2, 0);
+error_log(var_dump($stmt), 0);
             $stmt->execute();
         }
     } else if($mode === "2") {
@@ -74,12 +88,18 @@ try {
             // 開催日制限なし
             $stmt = $pdo->prepare($getHostList);
 
+            $stmt->bindValue(':current_date_ymd', date('Ymd'));
+error_log(3, 0);
+error_log(var_dump($stmt), 0);
             $stmt->execute();
         } else if($weekFlag === "1") {
             // 1週間以内に開催
             $stmt = $pdo->prepare($getHostListOneWeek);
 
-            $stmt->bindValue(':date_ymd', getDateYmdAfterOneWeek());
+            $stmt->bindValue(':current_date_ymd', date('Ymd'));
+            $stmt->bindValue(':to_date_ymd', getDateYmdAfterOneWeek());
+error_log(3, 0);
+error_log(var_dump($stmt), 0);
             $stmt->execute();
         }
     }
@@ -88,14 +108,19 @@ try {
     $hostList = array();
     $tmpHoldingDateYmd = NULL;
 
-    foreach($stmt->(PDO::FETCH_ASSOC as $row)) {
+error_log(var_dump($stmt), 0);
 
+    foreach((array)$stmt as $row) {
+//    foreach($stmt->fetch(PDO::FETCH_ASSOC as $row)) {
+var_dump($row);
         if(!is_null($tmpHoldingDateYmd)) {
+echo "first";
             $tmpHoldingDateYmd = $row['holding_date_ymd'];
         } else if($tmpHoldingDateYmd !== $row['holding_date_ymd']) {
+echo "not first";
             $hostInfoList[] = array(
-                'holdingDateYmd'=>$tmpHoldingDateYmd
-                'hostList'=>$hostList[]
+                'holdingDateYmd'=>$tmpHoldingDateYmd,
+                'hostList'=>$hostList
             );
             $hostList = array();
             $tmpHoldingDateYmd = $row['holding_date_ymd'];
@@ -103,12 +128,12 @@ try {
 
         $host = array();
         $host[] = array(
-            'hostGroupId'=>$row['host_group_id']
-            'hostName'=>$row['host_name']
-            'placeName'=>$row['place_name']
-            'holdingSchedule'=>$row['holding_schedule']
-            'latitudo'=>$row['latitudo']
-            'longitude'=>$row['longitude']
+            'hostGroupId'=>$row['host_group_id'],
+            'hostName'=>$row['host_name'],
+            'placeName'=>$row['place_name'],
+            'holdingSchedule'=>$row['holding_schedule'],
+            'latitudo'=>$row['latitudo'],
+            'longitude'=>$row['longitude'],
 //            イベント情報は一旦後回し
 //            'eventName'=>$row['host_group_id']
             'branchScale'=>$row['branch_scale']
@@ -118,8 +143,8 @@ try {
     }
 
     $hostInfoList[] = array(
-        'holdingDateYmd'=>$tmpHoldingDateYmd
-        'hostList'=>$hostList[]
+        'holdingDateYmd'=>$tmpHoldingDateYmd,
+        'hostList'=>$hostList
     );
 
     returnJson($hostInfoList);

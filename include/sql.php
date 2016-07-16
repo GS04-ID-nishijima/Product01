@@ -17,6 +17,7 @@ $getHostListScopeMap =
     ,   HOST_INFO   HI
     WHERE
         HG.host_group_id    =       HI.host_group_id
+    AND :current_date_ymd   <=      HI.holding_date_ymd
     AND HG.latitudo         BETWEEN :strLati AND :endLati
     AND HG.longitude        BETWEEN :strLong AND :endLong
     ORDER   BY
@@ -42,7 +43,8 @@ $getHostListScopwMapOneWeek =
     ,   HOST_INFO   HI
     WHERE
         HG.host_group_id    =       HI.host_group_id
-    AND HI.holding_date_ymd <=      :date_ymd
+    AND :current_date_ymd   <=      HI.holding_date_ymd
+    AND HI.holding_date_ymd <=      :to_date_ymd
     AND HG.latitudo         BETWEEN :strLati AND :endLati
     AND HG.longitude        BETWEEN :strLong AND :endLong
     ORDER   BY
@@ -68,6 +70,7 @@ $getHostList =
     ,   HOST_INFO   HI
     WHERE
         HG.host_group_id    =       HI.host_group_id
+    AND :current_date_ymd   <=      HI.holding_date_ymd
     ORDER   BY
         HI.holding_date_ymd
     ,   HG.latitudo DESC
@@ -91,7 +94,8 @@ $getHostListOneWeek =
     ,   HOST_INFO   HI
     WHERE
         HG.host_group_id    =       HI.host_group_id
-    AND HI.holding_date_ymd <=      :date_ymd
+    AND :current_date_ymd   <=      HI.holding_date_ymd
+    AND HI.holding_date_ymd <=      :to_date_ymd
     ORDER   BY
         HI.holding_date_ymd
     ,   HG.latitudo DESC
