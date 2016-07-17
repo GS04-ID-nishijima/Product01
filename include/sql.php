@@ -3,6 +3,7 @@
 $queryHostListBase = 
     "
     SELECT
+        DISTINCT
         HI.holding_date_ymd     AS  holding_date_ymd
     ,   HG.host_group_id        AS  host_group_id
     ,   HG.host_name            AS  host_name
