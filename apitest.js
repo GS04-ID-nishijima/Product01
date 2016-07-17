@@ -3,23 +3,24 @@ $(function () {
         console.log('click btn');
         console.log($('#mode').val());
         console.log($('#withinOneWeekFlag').val());
-        console.log($('#startingPointLatitudo').val());
+        console.log($('#startingPointLatitude').val());
         console.log($('#startingPointLongitude').val());
-        console.log($('#endPointLatitudo').val());
+        console.log($('#endPointLatitude').val());
         console.log($('#endPointLongitude').val());
         
         var send_data;
         send_data = {
             mode : $('#mode').val(),
             withinOneWeekFlag : $('#withinOneWeekFlag').val(),
-            startingPointLatitudo : $('#startingPointLatitudo').val(),
+            startingPointLatitude : $('#startingPointLatitude').val(),
             startingPointLongitude : $('#startingPointLongitude').val(),
-            endPointLatitudo : $('#endPointLatitudo').val(),
+            endPointLatitude : $('#endPointLatitude').val(),
             endPointLongitude : $('#endPointLongitude').val()
         };
         console.dir(send_data);
         
         $.ajax({
+            type: 'GET',
             url: 'api/v1/hostlist.php',
             dataType: "json",
             data: send_data,
@@ -35,7 +36,6 @@ $(function () {
             return false;
         });
         
-        $('input').focus();
         return false;
     });
 });

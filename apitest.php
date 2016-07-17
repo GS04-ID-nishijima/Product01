@@ -22,9 +22,9 @@
         <h3>リクエスト</h3>
         mode:<input type="text" name="mode" id="mode"><br>
         withinOneWeekFlag:<input type="text" name="withinOneWeekFlag" id="withinOneWeekFlag"><br>
-        startingPointLatitudo:<input type="text" name="startingPointLatitudo" id="startingPointLatitudo"><br>
+        startingPointLatitude:<input type="text" name="startingPointLatitude" id="startingPointLatitude"><br>
         startingPointLongitude:<input type="text" name="startingPointLongitude" id="startingPointLongitude"><br>
-        endPointLatitudo:<input type="text" name="endPointLatitudo" id="endPointLatitudo"><br>
+        endPointLatitude:<input type="text" name="endPointLatitude" id="endPointLatitude"><br>
         endPointLongitude:<input type="text" name="endPointLongitude" id="endPointLongitude"><br>
         <br><br>
         <button data-btn-type="ajax">Data get!</button>

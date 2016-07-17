@@ -1,7 +1,7 @@
 <?php
 
-include 'parameter.php';
-include 'message.php';
+include __DIR__ . '/parameter.php';
+include __DIR__ . '/message.php';
 
 /**
  * 結果をjsonで返却する
@@ -17,6 +17,7 @@ function returnJson($resultArray) {
         $json = json_encode($resultArray);
     }
     header('Content-Type: application/json; charset=utf-8');
+    echo $json;
     exit(0);
 }
 
@@ -46,5 +47,12 @@ function getDateYmdAfterOneWeek() {
     $date = new DateTime(date('Ymd'));
     $date->add(new DateInterval('P6D'));
     return $date->format('Ymd');
+}
+
+// エラーメッセージ用連想配列作成
+function getErrorMessageArray($message) {
+    return array(
+        "message" => $message
+    );
 }
 ?>
