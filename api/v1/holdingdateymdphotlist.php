@@ -5,38 +5,46 @@ include __DIR__ . '/../../include/message.php';
 include __DIR__ . '/../../sql/sql.php';
 
 /**
- * 開催情報リストを返す
+ * 写真リストを返す
  *
- * @param mode: 1:表示地図内リスト取得、2:全件リスト取得
- * @param withinOneWeekMode: 1:すべて、2:一週間以内
- * @param startingPointLatitude: 表示地図の左上始点の緯度
- * @param startingPointLongitude: 表示地図の左上始点の経度
- * @param endPointLatitude: 表示地図の右下終点の緯度
- * @param endPointLongitude: 表示地図の右下終点の経度
- * @return hostInfoList
- *             holdingDateYmd
- *             hostList
- *                 hostGroupId
- *                 hostGroupName
- *                 placeName
- *                 holdingSchedule
- *                 latitude
- *                 longitude
- *                 eventName
- *                 branchScale
+ * @param mode: 1:最新写真取得、2:開催団体写真取得、3:出店者写真取得
+ * @param number: 取得枚数指定、未設定の場合は最大50枚
+ * @param holdingDateYmd: 開催日（モードが開催団体、出店者写真取得のみ必須）
+ * @param hostGroupId: 開催団体ID（モードが開催団体写真取得のみ必須）
+ * @param branchPersonId: 出店者ID（モードが出店者写真取得のみ必須）
+ * @return photoList（1:最新写真取得モード時の返却場合にセット、holdingDateYmdPhotoListはセットしない）
+ *             hostGroupId
+ *             hostGroupName
+ *             branchPersonId
+ *             branchPersonName
+ *             photoId
+ *             filepath
+ *             filename
+ *             reductionFilename
+ *             thumbnailFilename
+ *             comment
+ *         holdingDateYmdPhotoList（2:開催団体写真取得、3:出店者写真取得時の返却場合にセット、photoListはセットしない）
+ *             branchPersonId
+ *             branchPersonName
+ *             photoList
+ *             photoId
+ *             filepath
+ *             filename
+ *             reductionFilename
+ *             thumbnailFilename
+ *             comment
  *
  * @author nishijima
  **/
 $mode = (string)filter_input(INPUT_GET, 'mode');
-$weekMode = (string)filter_input(INPUT_GET, 'withinOneWeekMode');
-$strLati = (double)filter_input(INPUT_GET, 'startingPointLatitude');
-$strLong = (double)filter_input(INPUT_GET, 'startingPointLongitude');
-$endLati = (double)filter_input(INPUT_GET, 'endPointLatitude');
-$endLong = (double)filter_input(INPUT_GET, 'endPointLongitude');
+$number = (int)filter_input(INPUT_GET, 'number');
+$holdingDateYmd = (string)filter_input(INPUT_GET, 'holdingDateYmd');
+$hostGroupId = (int)filter_input(INPUT_GET, 'hostGroupId');
+$branchPersonId = (int)filter_input(INPUT_GET, 'branchPersonId');
 
 // 必須チェック
-if(empty($mode) || empty($weekMode)) {
-    returnJson(getErrorMessageArray($msg_hostlistApi_parameter_error001));
+if(empty($mode)) {
+    returnJson(getErrorMessageArray($msg_photolistApi_parameter_error001));
 }
 
 // パラメータmodeの値チェック
@@ -44,14 +52,18 @@ if($mode !== '1' && $mode !== '2'){
     returnJson(getErrorMessageArray($msg_hostlistApi_parameter_error003));
 }
 
-// パラメータwithinOneWeekModeの値チェック
-if($weekMode !== '1' && $weekMode !== '2'){
+// パラメータmodeの値チェック
+if($mode !== '1' && $mode !== '2' && $mode !== '3'){
     returnJson(getErrorMessageArray($msg_hostlistApi_parameter_error004));
 }
 
-// 表示地図内リスト取得の場合は、緯度経度情報がすべてセットされていることをチェック
-if($mode === '1' && (empty($strLati) || empty($strLong) || empty($endLati) || empty($endLong))) {
-    returnJson(getErrorMessageArray($msg_hostlistApi_parameter_error002));
+// 開催団体写真取得の場合は、開催日、開催団体IDがすべてセットされていることをチェック
+if($mode === '2' && (empty($holdingDateYmd) || empty($hostGroupId))) {
+    returnJson(getErrorMessageArray($msg_photolistApi_parameter_error002));
+}
+// 出店者写真取得の場合は、開催日、出店者IDがすべてセットされていることをチェック
+if($mode === '2' && (empty($holdingDateYmd) || empty($branchPersonId))) {
+    returnJson(getErrorMessageArray($msg_photolistApi_parameter_error003));
 }
 
 try {
@@ -64,9 +76,7 @@ try {
             // 開催日制限なし
             $stmt = $pdo->prepare($getHostListScopeMap);
 
-//            TODO テスト用
-//            $stmt->bindValue(':current_date_ymd', date('Ymd'));
-            $stmt->bindValue(':current_date_ymd', '20160716');
+            $stmt->bindValue(':current_date_ymd', date('Ymd'));
             $stmt->bindValue(':strLati', $strLati, PDO::PARAM_STR);
             $stmt->bindValue(':strLong', $strLong, PDO::PARAM_STR);
             $stmt->bindValue(':endLati', $endLati, PDO::PARAM_STR);
@@ -76,8 +86,7 @@ try {
             // 1週間以内に開催
             $stmt = $pdo->prepare($getHostListScopwMapOneWeek);
 
-//            $stmt->bindValue(':current_date_ymd', date('Ymd'));
-            $stmt->bindValue(':current_date_ymd', '20160716');
+            $stmt->bindValue(':current_date_ymd', date('Ymd'));
             $stmt->bindValue(':to_date_ymd', getDateYmdAfterOneWeek());
             $stmt->bindValue(':strLati', $strLati, PDO::PARAM_STR);
             $stmt->bindValue(':strLong', $strLong, PDO::PARAM_STR);
@@ -91,15 +100,13 @@ try {
             // 開催日制限なし
             $stmt = $pdo->prepare($getHostList);
 
-//            $stmt->bindValue(':current_date_ymd', date('Ymd'));
-            $stmt->bindValue(':current_date_ymd', '20160716');
+            $stmt->bindValue(':current_date_ymd', date('Ymd'));
             $stmt->execute();
         } else if($weekMode === "2") {
             // 1週間以内に開催
             $stmt = $pdo->prepare($getHostListOneWeek);
 
-//            $stmt->bindValue(':current_date_ymd', date('Ymd'));
-            $stmt->bindValue(':current_date_ymd', '20160716');
+            $stmt->bindValue(':current_date_ymd', date('Ymd'));
             $stmt->bindValue(':to_date_ymd', getDateYmdAfterOneWeek());
             $stmt->execute();
         }
@@ -110,7 +117,6 @@ try {
     header($msg_http_404_error001);
     exit(0);
 } catch(Exception $e) {
-    error_log($e, 0);
     header($msg_http_500_error001);
     exit(0);
 }
@@ -123,13 +129,11 @@ foreach($stmt as $row) {
         $nextHoldingDateYmd = $holdingDateYmd;
         $firstFlag = FALSE;
     }
-
     if($holdingDateYmd !== $nextHoldingDateYmd) {
         $hostInfoList[] = array(
             'holdingDateYmd'=>$holdingDateYmd,
             'hostList'=>$hostList
         );
-
         $hostList = NULL;
         $nextHoldingDateYmd = $holdingDateYmd;
     }
@@ -137,7 +141,7 @@ foreach($stmt as $row) {
     $host = array();
     $host[] = array(
         'hostGroupId'=>$row['host_group_id'],
-        'hostGroupName'=>$row['host_group_name'],
+        'hostName'=>$row['host_name'],
         'placeName'=>$row['place_name'],
         'holdingSchedule'=>$row['holding_schedule'],
         'latitude'=>$row['latitude'],
@@ -151,11 +155,9 @@ foreach($stmt as $row) {
     $dataCnt += 1;
 }
 
-// 取得データが0件の場合
 if($dataCnt ===0) {
-    returnJson(getErrorMessageArray($msg_api_data_error001));
+    returnJson(getErrorMessageArray($msg_hostlistApi_data_error001));
 }
-
 returnJson($hostInfoList);
 
 ?>
