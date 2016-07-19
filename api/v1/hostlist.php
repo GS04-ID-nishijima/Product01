@@ -64,9 +64,7 @@ try {
             // 開催日制限なし
             $stmt = $pdo->prepare($getHostListScopeMap);
 
-//            TODO テスト用
-//            $stmt->bindValue(':current_date_ymd', date('Ymd'));
-            $stmt->bindValue(':current_date_ymd', '20160716');
+            $stmt->bindValue(':current_date_ymd', getDateYmd());
             $stmt->bindValue(':strLati', $strLati, PDO::PARAM_STR);
             $stmt->bindValue(':strLong', $strLong, PDO::PARAM_STR);
             $stmt->bindValue(':endLati', $endLati, PDO::PARAM_STR);
@@ -76,8 +74,7 @@ try {
             // 1週間以内に開催
             $stmt = $pdo->prepare($getHostListScopwMapOneWeek);
 
-//            $stmt->bindValue(':current_date_ymd', date('Ymd'));
-            $stmt->bindValue(':current_date_ymd', '20160716');
+            $stmt->bindValue(':current_date_ymd', getDateYmd());
             $stmt->bindValue(':to_date_ymd', getDateYmdAfterOneWeek());
             $stmt->bindValue(':strLati', $strLati, PDO::PARAM_STR);
             $stmt->bindValue(':strLong', $strLong, PDO::PARAM_STR);
@@ -91,15 +88,13 @@ try {
             // 開催日制限なし
             $stmt = $pdo->prepare($getHostList);
 
-//            $stmt->bindValue(':current_date_ymd', date('Ymd'));
-            $stmt->bindValue(':current_date_ymd', '20160716');
+            $stmt->bindValue(':current_date_ymd', getDateYmd());
             $stmt->execute();
         } else if($weekMode === "2") {
             // 1週間以内に開催
             $stmt = $pdo->prepare($getHostListOneWeek);
 
-//            $stmt->bindValue(':current_date_ymd', date('Ymd'));
-            $stmt->bindValue(':current_date_ymd', '20160716');
+            $stmt->bindValue(':current_date_ymd', getDateYmd());
             $stmt->bindValue(':to_date_ymd', getDateYmdAfterOneWeek());
             $stmt->execute();
         }
@@ -118,9 +113,9 @@ try {
 $firstFlag = TRUE;
 $dataCnt = 0;
 foreach($stmt as $row) {
-    $holdingDateYmd = $row['holding_date_ymd'];
+    $nextHoldingDateYmd = $row['holding_date_ymd'];
     if($firstFlag) {
-        $nextHoldingDateYmd = $holdingDateYmd;
+        $holdingDateYmd = $nextHoldingDateYmd;
         $firstFlag = FALSE;
     }
 
@@ -131,7 +126,7 @@ foreach($stmt as $row) {
         );
 
         $hostList = NULL;
-        $nextHoldingDateYmd = $holdingDateYmd;
+        $holdingDateYmd = $nextHoldingDateYmd;
     }
 
     $host = array();

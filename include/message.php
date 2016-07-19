@@ -16,6 +16,10 @@ $msg_photolistApi_parameter_error002 = "hostGroup mode need for holdingDateYmd a
 $msg_photolistApi_parameter_error003 = "branchPerson mode need for holdingDateYmd and branchPersonId";
 $msg_photolistApi_parameter_error004 = "mode value is only 1 or 2";
 
+$msg_holdingdateymdlistApi_parameter_error001 = "no mode or userTyep or id";
+$msg_holdingdateymdlistApi_parameter_error002 = "mode value is only 1 or 2";
+$msg_holdingdateymdlistApi_parameter_error003 = "userTyep value is onlye 1 or 2";
+
 $msg_db_connect_error_001 = "DB connect error";
 
 

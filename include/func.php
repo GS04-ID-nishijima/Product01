@@ -42,11 +42,18 @@ function createDbo() {
     );
 }
 
-// 1週間後の日付取得
+// 1週間後の日付取得（年月日）
 function getDateYmdAfterOneWeek() {
     $date = new DateTime(date('Ymd'));
     $date->add(new DateInterval('P6D'));
     return $date->format('Ymd');
+}
+
+// 現在の日付年月日を取得
+function getDateYmd() {
+//  return date('Ymd');
+//  TODO テスト用
+    return '20160716';
 }
 
 // エラーメッセージ用連想配列作成
@@ -55,4 +62,5 @@ function getErrorMessageArray($message) {
         "message" => $message
     );
 }
+
 ?>

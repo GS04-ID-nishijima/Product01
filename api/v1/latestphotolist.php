@@ -58,6 +58,9 @@ foreach($stmt as $row) {
 
     $photoList[] = $photo;
     $dataCnt += 1;
+    if($dataCnt === $number) {
+        break;
+    }
 }
 
 if($dataCnt ===0) {
