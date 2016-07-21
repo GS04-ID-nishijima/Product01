@@ -21,7 +21,7 @@ $queryHostListBase =
 
 $queryHostListSortBase =
     "
-    ORDER   BY
+    ORDER BY
         HI.holding_date_ymd
     ,   HG.latitude DESC
     ,   HG.longitude
@@ -32,6 +32,7 @@ $getHostListScopeMap =
     "
     WHERE
         US.user_type_division   =   '1'
+    AND US.unavailable_flag     =   '0'
     AND US.id                   =   HG.host_group_id
     AND US.id                   =   HI.host_group_id
     AND :current_date_ymd   <=      HI.holding_date_ymd
@@ -45,6 +46,7 @@ $getHostListScopwMapOneWeek =
     "
     WHERE
         US.user_type_division   =   '1'
+    AND US.unavailable_flag     =   '0'
     AND US.id                   =   HG.host_group_id
     AND US.id                   =   HI.host_group_id
     AND :current_date_ymd   <=      HI.holding_date_ymd
@@ -59,6 +61,7 @@ $getHostList =
     "
     WHERE
         US.user_type_division   =   '1'
+    AND US.unavailable_flag     =   '0'
     AND US.id                   =   HG.host_group_id
     AND US.id                   =   HI.host_group_id
     AND :current_date_ymd   <=      HI.holding_date_ymd
@@ -70,6 +73,7 @@ $getHostListOneWeek =
     "
     WHERE
         US.user_type_division   =   '1'
+    AND US.unavailable_flag     =   '0'
     AND US.id                   =   HG.host_group_id
     AND US.id                   =   HI.host_group_id
     AND :current_date_ymd   <=      HI.holding_date_ymd

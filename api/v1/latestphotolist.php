@@ -32,7 +32,7 @@ try {
 
 } catch(RuntimeException $e) {
     error_log($e, 0);
-    header($msg_http_404_error001);
+    header($msg_http_400_error001);
     exit(0);
 } catch(Exception $e) {
     error_log($e, 0);
@@ -64,7 +64,8 @@ foreach($stmt as $row) {
 }
 
 if($dataCnt ===0) {
-    returnJson(getErrorMessageArray($msg_api_data_error001));
+    $photoList[] = array();
+    returnJson($hostList);
 }
 returnJson($photoList);
 

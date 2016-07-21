@@ -18,10 +18,10 @@ $getLatestPhotoList =
         INNER JOIN      PHOTO   AS  PH  ON  (UI.photo_id            = PH.photo_id)
         INNER JOIN      USER    AS  US  ON  (UI.host_group_id       = US.id   AND US.user_type_division   = '1')
         LEFT JOIN       USER    AS  US2 ON  (UI.branch_person_id    = US2.id  AND US2.user_type_division  = '2')
-    ORDER   BY
+    ORDER BY
         UI.upload_date_ymd  DESC
     ,   UI.upload_date_time DESC
-    LIMIT   50
+    LIMIT 50
     ";
 
 

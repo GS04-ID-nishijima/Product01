@@ -36,22 +36,22 @@ $endLong = (double)filter_input(INPUT_GET, 'endPointLongitude');
 
 // 必須チェック
 if(empty($mode) || empty($weekMode)) {
-    returnJson(getErrorMessageArray($msg_hostlistApi_parameter_error001));
+    returnErrorJson(getErrorMessageArray($msg_hostlistApi_parameter_error001));
 }
 
 // パラメータmodeの値チェック
 if($mode !== '1' && $mode !== '2'){
-    returnJson(getErrorMessageArray($msg_hostlistApi_parameter_error003));
+    returnErrorJson(getErrorMessageArray($msg_hostlistApi_parameter_error003));
 }
 
 // パラメータwithinOneWeekModeの値チェック
 if($weekMode !== '1' && $weekMode !== '2'){
-    returnJson(getErrorMessageArray($msg_hostlistApi_parameter_error004));
+    returnErrorJson(getErrorMessageArray($msg_hostlistApi_parameter_error004));
 }
 
 // 表示地図内リスト取得の場合は、緯度経度情報がすべてセットされていることをチェック
 if($mode === '1' && (empty($strLati) || empty($strLong) || empty($endLati) || empty($endLong))) {
-    returnJson(getErrorMessageArray($msg_hostlistApi_parameter_error002));
+    returnErrorJson(getErrorMessageArray($msg_hostlistApi_parameter_error002));
 }
 
 try {
@@ -102,7 +102,7 @@ try {
 
 } catch(RuntimeException $e) {
     error_log($e, 0);
-    header($msg_http_404_error001);
+    header($msg_http_400_error001);
     exit(0);
 } catch(Exception $e) {
     error_log($e, 0);
@@ -148,7 +148,8 @@ foreach($stmt as $row) {
 
 // 取得データが0件の場合
 if($dataCnt ===0) {
-    returnJson(getErrorMessageArray($msg_api_data_error001));
+    $hostList[] = array();
+    returnJson($hostList);
 }
 
 returnJson($hostInfoList);

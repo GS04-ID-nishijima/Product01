@@ -11,15 +11,35 @@ include __DIR__ . '/message.php';
  * @author nishijima
  **/
 function returnJson($resultArray) {
+    global $contentType01;
+
     if(array_key_exists('callback', $_GET)) {
         $json = $_GET['callback'] . "(" . json_encode($resultArray) . ");";
     } else {
         $json = json_encode($resultArray);
     }
-    header('Content-Type: application/json; charset=utf-8');
+    header($contentType01);
     echo $json;
     exit(0);
 }
+
+/**
+ * Error結果をjsonで返却する
+ *
+ * @param  array resultArray 返却値
+ * @return string jsonで表現されたレスポンス
+ * @author nishijima
+ **/
+function returnErrorJson($resultArray) {
+    global $msg_http_400_error001, $contentType01;
+
+    $json = json_encode($resultArray);
+    header($msg_http_400_error001);
+    header($contentType01);
+    echo $json;
+    exit(0);
+}
+
 
 // HTML XSS対策
 function htmlEnc($value) {
