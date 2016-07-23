@@ -5,8 +5,11 @@ $queryHoldingDateYmdListBase =
     SELECT
         DISTINCT
         HI.holding_date_ymd     AS holding_date_ymd
+    ,   HI.host_group_id        AS host_group_id
+    ,   US.name                 AS host_group_name
     FROM
         HOST_INFO       HI
+    ,   USER            US
     ";
 
 $queryHoldingDateYmdListSortBaseFutre =
@@ -29,6 +32,8 @@ $queryHoldingDateYmdListHostGroupFuture =
     WHERE
         HI.host_group_id    = :host_group_id
     AND HI.holding_date_ymd >= :current_date_ymd
+    AND HI.host_group_id    = US.id
+    AND US.unavailable_flag = '0'
     " .
     $queryHoldingDateYmdListSortBaseFutre;
 
@@ -38,6 +43,8 @@ $queryHoldingDateYmdListHostGroupPast =
     WHERE
         HI.host_group_id    = :host_group_id
     AND HI.holding_date_ymd <= :current_date_ymd
+    AND HI.host_group_id    = US.id
+    AND US.unavailable_flag = '0'
     " .
     $queryHoldingDateYmdListSortBasePast;
 
@@ -47,6 +54,8 @@ $queryHoldingDateYmdListBranchPersonFuture =
     WHERE
         HI.branch_person_id =   :branch_person_id
     AND HI.holding_date_ymd >=  :current_date_ymd
+    AND HI.host_group_id    = US.id
+    AND US.unavailable_flag = '0'
     " .
     $queryHoldingDateYmdListSortBaseFutre;
 
@@ -56,6 +65,8 @@ $queryHoldingDateYmdListBranchPersonPast =
     WHERE
         HI.branch_person_id =   :branch_person_id
     AND HI.holding_date_ymd <=  :current_date_ymd
+    AND HI.host_group_id    = US.id
+    AND US.unavailable_flag = '0'
     " .
     $queryHoldingDateYmdListSortBasePast;
 

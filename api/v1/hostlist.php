@@ -64,7 +64,7 @@ try {
             // 開催日制限なし
             $stmt = $pdo->prepare($getHostListScopeMap);
 
-            $stmt->bindValue(':current_date_ymd', getDateYmd());
+            $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
             $stmt->bindValue(':strLati', $strLati, PDO::PARAM_STR);
             $stmt->bindValue(':strLong', $strLong, PDO::PARAM_STR);
             $stmt->bindValue(':endLati', $endLati, PDO::PARAM_STR);
@@ -74,7 +74,7 @@ try {
             // 1週間以内に開催
             $stmt = $pdo->prepare($getHostListScopwMapOneWeek);
 
-            $stmt->bindValue(':current_date_ymd', getDateYmd());
+            $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
             $stmt->bindValue(':to_date_ymd', getDateYmdAfterOneWeek());
             $stmt->bindValue(':strLati', $strLati, PDO::PARAM_STR);
             $stmt->bindValue(':strLong', $strLong, PDO::PARAM_STR);
@@ -88,14 +88,14 @@ try {
             // 開催日制限なし
             $stmt = $pdo->prepare($getHostList);
 
-            $stmt->bindValue(':current_date_ymd', getDateYmd());
+            $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
             $stmt->execute();
         } else if($weekMode === "2") {
             // 1週間以内に開催
             $stmt = $pdo->prepare($getHostListOneWeek);
 
-            $stmt->bindValue(':current_date_ymd', getDateYmd());
-            $stmt->bindValue(':to_date_ymd', getDateYmdAfterOneWeek());
+            $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
+            $stmt->bindValue(':to_date_ymd', getDateYmdAfterOneWeek(), PDO::PARAM_STR);
             $stmt->execute();
         }
     }
@@ -150,6 +150,11 @@ foreach($stmt as $row) {
 if($dataCnt ===0) {
     $hostList[] = array();
     returnJson($hostList);
+} else {
+    $hostInfoList[] = array(
+        'holdingDateYmd'=>$holdingDateYmd,
+        'hostList'=>$hostList
+    );
 }
 
 returnJson($hostInfoList);

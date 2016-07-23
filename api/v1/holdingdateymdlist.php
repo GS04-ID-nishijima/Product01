@@ -12,20 +12,22 @@ include __DIR__ . '/../../sql/sql.php';
  * @param id: 開催団体ID、出店者ID
  * @return holdingDateYmdList
  *             holdingDateYmd
+ *             hostGroupId
+ *             hostGroupName
  *
  * @author nishijima
  **/
 $mode = (string)filter_input(INPUT_GET, 'mode');
-$userTyep = (string)filter_input(INPUT_GET, 'userTyep');
+$userType = (string)filter_input(INPUT_GET, 'userTyep');
 $id = (int)filter_input(INPUT_GET, 'id');
 
 // 必須チェック
-if(empty($userTyep) || empty($mode) || empty($id)) {
+if(empty($userType) || empty($mode) || empty($id)) {
     returnErrorJson(getErrorMessageArray($msg_holdingdateymdlistApi_parameter_error001));
 }
 
 // パラメータuserTypeの値チェック
-if($userTyep !== '1' && $userTyep !== '2'){
+if($userType !== '1' && $userType !== '2'){
     returnErrorJson(getErrorMessageArray($msg_holdingdateymdlistApi_parameter_error003));
 }
 
@@ -34,43 +36,42 @@ if($mode !== '1' && $mode !== '2'){
     returnErrorJson(getErrorMessageArray($msg_holdingdateymdlistApi_parameter_error002));
 }
 
-
 try {
     $pdo = createDbo();
     $stmt = null;
 
-    if($userTyep === '1') {
+    if($userType === '1') {
         // 開催団体
         if($mode === '1') {
             // 当日から未来分(5日分)
             $stmt = $pdo->prepare($queryHoldingDateYmdListHostGroupFuture);
 
-            $stmt->bindValue(':host_group_id', $id);
-            $stmt->bindValue(':current_date_ymd', getDateYmd());
+            $stmt->bindValue(':host_group_id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
             $stmt->execute();
         } else if($mode === '2') {
             // 当日から過去分(5日分)
             $stmt = $pdo->prepare($queryHoldingDateYmdListHostGroupPast);
 
-            $stmt->bindValue(':host_group_id', $id);
-            $stmt->bindValue(':current_date_ymd', getDateYmd());
+            $stmt->bindValue(':host_group_id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
             $stmt->execute();
         }
-    } else if($userTyep === '2') {
+    } else if($userType === '2') {
         // 出店者
         if($mode === '1') {
             // 当日から未来分(5日分)
             $stmt = $pdo->prepare($queryHoldingDateYmdListBranchPersonFuture);
 
-            $stmt->bindValue(':branch_person_id', $id);
-            $stmt->bindValue(':current_date_ymd', getDateYmd());
+            $stmt->bindValue(':branch_person_id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
             $stmt->execute();
         } else if($mode === '2') {
             // 当日から過去分(5日分)
             $stmt = $pdo->prepare($queryHoldingDateYmdListBranchPersonPast);
 
-            $stmt->bindValue(':branch_person_id', $id);
-            $stmt->bindValue(':current_date_ymd', getDateYmd());
+            $stmt->bindValue(':branch_person_id', $id, PDO::PARAM_INT);
+            $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
             $stmt->execute();
         }
     }
@@ -87,7 +88,11 @@ try {
 
 $dataCnt = 0;
 foreach($stmt as $row) {
-    $holdingDateYmdList[] = array($row['holding_date_ymd']);
+    $holdingDateYmdList[] = array(
+        'holdingDateYmd'=>$row['holding_date_ymd'],
+        'hostGroupId'=>$row['host_group_id'],
+        'hostGroupName'=>$row['host_group_name']
+    );
 
     $dataCnt += 1;
 }
