@@ -32,29 +32,25 @@ try {
 
 } catch(RuntimeException $e) {
     error_log($e, 0);
-    header($msg_http_400_error001);
+    header(MSG_HTTP_400_ERROR001);
     exit(0);
 } catch(Exception $e) {
     error_log($e, 0);
-    header($msg_http_500_error001);
+    header(MSG_HTTP_500_ERROR001);
     exit(0);
 }
 
 $dataCnt = 0;
+$photoList = NULL;
 foreach($stmt as $row) {
+    $keys = array_keys($row);
+    $tempArray = array();
+
+    foreach($keys as $key) {
+        $tempArray[toCamelCase($key)] = $row[$key];
+    }
     $photo = array();
-    $photo[] = array(
-        'hostGroupId'=>$row['host_group_id'],
-        'hostGroupName'=>$row['host_group_name'],
-        'branchPersonId'=>$row['branch_person_id'],
-        'branchPersonName'=>$row['branch_person_name'],
-        'photoId'=>$row['photo_id'],
-        'filepath'=>$row['filepath'],
-        'filename'=>$row['filename'],
-        'reductionFilename'=>$row['reduction_filename'],
-        'thumbnailFilename'=>$row['thumbnail_filename'],
-        'comment'=>$row['comment']
-    );
+    $photo[] = $tempArray;
 
     $photoList[] = $photo;
     $dataCnt += 1;
@@ -63,10 +59,10 @@ foreach($stmt as $row) {
     }
 }
 
-if($dataCnt ===0) {
+if(count($photoList) === 0) {
     $photoList[] = array();
-    returnJson($hostList);
+    exitAsJson($hostList);
 }
-returnJson($photoList);
+exitAsJson($photoList);
 
 ?>

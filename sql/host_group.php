@@ -35,9 +35,9 @@ $getHostListScopeMap =
     AND US.unavailable_flag     =   '0'
     AND US.id                   =   HG.host_group_id
     AND US.id                   =   HI.host_group_id
-    AND :current_date_ymd   <=      HI.holding_date_ymd
-    AND HG.latitude         BETWEEN :strLati AND :endLati
-    AND HG.longitude        BETWEEN :strLong AND :endLong
+    AND :current_date_ymd       <=  HI.holding_date_ymd
+    AND HG.latitude             BETWEEN :strLati AND :endLati
+    AND HG.longitude            BETWEEN :strLong AND :endLong
     " . 
     $queryHostListSortBase;
 
@@ -49,10 +49,10 @@ $getHostListScopwMapOneWeek =
     AND US.unavailable_flag     =   '0'
     AND US.id                   =   HG.host_group_id
     AND US.id                   =   HI.host_group_id
-    AND :current_date_ymd   <=      HI.holding_date_ymd
-    AND HI.holding_date_ymd <=      :to_date_ymd
-    AND HG.latitude         BETWEEN :strLati AND :endLati
-    AND HG.longitude        BETWEEN :strLong AND :endLong
+    AND :current_date_ymd       <=  HI.holding_date_ymd
+    AND HI.holding_date_ymd     <=  :to_date_ymd
+    AND HG.latitude             BETWEEN :strLati AND :endLati
+    AND HG.longitude            BETWEEN :strLong AND :endLong
     " . 
     $queryHostListSortBase;
 
@@ -64,7 +64,7 @@ $getHostList =
     AND US.unavailable_flag     =   '0'
     AND US.id                   =   HG.host_group_id
     AND US.id                   =   HI.host_group_id
-    AND :current_date_ymd   <=      HI.holding_date_ymd
+    AND :current_date_ymd       <=  HI.holding_date_ymd
     " . 
     $queryHostListSortBase;
 
@@ -76,8 +76,8 @@ $getHostListOneWeek =
     AND US.unavailable_flag     =   '0'
     AND US.id                   =   HG.host_group_id
     AND US.id                   =   HI.host_group_id
-    AND :current_date_ymd   <=      HI.holding_date_ymd
-    AND HI.holding_date_ymd <=      :to_date_ymd
+    AND :current_date_ymd       <=  HI.holding_date_ymd
+    AND HI.holding_date_ymd     <=  :to_date_ymd
     " . 
     $queryHostListSortBase;
 

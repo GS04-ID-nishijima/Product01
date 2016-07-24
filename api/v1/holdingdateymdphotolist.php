@@ -32,31 +32,31 @@ $branchPersonId = (int)filter_input(INPUT_GET, 'branchPersonId');
 
 // 必須チェック
 if(empty($userType) || empty($holdingDateYmd) || empty($hostGroupId)) {
-    returnJson(getErrorMessageArray($msg_holdingdateymdphotolistApi_parameter_error001));
+    exitWithErrorAsJson(getErrorMessageArray(MSG_HOLDINGDATEYMDPHOTOLISTAPI_PARAMETER_ERROR001));
 }
 
 // パラメータuserTyepeの値チェック
-if($userType !== '1' && $userType !== '2'){
-    returnJson(getErrorMessageArray($msg_hostlistApi_parameter_error003));
+if($userType !== USERTYPE_HOSTGROUP && $userType !== USERTYPE_BRANCHPERSON){
+    exitWithErrorAsJson(getErrorMessageArray(MSG_HOLDINGDATEYMDPHOTOLISTAPI_PARAMETER_ERROR002));
 }
 
 // 出店者モードの場合は、出店者IDがセットされていることをチェック
-if($userType === '2' && (empty($branchPersonId))) {
-    returnJson(getErrorMessageArray($msg_holdingdateymdphotolistApi_parameter_error003));
+if($userType === USERTYPE_BRANCHPERSON && (empty($branchPersonId))) {
+    exitWithErrorAsJson(getErrorMessageArray(MSG_HOLDINGDATEYMDPHOTOLISTAPI_PARAMETER_ERROR003));
 }
 
 try {
     $pdo = createDbo();
     $stmt = NULL;
 
-    if($userType === '1') {
+    if($userType === USERTYPE_HOSTGROUP) {
         // 開催団体モード
         $stmt = $pdo->prepare($getHoldingdateYmdPhotlistHostGroup);
 
         $stmt->bindValue(':holdingDateYmd', $holdingDateYmd, PDO::PARAM_STR);
         $stmt->bindValue(':hostGroupId', $hostGroupId, PDO::PARAM_INT);
         $stmt->execute();
-    } else if($userType === "2") {
+    } else if($userType === USERTYPE_BRANCHPERSON) {
         // 出店者モード
         $stmt = $pdo->prepare($getHoldingdateYmdPhotlistBranchPerson);
 
@@ -68,17 +68,17 @@ try {
 
 } catch(RuntimeException $e) {
     error_log($e, 0);
-    header($msg_http_404_error001);
+    header(MSG_HTTP_400_ERROR001);
     exit(0);
 } catch(Exception $e) {
-    header($msg_http_500_error001);
+    header(MSG_HTTP_500_ERROR001);
     exit(0);
 }
 
 $firstFlag = TRUE;
-$dataCnt = 0;
-$branchPersonId = null;
-$branchPersonName = null;
+$branchPersonId = NULL;
+$branchPersonName = NULL;
+$holdingDateYmdPhotoList =NULL;
 
 foreach($stmt as $row) {
     $nextBranchPersonId = $row['branch_person_id'];
@@ -99,24 +99,25 @@ foreach($stmt as $row) {
         $branchPersonName = $nextBranchPersonName;
     }
 
+    $keys = array_keys($row);
+    $tempArray = array();
+
+    foreach($keys as $key) {
+        $tempArray[toCamelCase($key)] = $row[$key];
+    }
+    unset($tempArray['branchPersonId']);
+    unset($tempArray['branchPersonName']);
+
     $photo = array();
-    $photo[] = array(
-        'photoId'=>$row['photo_id'],
-        'filepath'=>$row['filepath'],
-        'filename'=>$row['filename'],
-        'reductionFilename'=>$row['reduction_filename'],
-        'thumbnailFilename'=>$row['thumbnail_filename'],
-        'comment'=>$row['comment']
-    );
+    $photo[] = $tempArray;
 
     $photoList[] = $photo;
-    $dataCnt += 1;
 }
 
 // 取得データが0件の場合
-if($dataCnt ===0) {
+if(count($holdingDateYmdPhotoList) === 0) {
     $holdingDateYmdPhotoList[] = array();
-    returnJson($holdingDateYmdPhotoList);
+    exitAsJson($holdingDateYmdPhotoList);
 } else {
     $holdingDateYmdPhotoList[] = array(
         'branchPersonId'=>$branchPersonId,
@@ -124,6 +125,6 @@ if($dataCnt ===0) {
         'photoList'=>$photoList
     );
 }
-returnJson($holdingDateYmdPhotoList);
+exitAsJson($holdingDateYmdPhotoList);
 
 ?>

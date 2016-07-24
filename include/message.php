@@ -1,20 +1,24 @@
 <?php
 
-$msg_http_400_error001 = "HTTP/1.1 400 Bad Request";
-$msg_http_500_error001 = "HTTP/1.1 500 Internal Server Error";
+if(!defined("MSG_HTTP_400_ERROR001")) define("MSG_HTTP_400_ERROR001", "HTTP/1.1 400 Bad Request");
+if(!defined("MSG_HTTP_500_ERROR001")) define("MSG_HTTP_500_ERROR001", "HTTP/1.1 500 Internal Server Error");
 
-$msg_hostlistApi_parameter_error001 = "mode, withinOneWeekMode Are necessary";
-$msg_hostlistApi_parameter_error002 = "latitude or longitude are not enough";
-$msg_hostlistApi_parameter_error003 = "mode value is only 1 or 2";
-$msg_hostlistApi_parameter_error004 = "withinOneWeekMode value is onlye 1 or 2";
+if(!defined("MSG_HOSTINFOLISTAPI_PARAMETER_ERROR001")) define("MSG_HOSTINFOLISTAPI_PARAMETER_ERROR001", "mode, withinOneWeekMode Are necessary");
+if(!defined("MSG_HOSTINFOLISTAPI_PARAMETER_ERROR002")) define("MSG_HOSTINFOLISTAPI_PARAMETER_ERROR002", "latitude or longitude are not enough");
+if(!defined("MSG_HOSTINFOLISTAPI_PARAMETER_ERROR003")) define("MSG_HOSTINFOLISTAPI_PARAMETER_ERROR003", "mode value is only 1 or 2");
+if(!defined("MSG_HOSTINFOLISTAPI_PARAMETER_ERROR004")) define("MSG_HOSTINFOLISTAPI_PARAMETER_ERROR004", "withinOneWeekMode value is onlye 1 or 2");
 
-$msg_holdingdateymdlistApi_parameter_error001 = "userType, mode, id are necessary";
-$msg_holdingdateymdlistApi_parameter_error002 = "mode value is only 1 or 2";
-$msg_holdingdateymdlistApi_parameter_error003 = "userType value is onlye 1 or 2";
+if(!defined("MSG_HOLDINGDATEYMDLISTAPI_PARAMETER_ERROR001")) define("MSG_HOLDINGDATEYMDLISTAPI_PARAMETER_ERROR001", "userType, mode, id are necessary");
+if(!defined("MSG_HOLDINGDATEYMDLISTAPI_PARAMETER_ERROR002")) define("MSG_HOLDINGDATEYMDLISTAPI_PARAMETER_ERROR002", "mode value is only 1 or 2");
+if(!defined("MSG_HOLDINGDATEYMDLISTAPI_PARAMETER_ERROR003")) define("MSG_HOLDINGDATEYMDLISTAPI_PARAMETER_ERROR003", "userType value is onlye 1 or 2");
 
-$msg_holdingdateymdphotolistApi_parameter_error001 = "userType, holdingDateYmd, hostGroupId are necessary";
-$msg_holdingdateymdphotolistApi_parameter_error002 = "userType value is onlye 1 or 2";
-$msg_holdingdateymdphotolistApi_parameter_error003 = "branchPersonId is necessary";
+if(!defined("MSG_HOLDINGDATEYMDPHOTOLISTAPI_PARAMETER_ERROR001")) define("MSG_HOLDINGDATEYMDPHOTOLISTAPI_PARAMETER_ERROR001", "userType, holdingDateYmd, hostGroupId are necessary");
+if(!defined("MSG_HOLDINGDATEYMDPHOTOLISTAPI_PARAMETER_ERROR002")) define("MSG_HOLDINGDATEYMDPHOTOLISTAPI_PARAMETER_ERROR002", "userType value is onlye 1 or 2");
+if(!defined("MSG_HOLDINGDATEYMDPHOTOLISTAPI_PARAMETER_ERROR003")) define("MSG_HOLDINGDATEYMDPHOTOLISTAPI_PARAMETER_ERROR003", "branchPersonId is necessary");
+
+
+if(!defined("USERTYPE_HOSTGROUP")) define("USERTYPE_HOSTGROUP", "1");
+if(!defined("USERTYPE_BRANCHPERSON")) define("USERTYPE_BRANCHPERSON", "2");
 
 
 ?>

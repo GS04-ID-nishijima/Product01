@@ -10,7 +10,7 @@ include __DIR__ . '/message.php';
  * @return string jsonで表現されたレスポンス
  * @author nishijima
  **/
-function returnJson($resultArray) {
+function exitAsJson($resultArray) {
     global $contentType01;
 
     if(array_key_exists('callback', $_GET)) {
@@ -30,11 +30,11 @@ function returnJson($resultArray) {
  * @return string jsonで表現されたレスポンス
  * @author nishijima
  **/
-function returnErrorJson($resultArray) {
-    global $msg_http_400_error001, $contentType01;
+function exitWithErrorAsJson($resultArray) {
+    global $contentType01;
 
     $json = json_encode($resultArray);
-    header($msg_http_400_error001);
+    header("MSG_HTTP_400_ERROR001");
     header($contentType01);
     echo $json;
     exit(0);
@@ -58,13 +58,14 @@ function createDbo() {
             array(
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_EMULATE_PREPARES => false,
+                PDO::ATTR_DEFAULT_FETCH_MODE => PDO::FETCH_ASSOC
             )
     );
 }
 
 // 1週間後の日付取得（年月日）
 function getDateYmdAfterOneWeek() {
-    $date = new DateTime(date('Ymd'));
+    $date = new DateTime(getDateYmd());
     $date->add(new DateInterval('P6D'));
     return $date->format('Ymd');
 }
@@ -83,4 +84,13 @@ function getErrorMessageArray($message) {
     );
 }
 
+// CamelCase変換
+function toCamelCase($string) {
+    return preg_replace_callback(
+        "/\_(.)/",
+        function($match) {
+            return strtoupper($match[1]);
+        },
+        $string);
+}
 ?>
