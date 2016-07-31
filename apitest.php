@@ -21,7 +21,7 @@
         <h2>WebAPI</h2>
         <h3>リクエスト</h3>
         mode:<input type="text" name="mode" id="mode"><br>
-        withinOneWeekFlag:<input type="text" name="withinOneWeekFlag" id="withinOneWeekFlag"><br>
+        withinOneWeekMode:<input type="text" name="withinOneWeekMode" id="withinOneWeekMode"><br>
         startingPointLatitude:<input type="text" name="startingPointLatitude" id="startingPointLatitude"><br>
         startingPointLongitude:<input type="text" name="startingPointLongitude" id="startingPointLongitude"><br>
         endPointLatitude:<input type="text" name="endPointLatitude" id="endPointLatitude"><br>

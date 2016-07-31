@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/main.js"></script>
+    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/marche.css" rel="stylesheet">
+    <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzNXQMNe9MNNjRc6Ey4Eg-exdJymnaj-w&callback=initMap"></script>
+    <title>Favorite Marche - 今日もマルシェに出掛けよう</title>
+</head>
+
+<body>
+    <header>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <h2>Favorite Marche</h2>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div>
+        <div class="container">
+            <div class="row hostinforow">
+                <div class="col-md-4 hostinfocol col-md-push-8">
+                    <ul class="nav nav-pills nav-justified">
+                        <li class="active"><a href="#" data-toggle="pill">1週間以内</a></li>
+                        <li><a href="#" data-toggle="pill">すべて</a></li>
+                    </ul>
+                    <div class="hostinfolist hidden-xs hidden-sm">
+                        <div class="card">
+                            
+                        </div>
+                    </div>
+                </div>
+                <div class="col-md-8 hostinfocol col-md-pull-4">
+                    <div id="hostinfomap" class="border_solid">
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="latestphoto border_solid">
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+        <footer>
+            <div class="container">
+                <div class="row footerarearow">
+                    <div class="footerarea col-md-6">
+                       <div class="footerareacontents1">
+                        <span class="footertitle">Favorite Marche</span>
+                        <span class="footerinquiry"><a href="#">お問い合わせ</a></span>
+                       </div>
+                    </div>
+                    <div class="footerarea col-md-6 copyright">
+                       <div class="footerareacontents2">
+                        ©2016 Favorite Marche All Rights Reserved.
+                       </div>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+<script>
+
+var dispInfoWindow;
+
+function attachMessage(marker, msg) {
+    google.maps.event.addListener(marker, 'click', function(evnt) {
+        if(dispInfoWindow) dispInfoWindow.close();
+        dispInfoWindow = new google.maps.InfoWindow({
+            content: msg
+        });
+        dispInfoWindow.open(marker.getMap(), marker);
+    })
+};
+
+// Map初期化
+function initMap() {
+    // 初期表示地、仮
+    var lat = 35.662107;
+    var lon = 139.718568;
+
+    marker_list = new google.maps.MVCArray();
+
+    // #hostinfomap「GoogleMap」化
+    var marcheMap = new google.maps.Map(document.getElementById('hostinfomap'), {
+       center: {lat: lat, lng: lon},
+       zoom: 14
+    });
+
+    var data = new Array();
+    data.push({
+        position: new google.maps.LatLng(35.661883, 139.707970),
+        content: "Farmer's Market"});
+    data.push({
+        position: new google.maps.LatLng(35.666680, 139.740340),
+        content: "ヒルズマルシェ"});
+
+    for(i = 0; i < data.length; i++){
+        var marker = new google.maps.Marker({
+            position: data[i].position,
+            map: marcheMap});
+        attachMessage(marker, data[i].content);
+    }
+};
+</script>
+</body>
+</html>

@@ -1,12 +1,24 @@
 <?php
 
-$msg_http_404_error001 = "HTTP/1.1 404 Bad Request";
-$msg_http_500_error001 = "HTTP/1.1 500 Internal Server Error";
+if(!defined("MSG_HTTP_400_ERROR001")) define("MSG_HTTP_400_ERROR001", "HTTP/1.1 400 Bad Request");
+if(!defined("MSG_HTTP_500_ERROR001")) define("MSG_HTTP_500_ERROR001", "HTTP/1.1 500 Internal Server Error");
 
-$msg_hostlistApi_parameter_error001 = "no mode or withinOneWeekFlag...";
-$msg_hostlistApi_parameter_error002 = "latitudo or longitude are not enough...";
+if(!defined("MSG_HOSTINFOLISTAPI_PARAMETER_ERROR001")) define("MSG_HOSTINFOLISTAPI_PARAMETER_ERROR001", "mode, withinOneWeekMode Are necessary");
+if(!defined("MSG_HOSTINFOLISTAPI_PARAMETER_ERROR002")) define("MSG_HOSTINFOLISTAPI_PARAMETER_ERROR002", "latitude or longitude are not enough");
+if(!defined("MSG_HOSTINFOLISTAPI_PARAMETER_ERROR003")) define("MSG_HOSTINFOLISTAPI_PARAMETER_ERROR003", "mode value is only 1 or 2");
+if(!defined("MSG_HOSTINFOLISTAPI_PARAMETER_ERROR004")) define("MSG_HOSTINFOLISTAPI_PARAMETER_ERROR004", "withinOneWeekMode value is onlye 1 or 2");
 
-$msg_db_connect_error_001 = "DB connect error...";
+if(!defined("MSG_HOLDINGDATEYMDLISTAPI_PARAMETER_ERROR001")) define("MSG_HOLDINGDATEYMDLISTAPI_PARAMETER_ERROR001", "userType, mode, id are necessary");
+if(!defined("MSG_HOLDINGDATEYMDLISTAPI_PARAMETER_ERROR002")) define("MSG_HOLDINGDATEYMDLISTAPI_PARAMETER_ERROR002", "mode value is only 1 or 2");
+if(!defined("MSG_HOLDINGDATEYMDLISTAPI_PARAMETER_ERROR003")) define("MSG_HOLDINGDATEYMDLISTAPI_PARAMETER_ERROR003", "userType value is onlye 1 or 2");
+
+if(!defined("MSG_HOLDINGDATEYMDPHOTOLISTAPI_PARAMETER_ERROR001")) define("MSG_HOLDINGDATEYMDPHOTOLISTAPI_PARAMETER_ERROR001", "userType, holdingDateYmd, hostGroupId are necessary");
+if(!defined("MSG_HOLDINGDATEYMDPHOTOLISTAPI_PARAMETER_ERROR002")) define("MSG_HOLDINGDATEYMDPHOTOLISTAPI_PARAMETER_ERROR002", "userType value is onlye 1 or 2");
+if(!defined("MSG_HOLDINGDATEYMDPHOTOLISTAPI_PARAMETER_ERROR003")) define("MSG_HOLDINGDATEYMDPHOTOLISTAPI_PARAMETER_ERROR003", "branchPersonId is necessary");
+
+
+if(!defined("USERTYPE_HOSTGROUP")) define("USERTYPE_HOSTGROUP", "1");
+if(!defined("USERTYPE_BRANCHPERSON")) define("USERTYPE_BRANCHPERSON", "2");
 
 
 ?>

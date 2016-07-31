@@ -2,7 +2,7 @@ $(function () {
     $('body').on('click', 'button[data-btn-type=ajax]', function(e) {
         console.log('click btn');
         console.log($('#mode').val());
-        console.log($('#withinOneWeekFlag').val());
+        console.log($('#withinOneWeekMode').val());
         console.log($('#startingPointLatitude').val());
         console.log($('#startingPointLongitude').val());
         console.log($('#endPointLatitude').val());
@@ -11,7 +11,7 @@ $(function () {
         var send_data;
         send_data = {
             mode : $('#mode').val(),
-            withinOneWeekFlag : $('#withinOneWeekFlag').val(),
+            withinOneWeekMode : $('#withinOneWeekMode').val(),
             startingPointLatitude : $('#startingPointLatitude').val(),
             startingPointLongitude : $('#startingPointLongitude').val(),
             endPointLatitude : $('#endPointLatitude').val(),
