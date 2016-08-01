@@ -6,9 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
-    <script src="js/bootstrap.min.js"></script>
+    <script src="js/lib/bootstrap.min.js"></script>
     <script src="js/main.js"></script>
-    <link href="css/bootstrap.min.css" rel="stylesheet">
+    <link href="css/lib/bootstrap/bootstrap.min.css" rel="stylesheet">
     <link href="css/marche.css" rel="stylesheet">
     <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzNXQMNe9MNNjRc6Ey4Eg-exdJymnaj-w&callback=initMap"></script>
     <title>Favorite Marche - 今日もマルシェに出掛けよう</title>
@@ -19,27 +19,27 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2>Favorite Marche</h2>
+                    <h2 class="header-title">Favorite Marche</h2>
                 </div>
             </div>
         </div>
     </header>
     <div>
         <div class="container">
-            <div class="row hostinforow">
-                <div class="col-md-4 hostinfocol col-md-push-8">
+            <div class="row hostinfo-row">
+                <div class="col-md-4 hostinfo-col col-md-push-8">
                     <ul class="nav nav-pills nav-justified">
                         <li class="active"><a href="#" data-toggle="pill">1週間以内</a></li>
                         <li><a href="#" data-toggle="pill">すべて</a></li>
                     </ul>
-                    <div class="hostinfolist hidden-xs hidden-sm">
+                    <div class="hostinfo-list hidden-xs hidden-sm">
                         <div class="card">
                             
                         </div>
                     </div>
                 </div>
-                <div class="col-md-8 hostinfocol col-md-pull-4">
-                    <div id="hostinfomap" class="border_solid">
+                <div class="col-md-8 hostinfo-col col-md-pull-4">
+                    <div id="hostinfomap" class="border-solid map-col">
                     </div>
                 </div>
             </div>
@@ -47,7 +47,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="latestphoto border_solid">
+                    <div class="latest-photo-col border-solid">
                         
                     </div>
                 </div>
@@ -55,15 +55,15 @@
         </div>
         <footer>
             <div class="container">
-                <div class="row footerarearow">
-                    <div class="footerarea col-md-6">
-                       <div class="footerareacontents1">
-                        <span class="footertitle">Favorite Marche</span>
-                        <span class="footerinquiry"><a href="#">お問い合わせ</a></span>
+                <div class="row footer-row">
+                    <div class="footer-col col-md-6">
+                       <div class="footer-contents1">
+                        <span class="footer-title">Favorite Marche</span>
+                        <span class="footer-inquiry"><a href="#">お問い合わせ</a></span>
                        </div>
                     </div>
-                    <div class="footerarea col-md-6 copyright">
-                       <div class="footerareacontents2">
+                    <div class="footer-col col-md-6 copyright">
+                       <div class="footer-contents2">
                         ©2016 Favorite Marche All Rights Reserved.
                        </div>
                     </div>
@@ -111,7 +111,8 @@ function initMap() {
     for(i = 0; i < data.length; i++){
         var marker = new google.maps.Marker({
             position: data[i].position,
-            map: marcheMap});
+            map: marcheMap
+        });
         attachMessage(marker, data[i].content);
     }
 };

@@ -2,62 +2,61 @@ body {
     font-family: 'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','Meiryo UI','メイリオ',Verdana,'ＭＳ Ｐゴシック',sans-serif;
 }
 
-header div h2{
+.header-title{
     border-bottom: 2px solid #5CE600;
 }
 
-.border_solid{
+.border-solid{
     border: 2px solid #5CE600;
 }
 
-.hostinforow{
+.hostinfo-row{
     margin: 0px -5px 7px -5px;
 }
 
-.hostinfocol{
+.hostinfo-col{
     padding: 0px 5px;
 }
 
-#hostinfomap{
+.map-col{
     height: 400px;
     margin-top: 6px;
 }
 
-
-.latestphoto{
+.latest-photo-col{
     height: 280px;
 }
 
-.hostinfolist{
+.hostinfo-list{
     height: 536px;
     border-left: 2px solid #5CE600;
     border-right: 2px solid #5CE600;
     border-bottom: 2px solid #5CE600;
 }
 
-.footerarearow{
+.footer-row{
     margin: 0px 0px 0px 0px;
 }
 
-.footerarea{
+.footer-col{
     height: 30px;
     background-color: #D5FFDE;
 }
 
-.footerareacontents1{
+.footer-contents1{
     margin-top: 8px;
     padding-top: 5px;
 }
 
-.footerareacontents2{
+.footer-contents2{
     padding-top: 5px;
 }
 
-.footertitle{
+.footer-title{
     font-size: 18px;
 }
 
-.footerinquiry{
+.footer-inquiry{
     padding-left: 15px;
 }
 
@@ -93,17 +92,20 @@ header div h2{
 }
 
 .card{
-    
+    width: 95%;
+    height: 50px;
+    background-color: #E3FFEB;
+    margin: 0px auto;
 }
 
 /*col-sm以上*/
 @media screen and (min-width: 768px) {
-   #hostinfomap{
+   .map-col{
         height: 580px;
-       margin-top: 0px;
+        margin-top: 0px;
     }
 
-    .hostinfocol{
+    .hostinfo-col{
         padding: 5px;
     }
 
@@ -116,19 +118,19 @@ header div h2{
 
 /*col-md*/
 @media screen and (min-width: 992px) {
-    .footerarearow{
+    .footer-row{
         margin: 10px 0px 0px 0px;
     }
 
-    .footerarea{
+    .footer-col{
         height: 45px;
     }
 
-    .footerareacontents1{
+    .footer-contents1{
         padding-top: 0px;
     }
 
-    .footerareacontents2{
+    .footer-contents2{
         margin-top: 11px;
     }
 }
