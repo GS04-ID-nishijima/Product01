@@ -2,6 +2,15 @@ body {
     font-family: 'ヒラギノ角ゴ Pro W3','Hiragino Kaku Gothic Pro','Meiryo UI','メイリオ',Verdana,'ＭＳ Ｐゴシック',sans-serif;
 }
 
+.clearfix:after{
+    display:block;
+    clear:both;
+    height:0px;
+    visibility:hidden;
+    content:".";
+}
+
+
 .header-title{
     border-bottom: 2px solid #5CE600;
 }
@@ -23,8 +32,10 @@ body {
     margin-top: 6px;
 }
 
-.latest-photo-col{
-    height: 280px;
+.infoWindow-ul{
+    list-style-type: none;
+    padding-left: 13px;
+    margin-bottom: 0px;
 }
 
 .hostinfo-list{
@@ -32,6 +43,121 @@ body {
     border-left: 2px solid #5CE600;
     border-right: 2px solid #5CE600;
     border-bottom: 2px solid #5CE600;
+    overflow-y: scroll;
+}
+
+
+.nav-pills>li.active>a,
+.nav-pills>li.active>a:focus,
+.nav-pills>li.active>a:hover
+{
+    color: #FFF;
+    background-color: #5CE600;
+}
+
+.nav-pills>li>a{
+    height: 35px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 0px;
+    color: #000;
+    border: 2px solid #5CE600;
+}
+
+.nav-pills>li+li{
+    margin-left: 0px;
+}
+
+.nav-justified > li > a{
+    margin-bottom: 0px;
+}
+
+.hostinfo-date-header{
+    height: 45px;
+    box-shadow: 0px 1px 2px 1px #CCCCCC;
+    line-height: 45px;
+    border: solid #CCCCCC;
+    border-width: 1px 0px 1px 0px;
+}
+
+.hostinfo-date{
+    padding-left: 12px;
+    font-size: 18px;
+}
+
+.hostinfo-space{
+    width: 95%;
+    height: 12px;
+    margin: 0px auto;
+}
+
+.hostinfo-card{
+    width: 90%;
+    height: 130px;
+    background-color: #E3FFEB;
+    margin: 0px auto;
+    box-shadow: 0px 2px 2px 1px #CCCCCC;
+}
+
+.hostinfo-name{
+    font-size: 18px;
+    margin-left: 8px;
+}
+
+.hostinfo-photo{
+    width: 80px;
+    height: 80px;
+    margin-left: 15px;
+    float: left;
+}
+
+.hostinfo-contents{
+    list-style-type: none;
+    margin-top: 5px;
+    margin-left: 66px;
+}
+
+.hostinfo-contents>li{
+    margin-bottom: 5px;
+}
+
+.latest-photo-col{
+    height: 280px;
+}
+
+.top-carousel-box{
+    width: 93%;
+    margin: 0 auto;
+}
+
+.slick-prev:before
+,.slick-next:before{
+    color: #5CE600;
+}
+
+.top-carousel-photo{
+    width: 180px;
+    height: 180px;
+}
+
+.latest-photo-title{
+    border-bottom: 2px solid #5CE600;
+    margin: 5px auto 12px auto;
+    padding-left: 10px;
+}
+
+.top-carousel-comment{
+    background-color:#E3FFEB;
+    width: 180px;
+    height: 40px;
+    text-align: center;
+    margin-top: -9px;
+    margin-bottom: 0px;
+    padding-top: 9px;
+}
+
+.top-carousel-comment-text{
+    align-content: center;
 }
 
 .footer-row{
@@ -66,37 +192,6 @@ body {
     color: #999999;
 }
 
-.nav-pills>li.active>a,
-.nav-pills>li.active>a:focus,
-.nav-pills>li.active>a:hover
-{
-    color: #FFF;
-    background-color: #5CE600;
-}
-
-.nav-pills>li>a{
-    height: 35px;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border-radius: 0px;
-    color: #000;
-    border: 2px solid #5CE600;
-}
-
-.nav-pills>li+li{
-    margin-left: 0px;
-}
-
-.nav-justified > li > a{
-    margin-bottom: 0px;
-}
-
-.card{
-    width: 95%;
-    height: 50px;
-    background-color: #E3FFEB;
-    margin: 0px auto;
-}
 
 /*col-sm以上*/
 @media screen and (min-width: 768px) {
@@ -110,13 +205,17 @@ body {
     }
 
     .nav-pills>li>a{
-        padding-top: 10px;
-        padding-bottom: 10px;
+        padding-top: 7px;
+        font-size: 18px;
         height: 44px;
+    }
+
+    .latest-photo-title{
+        font-size: 18px;
     }
 }
 
-/*col-md*/
+/*col-md以上*/
 @media screen and (min-width: 992px) {
     .footer-row{
         margin: 10px 0px 0px 0px;
@@ -133,4 +232,10 @@ body {
     .footer-contents2{
         margin-top: 11px;
     }
+
+.latest-photo-title{
+    padding-left: 0px;
+    width: 98%;
+}
+
 }
