@@ -8,7 +8,7 @@ include __DIR__ . '/../../sql/sql.php';
  * 開催情報リストを返す
  *
  * @param mode: 1:表示地図内リスト取得、2:全件リスト取得
- * @param withinOneWeekMode: 1:一週間以内、2:すべて
+ * @param rangeMode: 1:一週間以内、2:すべて
  * @param startingPointLatitude: 表示地図の左上始点の緯度
  * @param startingPointLongitude: 表示地図の左上始点の経度
  * @param endPointLatitude: 表示地図の右下終点の緯度
@@ -28,7 +28,7 @@ include __DIR__ . '/../../sql/sql.php';
  * @author nishijima
  **/
 $mode = (string)filter_input(INPUT_GET, 'mode');
-$weekMode = (string)filter_input(INPUT_GET, 'withinOneWeekMode');
+$rangeMode = (string)filter_input(INPUT_GET, 'rangeMode');
 $strLati = (double)filter_input(INPUT_GET, 'startingPointLatitude');
 $strLong = (double)filter_input(INPUT_GET, 'startingPointLongitude');
 $endLati = (double)filter_input(INPUT_GET, 'endPointLatitude');
@@ -36,11 +36,11 @@ $endLong = (double)filter_input(INPUT_GET, 'endPointLongitude');
 
 define("MODE_SCOPEMAP", "1");
 define("MODE_ALL", "2");
-define("WEEKMODE_ONE", "1");
-define("WEEKMODE_ALL", "2");
+define("RANGEMODE_ONE", "1");
+define("RANGEMODE_ALL", "2");
 
 // 必須チェック
-if(empty($mode) || empty($weekMode)) {
+if(empty($mode) || empty($rangeMode)) {
     exitWithErrorAsJson(getErrorMessageArray(MSG_HOSTINFOLISTAPI_PARAMETER_ERROR001));
 }
 
@@ -49,8 +49,8 @@ if($mode !== MODE_SCOPEMAP && $mode !== MODE_ALL){
     exitWithErrorAsJson(getErrorMessageArray(MSG_HOSTINFOLISTAPI_PARAMETER_ERROR003));
 }
 
-// パラメータwithinOneWeekModeの値チェック
-if($weekMode !== MODE_SCOPEMAP && $weekMode !== MODE_ALL){
+// パラメータrangeModeの値チェック
+if($rangeMode !== MODE_SCOPEMAP && $rangeMode !== MODE_ALL){
     exitWithErrorAsJson(getErrorMessageArray(MSG_HOSTINFOLISTAPI_PARAMETER_ERROR004));
 }
 
@@ -65,7 +65,7 @@ try {
 
     if($mode === MODE_SCOPEMAP) {
         // 表示地図内開催情報取得
-        if($weekMode === WEEKMODE_ONE) {
+        if($rangeMode === RANGEMODE_ONE) {
             // 1週間以内に開催
             $stmt = $pdo->prepare($getHostListScopwMapOneWeek);
 
@@ -76,7 +76,7 @@ try {
             $stmt->bindValue(':endLati', $endLati, PDO::PARAM_STR);
             $stmt->bindValue(':endLong', $endLong, PDO::PARAM_STR);
             $stmt->execute();
-        } else if($weekMode === WEEKMODE_ALL) {
+        } else if($rangeMode === RANGEMODE_ALL) {
             // 開催日制限なし
             $stmt = $pdo->prepare($getHostListScopeMap);
 
@@ -89,14 +89,14 @@ try {
         }
     } else if($mode === MODE_ALL) {
         // 全件取得
-        if($weekMode === WEEKMODE_ONE) {
+        if($rangeMode === RANGEMODE_ONE) {
             // 1週間以内に開催
             $stmt = $pdo->prepare($getHostListOneWeek);
 
             $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
             $stmt->bindValue(':to_date_ymd', getDateYmdAfterOneWeek(), PDO::PARAM_STR);
             $stmt->execute();
-        } else if($weekMode === WEEKMODE_ALL) {
+        } else if($rangeMode === RANGEMODE_ALL) {
             // 開催日制限なし
             $stmt = $pdo->prepare($getHostList);
 
@@ -143,14 +143,11 @@ foreach($stmt as $row) {
     unset($tempArray['holdingDateYmd']);
     unset($tempArray['holdingTime']);
 
-    $host = array();
-    $host[] = $tempArray;
-
-    $hostList[] = $host;
+    $hostList[] = $tempArray;
 }
 
 // 取得データが0件の場合
-if(count($hostInfoList) === 0) {
+if(count($hostInfoList) === 0 && count($hostList) === 0) {
     $hostInfoList[] = array();
     exitAsJson($hostInfoList);
 } else {
@@ -159,7 +156,11 @@ if(count($hostInfoList) === 0) {
         'hostList'=>$hostList
     );
 }
+error_log(print_r($hostInfoList, true));
+$returnList[] = array(
+    'hostInfoList'=>$hostInfoList
+);
 
-exitAsJson($hostInfoList);
+exitAsJson($returnList);
 
 ?>

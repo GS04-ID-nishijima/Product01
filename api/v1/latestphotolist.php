@@ -49,10 +49,8 @@ foreach($stmt as $row) {
     foreach($keys as $key) {
         $tempArray[toCamelCase($key)] = $row[$key];
     }
-    $photo = array();
-    $photo[] = $tempArray;
 
-    $photoList[] = $photo;
+    $photoList[] = $tempArray;
     $dataCnt += 1;
     if($dataCnt === $number) {
         break;

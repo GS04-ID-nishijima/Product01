@@ -8,6 +8,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>
     <script src="js/lib/bootstrap/bootstrap.min.js"></script>
     <script src="js/lib/slick/slick.min.js"></script>
+    <script src="js/lib/handlebars/handlebars-v4.0.5.js"></script>
     <script src="js/main.js"></script>
     <link rel="stylesheet" href="css/lib/bootstrap/bootstrap.min.css">
     <link rel="stylesheet" href="css/lib/slick/slick-theme.css">
@@ -36,94 +37,10 @@
                         <li><a href="#hostinfo_list_all" data-toggle="pill">すべて</a></li>
                     </ul>
                     <div class="hostinfo-list hidden-xs hidden-sm tab-content">
-                       <div id="hostinfo_list_oneweek" class="tab-pane active">
-                            <div class="hostinfo-date-header">
-                                <span class="hostinfo-date">7月14日（土）開催</span>
-                            </div>
-                            <div class="hostinfo-space"></div>
-                            <div class="hostinfo-card">
-                                <p>
-                                    <a href="javascript:hostinfolist_click(0)" class="hostinfo-name">Farmer's Market</a>
-                                </p>
-                                <div class="clearfix">
-                                    <img src="../photo/sample_01.jpg" alt="開催団体" class="hostinfo-photo">
-                                    <ul class="hostinfo-contents">
-                                        <li>青山・国際連合大学前広場</li>
-                                        <li>出店規模：30店</li>
-                                        <li>青山パン祭り開催</li>
-                                    </ul>
-                                </div>
-                            </div>
-
-                            <div class="hostinfo-space"></div>
-                            <div class="hostinfo-card">
-                                <p>
-                                    <a href="#" class="hostinfo-name">Farmer's Market</a>
-                                </p>
-                                <div class="clearfix">
-                                    <img src="../photo/sample_01.jpg" alt="開催団体" class="hostinfo-photo">
-                                    <ul class="hostinfo-contents">
-                                        <li>青山・国際連合大学前広場</li>
-                                        <li>出店規模：30店</li>
-                                        <li>青山パン祭り開催</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="hostinfo-space"></div>
-
-                            <div class="hostinfo-date-header">
-                                <span class="hostinfo-date">7月15日（日）開催</span>
-                            </div>
-                            <div class="hostinfo-space"></div>
-                            <div class="hostinfo-card">
-                                <p>
-                                    <a href="#" class="hostinfo-name">Farmer's Market</a>
-                                </p>
-                                <div class="clearfix">
-                                    <img src="../photo/sample_01.jpg" alt="開催団体" class="hostinfo-photo">
-                                    <ul class="hostinfo-contents">
-                                        <li>青山・国際連合大学前広場</li>
-                                        <li>出店規模：30店</li>
-                                        <li>青山パン祭り開催</li>
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="hostinfo-space"></div>
-                            <div class="hostinfo-card">
-                                <p>
-                                    <a href="#" class="hostinfo-name">Farmer's Market</a>
-                                </p>
-                                <div class="clearfix">
-                                    <img src="../photo/sample_01.jpg" alt="開催団体" class="hostinfo-photo">
-                                    <ul class="hostinfo-contents">
-                                        <li>青山・国際連合大学前広場</li>
-                                        <li>出店規模：30店</li>
-                                        <li>青山パン祭り開催</li>
-                                    </ul>
-                                </div>
-                            </div>
+                        <div id="hostinfo_list_oneweek" class="tab-pane active">
                         </div>
                         <div id="hostinfo_list_all" class="tab-pane">
-                            <div class="hostinfo-date-header">
-                                <span class="hostinfo-date">7月14日（土）開催</span>
-                            </div>
-                            <div class="hostinfo-space"></div>
-                            <div class="hostinfo-card">
-                                <p>
-                                    <a href="javascript:hostinfolist_click(0)" class="hostinfo-name">Farmer's Market</a>
-                                </p>
-                                <div class="clearfix">
-                                    <img src="../photo/sample_01.jpg" alt="開催団体" class="hostinfo-photo">
-                                    <ul class="hostinfo-contents">
-                                        <li>青山・国際連合大学前広場</li>
-                                        <li>出店規模：30店</li>
-                                        <li>青山パン祭り開催</li>
-                                    </ul>
-                                </div>
-                            </div>
                         </div>
-
-
                     </div>
                 </div>
                 <div class="col-md-8 hostinfo-col col-md-pull-4">
@@ -138,47 +55,7 @@
                     <div class="latest-photo-col border-solid">
                         <p class="latest-photo-title">最近アップロードされた写真</p>
                         <div class="top-carousel-box">
-                            <div class="top-carousel">
-                                <div>
-                                    <p><a href="../photo/sample_02.jpg" data-lightbox="latest-photo-group"><img src="../photo/sample_02.jpg" alt="02" class="top-carousel-photo"></a></p>
-                                    <p class="top-carousel-comment"><span class="top-carousel-comment-text">今日おすすめ1</span></p>
-                                </div>
-                                <div>
-                                    <p><a href="../photo/sample_03.jpg" data-lightbox="latest-photo-group"><img src="../photo/sample_03.jpg" alt="03" class="top-carousel-photo"></a></p>
-                                    <p class="top-carousel-comment"><span class="top-carousel-comment-text">今日おすすめ2</span></p>
-                                </div>
-                                <div>
-                                    <p><a href="../photo/sample_04.jpg" data-lightbox="latest-photo-group"><img src="../photo/sample_04.jpg" alt="04" class="top-carousel-photo"></a></p>
-                                    <p class="top-carousel-comment"><span class="top-carousel-comment-text">今日おすすめ3</span></p>
-                                </div>
-                                <div>
-                                    <p><a href="../photo/sample_05.jpg" data-lightbox="latest-photo-group"><img src="../photo/sample_05.jpg" alt="05" class="top-carousel-photo"></a></p>
-                                    <p class="top-carousel-comment"><span class="top-carousel-comment-text">今日おすすめ4</span></p>
-                                </div>
-                                <div>
-                                    <p><a href="../photo/sample_06.jpg" data-lightbox="latest-photo-group"><img src="../photo/sample_06.jpg" alt="06" class="top-carousel-photo"></a></p>
-                                    <p class="top-carousel-comment"><span class="top-carousel-comment-text">今日おすすめ5</span></p>
-                                </div>
-                                <div>
-                                    <p><a href="../photo/sample_07.jpg" data-lightbox="latest-photo-group"><img src="../photo/sample_07.jpg" alt="07" class="top-carousel-photo"></a></p>
-                                    <p class="top-carousel-comment"><span class="top-carousel-comment-text">今日おすすめ6</span></p>
-                                </div>
-                                <div>
-                                    <p><a href="../photo/sample_01.jpg" data-lightbox="latest-photo-group"><img src="../photo/sample_01.jpg" alt="08" class="top-carousel-photo"></a></p>
-                                    <p class="top-carousel-comment"><span class="top-carousel-comment-text">今日おすすめ7</span></p>
-                                </div>
-                                <div>
-                                    <p><a href="../photo/sample_02.jpg" data-lightbox="latest-photo-group"><img src="../photo/sample_02.jpg" alt="09" class="top-carousel-photo"></a></p>
-                                    <p class="top-carousel-comment"><span class="top-carousel-comment-text">今日おすすめ8</span></p>
-                                </div>
-                                <div>
-                                    <p><a href="../photo/sample_03.jpg" data-lightbox="latest-photo-group"><img src="../photo/sample_03.jpg" alt="10" class="top-carousel-photo"></a></p>
-                                    <p class="top-carousel-comment"><span class="top-carousel-comment-text">今日おすすめ9</span></p>
-                                </div>
-                                <div>
-                                    <p><a href="../photo/sample_04.jpg" data-lightbox="latest-photo-group"><img src="../photo/sample_04.jpg" alt="11" class="top-carousel-photo"></a></p>
-                                    <p class="top-carousel-comment"><span class="top-carousel-comment-text">今日おすすめ10</span></p>
-                                </div>
+                            <div class="top-carousel" id="top_carousel">
                             </div>
                         </div>
                      </div>
@@ -205,48 +82,82 @@
     </div>
 
 <script>
+var dispInfoWindow;
+var marcheMap;
+const RANGEMODE_ONE = '1';
+const RANGEMODE_ALL = '2';
+var rangeMode = RANGEMODE_ONE;
+
 $(document).ready(function(){
-    // カルーセル対応
-    $('.top-carousel').slick({
-        infinite: false,
-        slidesToShow: 5,
-        slidesToScroll: 3,
-        infinite: true,
-        responsive: [
-            {
-              breakpoint: 1210,
-              settings: {
-                slidesToShow: 4,
-                slidesToScroll: 2
-              }
-            },
-            {
-              breakpoint: 982,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 2
-              }
-            },
-            {
-              breakpoint: 730,
-              settings: {
-                slidesToShow: 2,
-                slidesToScroll: 1
-              }
-            },
-            {
-              breakpoint: 360,
-              settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1
-              }
-            }
-        ]
+    // 
+    var sendData;
+    sendData = {
+        number : 30
+    };
+
+    var requet = $.ajax({
+        type: 'GET',
+        url: '../api/v1/latestphotolist.php',
+        cashe: false,
+        dataType: "json",
+        data: sendData,
+        timeout: 10000
+    });
+    requet.done(function(responseList){
+//        console.dir(responseList);
+        var topCrouselHtml = "";
+        for(var key1 in responseList){
+            var carousel_photo_template = Handlebars.compile($('#carousel_photo_template').html());
+            topCrouselHtml = topCrouselHtml + carousel_photo_template(responseList[key1]);
+        }
+        $('#top_carousel').html(topCrouselHtml);
+
+        // カルーセル対応
+        $('.top-carousel').slick({
+            infinite: false,
+            slidesToShow: 5,
+            slidesToScroll: 3,
+            infinite: true,
+            responsive: [
+                {
+                  breakpoint: 1210,
+                  settings: {
+                    slidesToShow: 4,
+                    slidesToScroll: 2
+                  }
+                },
+                {
+                  breakpoint: 982,
+                  settings: {
+                    slidesToShow: 3,
+                    slidesToScroll: 2
+                  }
+                },
+                {
+                  breakpoint: 730,
+                  settings: {
+                    slidesToShow: 2,
+                    slidesToScroll: 1
+                  }
+                },
+                {
+                  breakpoint: 360,
+                  settings: {
+                    slidesToShow: 1,
+                    slidesToScroll: 1
+                  }
+                }
+            ]
+        });
+    });
+    requet.fail(function(XMLHttpRequest, textStatus, errorThrown) {
+        console.log('fail');
+        console.log(XMLHttpRequest);
+        console.log(textStatus);
+        console.log(errorThrown);
     });
 });
 
-var dispInfoWindow;
-var marcheMap;
 
 // google Map 情報ウィンドウ表示
 function attachMessage(marker, msg) {
@@ -273,24 +184,9 @@ function initMap() {
        zoom: 14
     });
 
-    var data = new Array();
-    var infoWindowText = '<p><a href="http://localhost/Product01/web/index.html" class="hostinfo-name">Farmer\'s Market</a></p><ul class="infoWindow-ul"><li>青山・国際連合大学前広場</li><li>出店規模：約35(キッチンカー含む)</li><li>青山パン祭り開催</li></ul>';
-    data.push({
-        position: new google.maps.LatLng(35.661883, 139.707970),
-        content: infoWindowText});
-    var infoWindowText = '<p><a href="http://localhost/Product01/web/index.html" class="hostinfo-name">ヒルズマルシェ</a></p><ul class="infoWindow-ul"><li>アーク・カラヤン広場</li><li>出店規模：約30(キッチンカー含む)</li></ul>';
-    data.push({
-        position: new google.maps.LatLng(35.666680, 139.740340),
-        content: infoWindowText});
-
-    for(i = 0; i < data.length; i++){
-        var marker = new google.maps.Marker({
-            position: data[i].position,
-            map: marcheMap
-        });
-        marker_list[i] = marker;
-        attachMessage(marker, data[i].content);
-    }
+    google.maps.event.addListener(marcheMap, 'idle', function(){
+        viewHostinfoList(rangeMode, marcheMap.getBounds());
+    });
 };
 
 // 開催情報クリック
@@ -298,23 +194,30 @@ function hostinfolist_click(i){
     google.maps.event.trigger(marker_list[i], "click");
 };
 
-// 開催情報取得
+// 開催情報タブ表示切替
 $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
 
     var id = $(e.target).attr("href");
-    var withinOneWeekMode;
     var bounds = marcheMap.getBounds();
 
     if(id === '#hostinfo_list_oneweek') {
-        withinOneWeekMode = '1';
+        rangeMode = RANGEMODE_ONE;
     } else if(id === '#hostinfo_list_all') {
-        withinOneWeekMode = '2';
+        rangeMode = RANGEMODE_ALL;
     }
 
-    var send_data;
-    send_data = {
+    viewHostinfoList(rangeMode, bounds);
+});
+
+// 開催情報取得、html描画
+function viewHostinfoList(rangeMode, bounds){
+
+    var markerDataArray = new Array();
+
+    var sendData;
+    sendData = {
         mode : '1',
-        withinOneWeekMode : withinOneWeekMode,
+        rangeMode : rangeMode,
         startingPointLatitude : bounds.getSouthWest().lat(),
         startingPointLongitude : bounds.getSouthWest().lng(),
         endPointLatitude : bounds.getNorthEast().lat(),
@@ -326,27 +229,55 @@ $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
         url: '../api/v1/hostinfolist.php',
         cashe: false,
         dataType: "json",
-        data: send_data,
+        data: sendData,
         timeout: 10000
     });
     requet.done(function(responseList){
-//        console.dir(responseList);
-        for(key1 in responseList){
-//            console.dir(responseList[key]);
-            console.log(responseList[key1].holdingDateYmd);
-            console.log(formatHostinfoDate(responseList[key1].holdingDateYmd));
-            for(key2 in responseList[key1].hostList){
-                console.dir(responseList[key1].hostList[key2]);
+        var hostinfoHtml = "";
+        var markerCnt = 0;
+        for(var key1 in responseList){
+            for(var key2 in responseList[key1]){
+            var hostInfoList = responseList[key1][key2];
+
+                for(var key3 in hostInfoList){
+                    var value = {date: formatHostinfoDate(hostInfoList[key3].holdingDateYmd)};
+                    var hostinfo_date_header_template = Handlebars.compile($('#hostinfo_date_header_template').html());
+                    hostinfoHtml = hostinfoHtml + hostinfo_date_header_template(value);
+
+                    var hostList = hostInfoList[key3].hostList;
+                    for(var key4 in hostList){
+                        var hostinfo_list_template = Handlebars.compile($('#hostinfo_list_template').html());
+                        hostList[key4].markerCnt = markerCnt;
+                        hostinfoHtml = hostinfoHtml + hostinfo_list_template(hostList[key4]);
+
+                        var infoWindowText_template = Handlebars.compile($('#infoWindowText_template').html());
+                        var infoWindowTextHtml = infoWindowText_template(hostList[key4]);
+                        markerDataArray.push({
+                            position: new google.maps.LatLng(hostList[key4].latitude, hostList[key4].longitude),
+                            content: infoWindowTextHtml
+                        });
+
+                        markerCnt++;
+                    }
+                }
             }
-//            console.dir(responseList[key].hostList);
         }
-//        $.getJSON(response, function(data){
-//            $(data).each(function(){
-//                         console.dir(data);
-//                         })
-//        })
-//        $('div[data-result=""]').html(JSON.stringify(response));
-//        return false;
+
+        if(rangeMode === RANGEMODE_ONE) {
+            $('#hostinfo_list_oneweek').html(hostinfoHtml);
+        } else if(rangeMode === RANGEMODE_ALL) {
+            $('#hostinfo_list_all').html(hostinfoHtml);
+        }
+
+        // Marker作成
+        for(i = 0; i < markerDataArray.length; i++){
+            var marker = new google.maps.Marker({
+                position: markerDataArray[i].position,
+                map: marcheMap
+            });
+            marker_list[i] = marker;
+            attachMessage(marker, markerDataArray[i].content);
+        }
     });
     requet.fail(function(XMLHttpRequest, textStatus, errorThrown) {
         console.log('fail');
@@ -354,11 +285,44 @@ $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
         console.log(textStatus);
         console.log(errorThrown);
     });
-
-});
+};
 
 </script>
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzNXQMNe9MNNjRc6Ey4Eg-exdJymnaj-w&callback=initMap"></script>
 <script src="js/lib/lightbox/lightbox.min.js"></script>
+<script type="text/x-handlebars-template" id="hostinfo_date_header_template">
+    <div class="hostinfo-date-header">
+        <span class="hostinfo-date">{{date}}</span>
+    </div>
+    <div class="hostinfo-space"></div>
+</script>
+<script type="text/x-handlebars-template" id="hostinfo_list_template">
+    <div class="hostinfo-card">
+        <p>
+            <a href="javascript:hostinfolist_click({{markerCnt}})" class="hostinfo-name">{{hostGroupName}}</a>
+        </p>
+        <div class="clearfix">
+            <img src="../photo/sample_01.jpg" alt="{{hostGroupName}}" class="hostinfo-photo">
+            <ul class="hostinfo-contents">
+                <li>{{placeName}}</li>
+                <li>{{branchScale}}</li>
+            </ul>
+        </div>
+    </div>
+    <div class="hostinfo-space"></div>
+</script>
+<script type="text/x-handlebars-template" id="infoWindowText_template">
+<p><a href="http://localhost/Product01/web/index.html" class="hostinfo-name">{{hostGroupName}}</a></p>
+<ul class="infoWindow-ul">
+    <li>{{placeName}}</li>
+    <li>{{branchScale}}</li>
+</ul>
+</script>
+<script type="text/x-handlebars-template" id="carousel_photo_template">
+<div>
+    <p><a href="{{filepath}}{{filename}}" data-lightbox="latest-photo-group"><img src="{{filepath}}{{reductionFilename}}" alt="{{comment}}" class="top-carousel-photo"></a></p>
+    <p class="top-carousel-comment"><span class="top-carousel-comment-text">{{comment}}</span></p>
+</div>
+</script>
 </body>
 </html>
