@@ -1,7 +1,6 @@
 <?php
 
 include __DIR__ . '/parameter.php';
-include __DIR__ . '/message.php';
 
 /**
  * 結果をjsonで返却する
@@ -74,7 +73,7 @@ function getDateYmdAfterOneWeek() {
 function getDateYmd() {
 //  return date('Ymd');
 //  TODO テスト用
-    return '20160716';
+    return '20160730';
 }
 
 // エラーメッセージ用連想配列作成

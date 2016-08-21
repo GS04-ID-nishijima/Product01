@@ -1,27 +1,25 @@
 <?php
 
-include __DIR__ . '/../../include/func.php';
 include __DIR__ . '/../../include/message.php';
+include __DIR__ . '/../../include/func.php';
 include __DIR__ . '/../../sql/sql.php';
 
 /**
  * 開催日を指定して写真リストを返す
  *
- * @param userTyep: 1:開催団体、2:出店者
+ * @param userType: 1:開催団体、2:出店者
  * @param holdingDateYmd: 開催日
  * @param hostGroupId: 開催団体ID
  * @param branchPersonId: 出店者ID
- * @return photoList
+ * @return holdingDateYmdPhotoList
  *             branchPersonId
  *             branchPersonName
  *             photoList
- *                 photoId
  *                 filepath
  *                 filename
  *                 reductionFilename
  *                 thumbnailFilename
  *                 comment
- *                 eventName
  *
  * @author nishijima
  **/
@@ -35,7 +33,7 @@ if(empty($userType) || empty($holdingDateYmd) || empty($hostGroupId)) {
     exitWithErrorAsJson(getErrorMessageArray(MSG_HOLDINGDATEYMDPHOTOLISTAPI_PARAMETER_ERROR001));
 }
 
-// パラメータuserTyepeの値チェック
+// パラメータuserTypeeの値チェック
 if($userType !== USERTYPE_HOSTGROUP && $userType !== USERTYPE_BRANCHPERSON){
     exitWithErrorAsJson(getErrorMessageArray(MSG_HOLDINGDATEYMDPHOTOLISTAPI_PARAMETER_ERROR002));
 }
@@ -108,15 +106,12 @@ foreach($stmt as $row) {
     unset($tempArray['branchPersonId']);
     unset($tempArray['branchPersonName']);
 
-    $photo = array();
-    $photo[] = $tempArray;
-
-    $photoList[] = $photo;
+    $photoList[] = $tempArray;
 }
 
 // 取得データが0件の場合
 if(count($holdingDateYmdPhotoList) === 0) {
-    $holdingDateYmdPhotoList[] = array();
+    $holdingDateYmdPhotoList = array();
     exitAsJson($holdingDateYmdPhotoList);
 } else {
     $holdingDateYmdPhotoList[] = array(
@@ -125,6 +120,11 @@ if(count($holdingDateYmdPhotoList) === 0) {
         'photoList'=>$photoList
     );
 }
-exitAsJson($holdingDateYmdPhotoList);
+
+$returnList = array(
+    'holdingDateYmdPhotoList'=>$holdingDateYmdPhotoList
+);
+
+exitAsJson($returnList);
 
 ?>

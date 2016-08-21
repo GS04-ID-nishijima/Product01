@@ -7,7 +7,6 @@ $getLatestPhotoList =
     ,   US.name                 AS  host_group_name
     ,   UI.branch_person_id     AS  branch_person_id
     ,   US2.name                AS  branch_person_name
-    ,   UI.photo_id             AS  photo_id
     ,   PH.filepath             AS  filepath
     ,   PH.filename             AS  filename
     ,   PH.reduction_filename   AS  reduction_filename
@@ -30,7 +29,6 @@ $getHoldingdateYmdPhotlistBase =
     SELECT
         UI.branch_person_id     AS  branch_person_id
     ,   US.name                 AS  branch_person_name
-    ,   UI.photo_id             AS  photo_id
     ,   PH.filepath             AS  filepath
     ,   PH.filename             AS  filename
     ,   PH.reduction_filename   AS  reduction_filename
@@ -41,7 +39,8 @@ $getHoldingdateYmdPhotlistBase =
 $getHoldingdateYmdPhotlistSortBase =
     "
     ORDER BY
-        UI.upload_date_ymd  DESC
+        UI.branch_person_id
+    ,   UI.upload_date_ymd  DESC
     ,   UI.upload_date_time DESC
     ";
 

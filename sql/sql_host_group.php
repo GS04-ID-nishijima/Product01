@@ -81,4 +81,29 @@ $getHostListOneWeek =
     " . 
     $queryHostListSortBase;
 
+$queryHostGroupInfo = 
+    "
+    SELECT
+        US.name                 AS  host_group_name
+    ,   HG.place_name           AS  place_name
+    ,   HG.holding_schedule     AS  holding_schedule
+    ,   HG.holding_time         AS  holding_time
+    ,   HG.latitude             AS  latitude
+    ,   HG.longitude            AS  longitude
+    ,   HG.directions           AS  directions
+    ,   HG.branch_scale         AS  branch_scale
+    ,   US.formal_hp_url        AS  formal_hp_url
+    ,   US.facebook_url         AS  facebook_url
+    ,   US.twitter_url          AS  twitter_url
+    FROM
+        USER        US
+    ,   HOST_GROUP  HG
+    WHERE
+        US.id                   =   :host_group_id
+    AND US.user_type_division   =   '1'
+    AND US.unavailable_flag     =   '0'
+    AND US.id                   =   HG.host_group_id
+    ";
+
+
 ?>

@@ -1,7 +1,7 @@
 <?php
 
-include __DIR__ . '/../../include/func.php';
 include __DIR__ . '/../../include/message.php';
+include __DIR__ . '/../../include/func.php';
 include __DIR__ . '/../../sql/sql.php';
 
 /**
@@ -117,6 +117,7 @@ try {
 
 $firstFlag = TRUE;
 $hostInfoList = NULL;
+$hostList = NULL;
 foreach($stmt as $row) {
     $nextHoldingDateYmd = $row['holding_date_ymd'];
     if($firstFlag) {
@@ -148,7 +149,7 @@ foreach($stmt as $row) {
 
 // 取得データが0件の場合
 if(count($hostInfoList) === 0 && count($hostList) === 0) {
-    $hostInfoList[] = array();
+    $hostInfoList = array();
     exitAsJson($hostInfoList);
 } else {
     $hostInfoList[] = array(
@@ -156,8 +157,8 @@ if(count($hostInfoList) === 0 && count($hostList) === 0) {
         'hostList'=>$hostList
     );
 }
-error_log(print_r($hostInfoList, true));
-$returnList[] = array(
+
+$returnList = array(
     'hostInfoList'=>$hostInfoList
 );
 

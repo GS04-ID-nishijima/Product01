@@ -23,7 +23,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="header-title">Favorite Marche</h2>
+                    <h2 class="header-title"><a href="index.html">Favorite Marche</a></h2>
                 </div>
             </div>
         </div>
@@ -84,12 +84,10 @@
 <script>
 var dispInfoWindow;
 var marcheMap;
-const RANGEMODE_ONE = '1';
-const RANGEMODE_ALL = '2';
-var rangeMode = RANGEMODE_ONE;
+var rangeMode = HOSTINFO_LIST_RANGEMODE_ONE;
 
 $(document).ready(function(){
-    // 
+    // 最新アップロード写真取得
     var sendData;
     sendData = {
         number : 30
@@ -104,11 +102,11 @@ $(document).ready(function(){
         timeout: 10000
     });
     requet.done(function(responseList){
-//        console.dir(responseList);
         var topCrouselHtml = "";
-        for(var key1 in responseList){
+        for(var responseListArrayKey in responseList){
+            var photoList = responseList[responseListArrayKey];
             var carousel_photo_template = Handlebars.compile($('#carousel_photo_template').html());
-            topCrouselHtml = topCrouselHtml + carousel_photo_template(responseList[key1]);
+            topCrouselHtml = topCrouselHtml + carousel_photo_template(photoList);
         }
         $('#top_carousel').html(topCrouselHtml);
 
@@ -117,7 +115,6 @@ $(document).ready(function(){
             infinite: false,
             slidesToShow: 5,
             slidesToScroll: 3,
-            infinite: true,
             responsive: [
                 {
                   breakpoint: 1210,
@@ -150,14 +147,14 @@ $(document).ready(function(){
             ]
         });
     });
-    requet.fail(function(XMLHttpRequest, textStatus, errorThrown) {
+});
+
+$(document).ajaxError(function(){
         console.log('fail');
         console.log(XMLHttpRequest);
         console.log(textStatus);
         console.log(errorThrown);
-    });
 });
-
 
 // google Map 情報ウィンドウ表示
 function attachMessage(marker, msg) {
@@ -201,9 +198,9 @@ $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
     var bounds = marcheMap.getBounds();
 
     if(id === '#hostinfo_list_oneweek') {
-        rangeMode = RANGEMODE_ONE;
+        rangeMode = HOSTINFO_LIST_RANGEMODE_ONE;
     } else if(id === '#hostinfo_list_all') {
-        rangeMode = RANGEMODE_ALL;
+        rangeMode = HOSTINFO_LIST_RANGEMODE_ALL;
     }
 
     viewHostinfoList(rangeMode, bounds);
@@ -216,7 +213,7 @@ function viewHostinfoList(rangeMode, bounds){
 
     var sendData;
     sendData = {
-        mode : '1',
+        mode : HOSTINFO_LIST_MODE_SCOPEMAP,
         rangeMode : rangeMode,
         startingPointLatitude : bounds.getSouthWest().lat(),
         startingPointLongitude : bounds.getSouthWest().lng(),
@@ -235,37 +232,34 @@ function viewHostinfoList(rangeMode, bounds){
     requet.done(function(responseList){
         var hostinfoHtml = "";
         var markerCnt = 0;
-        for(var key1 in responseList){
-            for(var key2 in responseList[key1]){
-            var hostInfoList = responseList[key1][key2];
+        for(var hostInfoListArrayKey in responseList['hostInfoList']){
+            var hostInfoList = responseList['hostInfoList'][hostInfoListArrayKey];
 
-                for(var key3 in hostInfoList){
-                    var value = {date: formatHostinfoDate(hostInfoList[key3].holdingDateYmd)};
-                    var hostinfo_date_header_template = Handlebars.compile($('#hostinfo_date_header_template').html());
-                    hostinfoHtml = hostinfoHtml + hostinfo_date_header_template(value);
+            var holdingDateYmd = {holdingDateYmd: formatHostinfoDate(hostInfoList.holdingDateYmd) + "開催"};
+            var hostinfo_date_header_template = Handlebars.compile($('#hostinfo_date_header_template').html());
+            hostinfoHtml += hostinfo_date_header_template(holdingDateYmd);
 
-                    var hostList = hostInfoList[key3].hostList;
-                    for(var key4 in hostList){
-                        var hostinfo_list_template = Handlebars.compile($('#hostinfo_list_template').html());
-                        hostList[key4].markerCnt = markerCnt;
-                        hostinfoHtml = hostinfoHtml + hostinfo_list_template(hostList[key4]);
+            for(var hostListArrayKey in hostInfoList.hostList){
+                var hostList = hostInfoList.hostList[hostListArrayKey];
 
-                        var infoWindowText_template = Handlebars.compile($('#infoWindowText_template').html());
-                        var infoWindowTextHtml = infoWindowText_template(hostList[key4]);
-                        markerDataArray.push({
-                            position: new google.maps.LatLng(hostList[key4].latitude, hostList[key4].longitude),
-                            content: infoWindowTextHtml
-                        });
+                var hostinfo_list_template = Handlebars.compile($('#hostinfo_list_template').html());
+                hostList.markerCnt = markerCnt;
+                hostinfoHtml += hostinfo_list_template(hostList);
 
-                        markerCnt++;
-                    }
-                }
+                var infoWindowText_template = Handlebars.compile($('#infoWindowText_template').html());
+                var infoWindowTextHtml = infoWindowText_template(hostList);
+                markerDataArray.push({
+                    position: new google.maps.LatLng(hostList.latitude, hostList.longitude),
+                    content: infoWindowTextHtml
+                });
+
+                markerCnt++;
             }
         }
 
-        if(rangeMode === RANGEMODE_ONE) {
+        if(rangeMode === HOSTINFO_LIST_RANGEMODE_ONE) {
             $('#hostinfo_list_oneweek').html(hostinfoHtml);
-        } else if(rangeMode === RANGEMODE_ALL) {
+        } else if(rangeMode === HOSTINFO_LIST_RANGEMODE_ALL) {
             $('#hostinfo_list_all').html(hostinfoHtml);
         }
 
@@ -279,12 +273,6 @@ function viewHostinfoList(rangeMode, bounds){
             attachMessage(marker, markerDataArray[i].content);
         }
     });
-    requet.fail(function(XMLHttpRequest, textStatus, errorThrown) {
-        console.log('fail');
-        console.log(XMLHttpRequest);
-        console.log(textStatus);
-        console.log(errorThrown);
-    });
 };
 
 </script>
@@ -292,7 +280,7 @@ function viewHostinfoList(rangeMode, bounds){
 <script src="js/lib/lightbox/lightbox.min.js"></script>
 <script type="text/x-handlebars-template" id="hostinfo_date_header_template">
     <div class="hostinfo-date-header">
-        <span class="hostinfo-date">{{date}}</span>
+        <span class="hostinfo-date">{{holdingDateYmd}}</span>
     </div>
     <div class="hostinfo-space"></div>
 </script>
@@ -312,17 +300,17 @@ function viewHostinfoList(rangeMode, bounds){
     <div class="hostinfo-space"></div>
 </script>
 <script type="text/x-handlebars-template" id="infoWindowText_template">
-<p><a href="http://localhost/Product01/web/index.html" class="hostinfo-name">{{hostGroupName}}</a></p>
-<ul class="infoWindow-ul">
-    <li>{{placeName}}</li>
-    <li>{{branchScale}}</li>
-</ul>
+    <p><a href="hostgroup.php?hostgroupid={{hostGroupId}}" class="hostinfo-name">{{hostGroupName}}</a></p>
+    <ul class="infoWindow-ul">
+        <li>{{placeName}}</li>
+        <li>{{branchScale}}</li>
+    </ul>
 </script>
 <script type="text/x-handlebars-template" id="carousel_photo_template">
-<div>
-    <p><a href="{{filepath}}{{filename}}" data-lightbox="latest-photo-group"><img src="{{filepath}}{{reductionFilename}}" alt="{{comment}}" class="top-carousel-photo"></a></p>
-    <p class="top-carousel-comment"><span class="top-carousel-comment-text">{{comment}}</span></p>
-</div>
+    <div>
+        <p><a href="{{filepath}}{{filename}}" data-lightbox="latest-photo-group"><img src="{{filepath}}{{reductionFilename}}" alt="{{comment}}" class="top-carousel-photo"></a></p>
+        <p class="top-carousel-comment"><span class="top-carousel-comment-text">{{comment}}</span></p>
+    </div>
 </script>
 </body>
 </html>

@@ -1,7 +1,7 @@
 <?php
 
-include __DIR__ . '/../../include/func.php';
 include __DIR__ . '/../../include/message.php';
+include __DIR__ . '/../../include/func.php';
 include __DIR__ . '/../../sql/sql.php';
 
 /**
@@ -58,7 +58,7 @@ foreach($stmt as $row) {
 }
 
 if(count($photoList) === 0) {
-    $photoList[] = array();
+    $photoList = array();
     exitAsJson($hostList);
 }
 exitAsJson($photoList);
