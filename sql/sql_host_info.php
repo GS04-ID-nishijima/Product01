@@ -1,6 +1,6 @@
 <?php
 
-$queryHoldingDateYmdListBase =
+$QUERY_HOLDINGDATEYMDLIST_BASE =
     "
     SELECT
         DISTINCT
@@ -10,22 +10,22 @@ $queryHoldingDateYmdListBase =
     ,   USER            US
     ";
 
-$queryHoldingDateYmdListSortBaseFutre =
+$QUERY_HOLDINGDATEYMDLIST_SORTBASE_FUTURE =
     "
     ORDER BY
         HI.holding_date_ymd
     LIMIT 5
     ";
 
-$queryHoldingDateYmdListSortBasePast =
+$QUERY_HOLDINGDATEYMDLIST_SORTBASE_PAST =
     "
     ORDER BY
         HI.holding_date_ymd DESC
     LIMIT 5
     ";
 
-$queryHoldingDateYmdListHostGroupFuture =
-    $queryHoldingDateYmdListBase .
+$QUERY_HOLDINGDATEYMDLIST_HOSTGROUP_FUTURE =
+    $QUERY_HOLDINGDATEYMDLIST_BASE .
     "
     WHERE
         HI.host_group_id    = :host_group_id
@@ -33,10 +33,10 @@ $queryHoldingDateYmdListHostGroupFuture =
     AND HI.host_group_id    = US.id
     AND US.unavailable_flag = '0'
     " .
-    $queryHoldingDateYmdListSortBaseFutre;
+    $QUERY_HOLDINGDATEYMDLIST_SORTBASE_FUTURE;
 
-$queryHoldingDateYmdListHostGroupPast =
-    $queryHoldingDateYmdListBase .
+$QUERY_HOLDINGDATEYMDLIST_HOSTGROUP_PAST =
+    $QUERY_HOLDINGDATEYMDLIST_BASE .
     "
     WHERE
         HI.host_group_id    = :host_group_id
@@ -44,10 +44,10 @@ $queryHoldingDateYmdListHostGroupPast =
     AND HI.host_group_id    = US.id
     AND US.unavailable_flag = '0'
     " .
-    $queryHoldingDateYmdListSortBasePast;
+    $QUERY_HOLDINGDATEYMDLIST_SORTBASE_PAST;
 
-$queryHoldingDateYmdListHostGroupPastPhotoDate =
-    $queryHoldingDateYmdListBase .
+$QUERY_HOLDINGDATEYMDLIST_HOSTGROUP_PAST_PHOTODATE =
+    $QUERY_HOLDINGDATEYMDLIST_BASE .
     "
     ,   UPLOAD_INFO UI
     WHERE
@@ -58,10 +58,10 @@ $queryHoldingDateYmdListHostGroupPastPhotoDate =
     AND HI.holding_date_ymd = UI.holding_date_ymd
     AND HI.host_group_id    = UI.host_group_id
     " .
-    $queryHoldingDateYmdListSortBasePast;
+    $QUERY_HOLDINGDATEYMDLIST_SORTBASE_PAST;
 
-$queryHoldingDateYmdListBranchPersonFuture =
-    $queryHoldingDateYmdListBase .
+$QUERY_HOLDINGDATEYMDLIST_BRANCHPERSON_FUTURE =
+    $QUERY_HOLDINGDATEYMDLIST_BASE .
     "
     WHERE
         HI.branch_person_id =   :branch_person_id
@@ -69,10 +69,10 @@ $queryHoldingDateYmdListBranchPersonFuture =
     AND HI.host_group_id    = US.id
     AND US.unavailable_flag = '0'
     " .
-    $queryHoldingDateYmdListSortBaseFutre;
+    $QUERY_HOLDINGDATEYMDLIST_SORTBASE_FUTURE;
 
-$queryHoldingDateYmdListBranchPersonPast =
-    $queryHoldingDateYmdListBase .
+$QUERY_HOLDINGDATEYMDLIST_BRANCHPERSON_PAST =
+    $QUERY_HOLDINGDATEYMDLIST_BASE .
     "
     WHERE
         HI.branch_person_id =   :branch_person_id
@@ -80,10 +80,10 @@ $queryHoldingDateYmdListBranchPersonPast =
     AND HI.host_group_id    = US.id
     AND US.unavailable_flag = '0'
     " .
-    $queryHoldingDateYmdListSortBasePast;
+    $QUERY_HOLDINGDATEYMDLIST_SORTBASE_PAST;
 
-$queryHoldingDateYmdListBranchPersonPastPhotoDate =
-    $queryHoldingDateYmdListBase .
+$QUERY_HOLDINGDATEYMDLIST_BRANCHPERSON_PAST_PHOTODATE =
+    $QUERY_HOLDINGDATEYMDLIST_BASE .
     "
     ,   UPLOAD_INFO UI
     WHERE
@@ -94,6 +94,6 @@ $queryHoldingDateYmdListBranchPersonPastPhotoDate =
     AND HI.holding_date_ymd = UI.holding_date_ymd
     AND HI.branch_person_id = UI.branch_person_id
     " .
-    $queryHoldingDateYmdListSortBasePast;
+    $QUERY_HOLDINGDATEYMDLIST_SORTBASE_PAST;
 
 ?>

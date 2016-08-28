@@ -67,7 +67,7 @@ try {
         // 表示地図内開催情報取得
         if($rangeMode === RANGEMODE_ONE) {
             // 1週間以内に開催
-            $stmt = $pdo->prepare($getHostListScopwMapOneWeek);
+            $stmt = $pdo->prepare($GET_HOSTLIST_SCOPWMAP_ONEWEEK);
 
             $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
             $stmt->bindValue(':to_date_ymd', getDateYmdAfterOneWeek(), PDO::PARAM_STR);
@@ -78,7 +78,7 @@ try {
             $stmt->execute();
         } else if($rangeMode === RANGEMODE_ALL) {
             // 開催日制限なし
-            $stmt = $pdo->prepare($getHostListScopeMap);
+            $stmt = $pdo->prepare($GET_HOSTLIST_SCOPEMAP);
 
             $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
             $stmt->bindValue(':strLati', $strLati, PDO::PARAM_STR);
@@ -91,14 +91,14 @@ try {
         // 全件取得
         if($rangeMode === RANGEMODE_ONE) {
             // 1週間以内に開催
-            $stmt = $pdo->prepare($getHostListOneWeek);
+            $stmt = $pdo->prepare($GET_HOSTLIST_ONEWEEK);
 
             $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
             $stmt->bindValue(':to_date_ymd', getDateYmdAfterOneWeek(), PDO::PARAM_STR);
             $stmt->execute();
         } else if($rangeMode === RANGEMODE_ALL) {
             // 開催日制限なし
-            $stmt = $pdo->prepare($getHostList);
+            $stmt = $pdo->prepare($GET_HOSTLIST);
 
             $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
             $stmt->execute();

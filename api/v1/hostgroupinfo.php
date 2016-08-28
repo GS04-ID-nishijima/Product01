@@ -31,7 +31,7 @@ if(empty($hostGroupId)) {
 
 try {
     $pdo = createDbo();
-    $stmt = $pdo->prepare($queryHostGroupInfo);
+    $stmt = $pdo->prepare($QUERY_HOSTGROUPINFO);
     $stmt->bindValue(':host_group_id', $hostGroupId, PDO::PARAM_STR);
     $stmt->execute();
 

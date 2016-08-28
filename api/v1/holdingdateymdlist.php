@@ -47,13 +47,13 @@ try {
         // 開催団体
         if($mode === MODE_FUTURE) {
             // 当日から未来分(5日分)
-            $stmt = $pdo->prepare($queryHoldingDateYmdListHostGroupFuture);
+            $stmt = $pdo->prepare($QUERY_HOLDINGDATEYMDLIST_HOSTGROUP_FUTURE);
         } else if($mode === MODE_PAST) {
             // 当日から過去分(5日分)
             if($onlyPhotoDateFlag === FLAG_ON) {
-                $stmt = $pdo->prepare($queryHoldingDateYmdListHostGroupPastPhotoDate);
+                $stmt = $pdo->prepare($QUERY_HOLDINGDATEYMDLIST_HOSTGROUP_PAST_PHOTODATE);
             } else {
-                $stmt = $pdo->prepare($queryHoldingDateYmdListHostGroupPast);
+                $stmt = $pdo->prepare($QUERY_HOLDINGDATEYMDLIST_HOSTGROUP_PAST);
             }
         }
         $stmt->bindValue(':host_group_id', $id, PDO::PARAM_INT);
@@ -63,13 +63,13 @@ try {
         // 出店者
         if($mode === MODE_FUTURE) {
             // 当日から未来分(5日分)
-            $stmt = $pdo->prepare($queryHoldingDateYmdListBranchPersonFuture);
+            $stmt = $pdo->prepare($QUERY_HOLDINGDATEYMDLIST_BRANCHPERSON_FUTURE);
         } else if($mode === MODE_PAST) {
             // 当日から過去分(5日分)
             if($onlyPhotoDateFlag === FLAG_ON) {
-                $stmt = $pdo->prepare($queryHoldingDateYmdListBranchPersonPastPhotoDate);
+                $stmt = $pdo->prepare($QUERY_HOLDINGDATEYMDLIST_BRANCHPERSON_PAST_PHOTODATE);
             } else {
-                $stmt = $pdo->prepare($queryHoldingDateYmdListBranchPersonPast);
+                $stmt = $pdo->prepare($QUERY_HOLDINGDATEYMDLIST_BRANCHPERSON_PAST);
             }
         }
         $stmt->bindValue(':branch_person_id', $id, PDO::PARAM_INT);

@@ -1,6 +1,6 @@
 <?php
 
-$queryBranchPersonListBase = 
+$QUERY_BRANCHPERSONLIST_BASE = 
     "
     SELECT
         HI.holding_date_ymd     AS  holding_date_ymd
@@ -17,28 +17,28 @@ $queryBranchPersonListBase =
     AND US.unavailable_flag = '0'
     ";
 
-$queryBranchPersonListSortBase =
+$QUERY_BRANCHPERSONLIST_SORTBASE =
     "
     ORDER   BY
         HI.holding_date_ymd
     ,   US.name
     ";
 
-$queryBranchPersonListAppoint =
-    $queryBranchPersonListBase . 
+$QUERY_BRANCHPERSONLIST_APPOINT =
+    $QUERY_BRANCHPERSONLIST_BASE . 
     "
     AND HI.holding_date_ymd     =   :holding_date_ymd
     " . 
-    $queryBranchPersonListSortBase;
+    $QUERY_BRANCHPERSONLIST_SORTBASE;
 
-$queryBranchPersonListFuture =
-    $queryBranchPersonListBase . 
+$QUERY_BRANCHPERSONLIST_FUTURE =
+    $QUERY_BRANCHPERSONLIST_BASE . 
     "
     AND HI.holding_date_ymd     >=  :holding_date_ymd
     " . 
-    $queryBranchPersonListSortBase;
+    $QUERY_BRANCHPERSONLIST_SORTBASE;
 
-$queryBranchPersonListAll =
-    $queryBranchPersonListBase . $queryBranchPersonListSortBase;
+$QUERY_BRANCHPERSONLIST_ALL =
+    $QUERY_BRANCHPERSONLIST_BASE . $QUERY_BRANCHPERSONLIST_SORTBASE;
 
 ?>

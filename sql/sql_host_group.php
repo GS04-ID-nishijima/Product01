@@ -1,6 +1,6 @@
 <?php
 
-$queryHostListBase = 
+$GET_HOSTLIST_BASE = 
     "
     SELECT
         DISTINCT
@@ -19,7 +19,7 @@ $queryHostListBase =
     ,   HOST_INFO   HI
     ";
 
-$queryHostListSortBase =
+$GET_HOSTLIST_SORTBASE =
     "
     ORDER BY
         HI.holding_date_ymd
@@ -27,8 +27,8 @@ $queryHostListSortBase =
     ,   HG.longitude
     ";
 
-$getHostListScopeMap =
-    $queryHostListBase .
+$GET_HOSTLIST_SCOPEMAP =
+    $GET_HOSTLIST_BASE .
     "
     WHERE
         US.user_type_division   =   '1'
@@ -39,10 +39,10 @@ $getHostListScopeMap =
     AND HG.latitude             BETWEEN :strLati AND :endLati
     AND HG.longitude            BETWEEN :strLong AND :endLong
     " . 
-    $queryHostListSortBase;
+    $GET_HOSTLIST_SORTBASE;
 
-$getHostListScopwMapOneWeek =
-    $queryHostListBase .
+$GET_HOSTLIST_SCOPWMAP_ONEWEEK =
+    $GET_HOSTLIST_BASE .
     "
     WHERE
         US.user_type_division   =   '1'
@@ -54,10 +54,10 @@ $getHostListScopwMapOneWeek =
     AND HG.latitude             BETWEEN :strLati AND :endLati
     AND HG.longitude            BETWEEN :strLong AND :endLong
     " . 
-    $queryHostListSortBase;
+    $GET_HOSTLIST_SORTBASE;
 
-$getHostList =
-    $queryHostListBase .
+$GET_HOSTLIST =
+    $GET_HOSTLIST_BASE .
     "
     WHERE
         US.user_type_division   =   '1'
@@ -66,10 +66,10 @@ $getHostList =
     AND US.id                   =   HI.host_group_id
     AND :current_date_ymd       <=  HI.holding_date_ymd
     " . 
-    $queryHostListSortBase;
+    $GET_HOSTLIST_SORTBASE;
 
-$getHostListOneWeek =
-    $queryHostListBase .
+$GET_HOSTLIST_ONEWEEK =
+    $GET_HOSTLIST_BASE .
     "
     WHERE
         US.user_type_division   =   '1'
@@ -79,9 +79,9 @@ $getHostListOneWeek =
     AND :current_date_ymd       <=  HI.holding_date_ymd
     AND HI.holding_date_ymd     <=  :to_date_ymd
     " . 
-    $queryHostListSortBase;
+    $GET_HOSTLIST_SORTBASE;
 
-$queryHostGroupInfo = 
+$QUERY_HOSTGROUPINFO = 
     "
     SELECT
         US.name                 AS  host_group_name

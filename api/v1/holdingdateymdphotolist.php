@@ -49,14 +49,14 @@ try {
 
     if($userType === USERTYPE_HOSTGROUP) {
         // 開催団体モード
-        $stmt = $pdo->prepare($getHoldingdateYmdPhotlistHostGroup);
+        $stmt = $pdo->prepare($GET_HOLDINGDATEYMDPHOTOLIST_HOSTGROUP);
 
         $stmt->bindValue(':holdingDateYmd', $holdingDateYmd, PDO::PARAM_STR);
         $stmt->bindValue(':hostGroupId', $hostGroupId, PDO::PARAM_INT);
         $stmt->execute();
     } else if($userType === USERTYPE_BRANCHPERSON) {
         // 出店者モード
-        $stmt = $pdo->prepare($getHoldingdateYmdPhotlistBranchPerson);
+        $stmt = $pdo->prepare($GET_HOLDINGDATEYMDPHOTOLIST_BRANCHPERSON);
 
         $stmt->bindValue(':holdingDateYmd', $holdingDateYmd, PDO::PARAM_STR);
         $stmt->bindValue(':hostGroupId', $hostGroupId, PDO::PARAM_INT);

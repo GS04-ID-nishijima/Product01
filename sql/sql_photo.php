@@ -1,6 +1,6 @@
 <?php
 
-$getLatestPhotoList =
+$GET_LATESTPHOTOLIST =
     "
     SELECT
         UI.host_group_id        AS  host_group_id
@@ -24,7 +24,7 @@ $getLatestPhotoList =
     ";
 
 
-$getHoldingdateYmdPhotlistBase =
+$GET_HOLDINGDATEYMDPHOTOLIST_BASE =
     "
     SELECT
         UI.branch_person_id     AS  branch_person_id
@@ -36,7 +36,7 @@ $getHoldingdateYmdPhotlistBase =
     ,   PH.comment              AS  comment
     ";
 
-$getHoldingdateYmdPhotlistSortBase =
+$GET_HOLDINGDATEYMDPHOTOLIST_SORTBASE =
     "
     ORDER BY
         UI.branch_person_id
@@ -44,8 +44,8 @@ $getHoldingdateYmdPhotlistSortBase =
     ,   UI.upload_date_time DESC
     ";
 
-$getHoldingdateYmdPhotlistHostGroup =
-    $getHoldingdateYmdPhotlistBase .
+$GET_HOLDINGDATEYMDPHOTOLIST_HOSTGROUP =
+    $GET_HOLDINGDATEYMDPHOTOLIST_BASE .
     "
     FROM
         UPLOAD_INFO     AS  UI
@@ -57,10 +57,10 @@ $getHoldingdateYmdPhotlistHostGroup =
             )
         LEFT JOIN       USER    AS  US ON  (UI.branch_person_id    = US.id)
     "
-    . $getHoldingdateYmdPhotlistSortBase;
+    . $GET_HOLDINGDATEYMDPHOTOLIST_SORTBASE;
 
-$getHoldingdateYmdPhotlistBranchPerson =
-    $getHoldingdateYmdPhotlistBase .
+$GET_HOLDINGDATEYMDPHOTOLIST_BRANCHPERSON =
+    $GET_HOLDINGDATEYMDPHOTOLIST_BASE .
     "
     FROM
         UPLOAD_INFO     AS  UI
@@ -73,7 +73,7 @@ $getHoldingdateYmdPhotlistBranchPerson =
             )
         INNER JOIN      USER    AS  US ON  (UI.branch_person_id    = US.id)
     "
-    . $getHoldingdateYmdPhotlistSortBase;
+    . $GET_HOLDINGDATEYMDPHOTOLIST_SORTBASE;
 
 
 ?>

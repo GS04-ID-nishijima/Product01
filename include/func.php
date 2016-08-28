@@ -73,7 +73,7 @@ function getDateYmdAfterOneWeek() {
 function getDateYmd() {
 //  return date('Ymd');
 //  TODO テスト用
-    return '20160730';
+    return '20160723';
 }
 
 // エラーメッセージ用連想配列作成

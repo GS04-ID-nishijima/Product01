@@ -27,7 +27,7 @@ $number = (int)filter_input(INPUT_GET, 'number');
 try {
     $pdo = createDbo();
 
-    $stmt = $pdo->prepare($getLatestPhotoList);
+    $stmt = $pdo->prepare($GET_LATESTPHOTOLIST);
     $stmt->execute();
 
 } catch(RuntimeException $e) {

@@ -46,17 +46,17 @@ try {
     $stmt = NULL;
 
     if($mode === MODE_APPOINT) {
-        $stmt = $pdo->prepare($queryBranchPersonListAppoint);
+        $stmt = $pdo->prepare($QUERY_BRANCHPERSONLIST_APPOINT);
         $stmt->bindValue(':host_group_id', $hostGroupId, PDO::PARAM_INT);
         $stmt->bindValue(':holding_date_ymd', $holdingDateYmd, PDO::PARAM_STR);
         $stmt->execute();
     }else if($mode === MODE_FUTURE) {
-        $stmt = $pdo->prepare($queryBranchPersonListFuture);
+        $stmt = $pdo->prepare($QUERY_BRANCHPERSONLIST_FUTURE);
         $stmt->bindValue(':host_group_id', $hostGroupId, PDO::PARAM_INT);
         $stmt->bindValue(':holding_date_ymd', getDateYmd(), PDO::PARAM_STR);
         $stmt->execute();
     }else if($mode === MODE_ALL) {
-        $stmt = $pdo->prepare($queryBranchPersonListAll);
+        $stmt = $pdo->prepare($QUERY_BRANCHPERSONLIST_ALL);
         $stmt->bindValue(':host_group_id', $hostGroupId, PDO::PARAM_INT);
         $stmt->execute();
     }
