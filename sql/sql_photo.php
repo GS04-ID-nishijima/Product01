@@ -75,5 +75,26 @@ $GET_HOLDINGDATEYMDPHOTOLIST_BRANCHPERSON =
     "
     . $GET_HOLDINGDATEYMDPHOTOLIST_SORTBASE;
 
+$QUERY_INS_PHOTO =
+    "
+    INSERT INTO PHOTO
+    (
+        photo_id
+    ,    photo_type_division
+    ,    filepath
+    ,    filename
+    ,    reduction_filename
+    ,    thumbnail_filename
+    ,    comment
+    ) VALUES (
+        NULL
+    ,   :photo_type_division
+    ,   :filepath
+    ,   :filename
+    ,   :reduction_filename
+    ,   :thumbnail_filename
+    ,   :comment
+    )
+    ";
 
 ?>

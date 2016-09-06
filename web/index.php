@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . '\htmlparts\header_parts.php';
+include __DIR__ . '/htmlparts/header_parts.php';
 ?>
 
 <body>
@@ -47,7 +47,7 @@ include __DIR__ . '\htmlparts\header_parts.php';
             </div>
         </div>
 <?php
-include __DIR__ . '\htmlparts\footer_parts.php';
+include __DIR__ . '/htmlparts/footer_parts.php';
 ?>
     </div>
 
@@ -60,7 +60,7 @@ $(document).ready(function(){
     // 最新アップロード写真取得
     var sendData;
     sendData = {
-        number : 30
+        number : 15
     };
 
     var requet = $.ajax({
@@ -247,7 +247,7 @@ function viewHostinfoList(rangeMode, bounds){
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzNXQMNe9MNNjRc6Ey4Eg-exdJymnaj-w&callback=initMap"></script>
 <script src="lib/lightbox/js/lightbox.min.js"></script>
 <?php
-include __DIR__ . '\handlebarstemplate\template_index.php';
+include __DIR__ . '/handlebarstemplate/template_index.php';
 ?>
 </body>
 </html>

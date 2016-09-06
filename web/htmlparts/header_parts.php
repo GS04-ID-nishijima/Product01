@@ -16,4 +16,5 @@
     <link rel="stylesheet" href="lib/lightbox/css/lightbox.min.css">
     <link rel="stylesheet" href="css/marche.css">
     <title id="page_title"></title>
+    <meta name="robots" content="none">
 </head>

@@ -59,7 +59,7 @@
             <div class="hostgroup-photo-carousel{{accordionCnt}}" id="hostgroup_photo_carousel{{groupCnt}}">
                 {{#each photoList}}
                 <div>
-                    <p><a href="{{filepath}}{{filename}}" data-lightbox="hostgroup-photo-group{{../groupCnt}}"><img src="{{filepath}}{{filename}}" alt="{{comment}}" class="top-carousel-photo"></a></p>
+                    <p><a href="../{{filepath}}{{filename}}" data-lightbox="hostgroup-photo-group{{../groupCnt}}"><img src="../{{filepath}}{{filename}}" alt="{{comment}}" class="top-carousel-photo"></a></p>
                     <p class="top-carousel-comment"><span class="top-carousel-comment-text">{{comment}}</span></p>
                 </div>
                 {{/each}}

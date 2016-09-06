@@ -60,12 +60,6 @@ foreach($keys as $key) {
     $returnList[toCamelCase($key)] = $row[$key];
 }
 
-// 取得データが0件の場合
-if(count($returnList) === 0) {
-    $returnList[] = array();
-    exitAsJson($returnList);
-}
-
 exitAsJson($returnList);
 
 ?>

@@ -1,7 +1,7 @@
 <?php
 $hostgroupid = (int)filter_input(INPUT_GET, 'hostgroupid');
 
-include __DIR__ . '\htmlparts\header_parts.php';
+include __DIR__ . '/htmlparts/header_parts.php';
 ?>
 <script src="lib/exif/exif.js"></script>
 <script src="lib/megapix-image/megapix-image.js"></script>
@@ -50,31 +50,31 @@ include __DIR__ . '\htmlparts\header_parts.php';
                             </div>
                         </div>
                         <div id="upload_photo" class="tab-pane">
-            <form action="sample.php" method="post" enctype="multipart/form-data">
+            <form action="" method="post" enctype="multipart/form-data">
                             <div class="col-md-7">
                                   <div class="hostgroup-uploadphoto-box border-solid" id="hostgroup_uploadphoto_box"><span id="hostgroup_uploadphoto_box_comment">写真を選択</span><img src="" alt="" id="hostgroup_uploadphoto_box_img" class="hostgroup-uploadphoto-box-img"></div>
-                                  <input type="file" id="upload_photo_trigger" name="upload_photo_trigger" accept="image/*" style="opacity:0;">
+                                  <input type="file" id="upload_photo_form" name="upload_photo_form" accept="image/*" style="opacity:0;">
                             </div>
                             <div class="col-md-5 hostgroup-uploadphoto-input-col">
                                 <div class="hostgroup-uploadphoto-input-row1">
                                     <div class="hostgroup-uploadphoto-cation1 border-solid">開催日</div><select name="uploadphoto_holdingdate" id="uploadphoto_holdingdate" class="hostgroup-uploadphoto-select border-solid"></select>
                                 </div>
                                 <div class="hostgroup-uploadphoto-input-row1">
-                                    <div class="hostgroup-uploadphoto-cation1 border-solid">出店者</div><div><select name="uploadphoto_branchperson" id="uploadphoto_branchperson" class="hostgroup-uploadphoto-select border-solid"></select></div>
+                                    <div class="hostgroup-uploadphoto-cation1 border-solid">出店者</div><div><select name="uploadphoto_branchperson_id" id="uploadphoto_branchperson" class="hostgroup-uploadphoto-select border-solid"></select></div>
                                 </div>
                                 <div class="hostgroup-uploadphoto-input-row2">
                                     <div class="hostgroup-uploadphoto-cation2 border-solid">コメント</div><div><textarea name="hostgroup_uploadphoto_comment" id="hostgroup_uploadphoto_comment" cols="10" rows="2" maxlength="15" class="hostgroup-uploadphoto-comment border-solid" placeholder="15文字以内で入力して下さい。"></textarea></div>
                                 </div>
-                                <button class="hostgroup-uploadphoto-button border-solid" name="hostgroup_uploadphoto_button" id="hostgroup_uploadphoto_button" disabled>アップロード</button>
                             </div>
             </form>
+                                <button class="hostgroup-uploadphoto-button border-solid" name="hostgroup_uploadphoto_button" id="hostgroup_uploadphoto_button" disabled>アップロード</button>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 <?php
-include __DIR__ . '\htmlparts\footer_parts.php';
+include __DIR__ . '/htmlparts/footer_parts.php';
 ?>
 
 <script>
@@ -426,17 +426,19 @@ function getholdingDateBranchPersonList(holdingDateYmd) {
 
 // 写真選択エリアでクリックでファイル選択を起動
 $('#hostgroup_uploadphoto_box').on("click", function(){
-    $("#upload_photo_trigger").trigger("click");
+    $("#upload_photo_form").trigger("click");
 });
 
 // 写真縮小
-$('#upload_photo_trigger').on('change', function() {
+$('#upload_photo_form').on('change', function() {
     var file = $(this).prop('files')[0];
 
     EXIF.getData(file, function(){
         var orientation = file.exifdata.Orientation;
         var mpImg = new MegaPixImage(file);
-        mpImg.render($('#hostgroup_uploadphoto_box_img')[0], {maxWidth: 1024, orientation: orientation });
+
+        mpImg.render($('#hostgroup_uploadphoto_box_img')[0], {maxWidth: 1024, maxHeight: 1024, orientation: orientation });
+        mpImg.render($('#upload_photo_form')[0], {maxWidth: 1024, maxHeight: 1024, orientation: orientation });
     });
 
     $('#hostgroup_uploadphoto_box_comment').hide();
@@ -453,12 +455,42 @@ $('#hostgroup_uploadphoto_box_img').bind("load",function(){
     }
 });
 
+// アップロードボタンクリック
+$('#hostgroup_uploadphoto_button').on("click", function(){
+
+    $('#hostgroup_uploadphoto_button').prop("disabled", true);
+    if($('#hostgroup_uploadphoto_comment').val() === "") {
+        alert('コメントは必ず入力して下さい。');
+        $('#hostgroup_uploadphoto_button').prop("disabled", false);
+        return;
+    }
+
+    var formData = new FormData(document.forms[0]);
+    formData.append('uploadphoto_hostgroup_id', <?php echo $hostgroupid ?>);
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', '../api/v1/photouploading.php', true);
+    xhr.onload = function () {
+        if (this.status === 200) {
+            $('#hostgroup_uploadphoto_button').prop("disabled", true);
+            console.log(this.responseText);
+        }
+    };
+
+    // アップロードの進捗状況を把握
+    xhr.upload.onprogress = function (e) {
+        console.log('[uploadProgress]', e.loaded ,e.total);
+    };
+
+// フォームデータを送ります
+    xhr.send(formData);
+});
+
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzNXQMNe9MNNjRc6Ey4Eg-exdJymnaj-w"></script>
 <script src="lib/lightbox/js/lightbox.min.js"></script>
 <?php
-include __DIR__ . '\handlebarstemplate\template_hostgroup.php';
+include __DIR__ . '/handlebarstemplate/template_hostgroup.php';
 ?>
 
 </body>

@@ -28,7 +28,7 @@
 </script>
 <script type="text/x-handlebars-template" id="carousel_photo_template">
     <div>
-        <p><a href="{{filepath}}{{filename}}" data-lightbox="latest-photo-group"><img src="{{filepath}}{{reductionFilename}}" alt="{{comment}}" class="top-carousel-photo"></a></p>
+        <p><a href="../{{filepath}}{{filename}}" data-lightbox="latest-photo-group"><img src="../{{filepath}}{{filename}}" alt="{{comment}}" class="top-carousel-photo"></a></p>
         <p class="top-carousel-comment"><span class="top-carousel-comment-text">{{comment}}</span></p>
     </div>
 </script>

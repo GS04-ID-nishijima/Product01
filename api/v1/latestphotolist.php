@@ -59,7 +59,7 @@ foreach($stmt as $row) {
 
 if(count($photoList) === 0) {
     $photoList = array();
-    exitAsJson($hostList);
+    exitAsJson($photoList);
 }
 exitAsJson($photoList);
 
