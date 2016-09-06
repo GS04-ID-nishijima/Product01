@@ -49,6 +49,8 @@ try {
         $stmt = $pdo->prepare($QUERY_BRANCHPERSONLIST_APPOINT);
         $stmt->bindValue(':host_group_id', $hostGroupId, PDO::PARAM_INT);
         $stmt->bindValue(':holding_date_ymd', $holdingDateYmd, PDO::PARAM_STR);
+        $stmt->bindValue(':host_group_date', $holdingDateYmd, PDO::PARAM_STR);
+        $stmt->bindValue(':host_group_name', '開催者', PDO::PARAM_STR);
         $stmt->execute();
     }else if($mode === MODE_FUTURE) {
         $stmt = $pdo->prepare($QUERY_BRANCHPERSONLIST_FUTURE);
