@@ -69,7 +69,12 @@ function getDateYmdAfterOneWeek() {
 function getDateYmd() {
 //  return date('Ymd');
 //  TODO テスト用
-    return '20160723';
+    return '20160725';
+}
+
+// 現在の日付年月日自分秒を取得
+function getDateYmdHis() {
+    return date('YmdHis');
 }
 
 // エラーメッセージ用連想配列作成

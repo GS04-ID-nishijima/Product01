@@ -7,7 +7,7 @@ include __DIR__ . '/htmlparts/header_parts.php';
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="header-title"><a href="index.php">Favorite Marche</a></h2>
+                    <h2 class="header-title"><a href="./">Favorite Marche</a></h2>
                 </div>
             </div>
         </div>

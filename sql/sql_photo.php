@@ -80,12 +80,14 @@ $QUERY_INS_PHOTO =
     INSERT INTO PHOTO
     (
         photo_id
-    ,    photo_type_division
-    ,    filepath
-    ,    filename
-    ,    reduction_filename
-    ,    thumbnail_filename
-    ,    comment
+    ,   photo_type_division
+    ,   filepath
+    ,   filename
+    ,   reduction_filename
+    ,   thumbnail_filename
+    ,   comment
+    ,   ins_date
+    ,   upd_date
     ) VALUES (
         NULL
     ,   :photo_type_division
@@ -94,6 +96,8 @@ $QUERY_INS_PHOTO =
     ,   :reduction_filename
     ,   :thumbnail_filename
     ,   :comment
+    ,   :ins_date
+    ,   :upd_date
     )
     ";
 

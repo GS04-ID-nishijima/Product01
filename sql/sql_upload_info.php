@@ -11,6 +11,8 @@ $QUERY_INS_UPLOAD_INFO =
     ,   upload_user_id
     ,   upload_date_ymd
     ,   upload_date_time
+    ,   ins_date
+    ,   upd_date
     ) VALUES (
         :holding_date_ymd
     ,   :host_group_id
@@ -19,6 +21,8 @@ $QUERY_INS_UPLOAD_INFO =
     ,   :upload_user_id
     ,   :upload_date_ymd
     ,   :upload_date_time
+    ,   :ins_date
+    ,   :upd_date
     )
     ";
 

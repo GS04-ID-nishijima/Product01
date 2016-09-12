@@ -20,7 +20,7 @@
     <div class="hostinfo-space"></div>
 </script>
 <script type="text/x-handlebars-template" id="infoWindowText_template">
-    <p><a href="hostgroup.php?hostgroupid={{hostGroupId}}" class="hostinfo-name">{{hostGroupName}}</a></p>
+    <p><a href="hostgroup?hostgroupid={{hostGroupId}}" class="hostinfo-name">{{hostGroupName}}</a></p>
     <ul class="infoWindow-ul">
         <li>{{placeName}}</li>
         <li>{{branchScale}}</li>

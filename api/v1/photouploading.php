@@ -7,55 +7,47 @@ include __DIR__ . '/../../sql/sql.php';
 /**
  * 写真のアップロード
  *
- * @param uploadphoto_holdingdate: 開催日
- * @param uploadphoto_hostgroup_id: 開催団体ID
- * @param uploadphoto_branchperson_id: 出店者ID
- * @param hostgroup_uploadphoto_comment: コメント
- * @param upload_photo_form: 写真
+ * @param holdingdate: 開催日
+ * @param hostgroupId: 開催団体ID
+ * @param branchpersonId: 出店者ID
+ * @param photoComment: コメント
+ * @param photoFileName: コメント
+ * @param photo: 写真
  * @return result
  *
  * @author nishijima
  **/
 
-//foreach (getallheaders() as $name => $value) {
-//    error_log("$name" . ':' . "$value");
-//}
+$holdingDateYmd = (string)filter_input(INPUT_POST, 'holdingdate');
+$hostGroupId = (int)filter_input(INPUT_POST, 'hostgroupId');
+$branchPersonId = (int)filter_input(INPUT_POST, 'branchpersonId');
+$comment = (string)filter_input(INPUT_POST, 'photoComment');
+$fileName = (string)filter_input(INPUT_POST, 'photoFileName');
+$encodePhoto = (string)filter_input(INPUT_POST, 'photo');
 
-$holdingDateYmd = (string)filter_input(INPUT_POST, 'uploadphoto_holdingdate');
-$hostGroupId = (int)filter_input(INPUT_POST, 'uploadphoto_hostgroup_id');
-$branchPersonId = (int)filter_input(INPUT_POST, 'uploadphoto_branchperson_id');
-$comment = (string)filter_input(INPUT_POST, 'hostgroup_uploadphoto_comment');
 
 // 必須チェック
-if(empty($holdingDateYmd) || empty($hostGroupId) || ($branchPersonId !== 0 && empty($branchPersonId)) || empty($comment)) {
+if(empty($holdingDateYmd) || empty($hostGroupId) || ($branchPersonId !== 0 && empty($branchPersonId)) || empty($comment) || empty($fileName) || empty($encodePhoto)) {
     exitWithErrorAsJson(getErrorMessageArray(MSG_PHOTOUPLOADING_API_PARAMETER_ERROR001));
 }
 
-// アップロードステータスチェック
-if($_FILES['upload_photo_form']['error'] !== UPLOAD_ERR_OK) {
-    error_log('UPLOAD_ERR_CD:' . $_FILES['upload_photo_form']['error']);
-    exitWithErrorAsJson(getErrorMessageArray(MSG_PHOTOUPLOADING_API_PARAMETER_ERROR002));
-}
-
-// 必須チェック(ファイル)
-if(!is_uploaded_file($_FILES["upload_photo_form"]["tmp_name"])) {
-    exitWithErrorAsJson(getErrorMessageArray(MSG_PHOTOUPLOADING_API_PARAMETER_ERROR003));
-}
-
-
+$photo = imagecreatefromstring(base64_decode(preg_replace("/data:[^,]+,/i","",$encodePhoto)));
 $uploadFolder = __DIR__ . '/../../' . UPLOAD_DIR_HOLDGINDATE . $holdingDateYmd;
 
 if(!file_exists ($uploadFolder)) {
     mkdir("$uploadFolder", 0644);
 }
 
-$fileName = getDateYmd() . '_' . $branchPersonId . '_' . date('His') . '.' . pathinfo($_FILES["upload_photo_form"]["name"])["extension"];
+$fileName = getDateYmd() . '_' . $branchPersonId . '_' . date('His') . '.' . pathinfo($fileName)["extension"];
 $uploadFilePath = $uploadFolder . '/' . $fileName;
 
-move_uploaded_file($_FILES["upload_photo_form"]["tmp_name"], $uploadFilePath);
+imagesavealpha($photo, TRUE);
+imagepng($photo, $uploadFilePath);
 
 try {
     $pdo = createDbo();
+
+    $ymdhis = getDateYmdHis();
 
     $stmt = $pdo->prepare($QUERY_INS_PHOTO);
     $stmt->bindValue(':photo_type_division', PHOTO_TYPE_DIVISION_HOLDINGDATE, PDO::PARAM_STR);
@@ -64,6 +56,8 @@ try {
     $stmt->bindValue(':reduction_filename', '', PDO::PARAM_STR);
     $stmt->bindValue(':thumbnail_filename', '', PDO::PARAM_STR);
     $stmt->bindValue(':comment', $comment, PDO::PARAM_STR);
+    $stmt->bindValue(':ins_date', $ymdhis, PDO::PARAM_STR);
+    $stmt->bindValue(':upd_date', $ymdhis, PDO::PARAM_STR);
 
     $insResultFlag = $stmt->execute();
 
@@ -86,6 +80,8 @@ try {
     $stmt->bindValue(':upload_user_id', null, PDO::PARAM_STR);
     $stmt->bindValue(':upload_date_ymd', getDateYmd(), PDO::PARAM_STR);
     $stmt->bindValue(':upload_date_time', date('His'), PDO::PARAM_STR);
+    $stmt->bindValue(':ins_date', $ymdhis, PDO::PARAM_STR);
+    $stmt->bindValue(':upd_date', $ymdhis, PDO::PARAM_STR);
 
     $insResultFlag = $stmt->execute();
 
@@ -104,5 +100,7 @@ try {
     header(MSG_HTTP_500_ERROR001);
     exit(0);
 }
+
+exitAsJson(array());
 
 ?>

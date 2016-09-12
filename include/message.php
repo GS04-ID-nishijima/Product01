@@ -23,9 +23,8 @@ define("MSG_BRANCHPERSONLISTAPI_PARAMETER_ERROR001", "mode, hostGroupId are requ
 define("MSG_BRANCHPERSONLISTAPI_PARAMETER_ERROR002", "mode is must be 1 or 2, 3.");
 define("MSG_BRANCHPERSONLISTAPI_PARAMETER_ERROR003", "holdingDateYmd is required.");
 
-define("MSG_PHOTOUPLOADING_API_PARAMETER_ERROR001", "uploadphoto_holdingdate, uploadphoto_hostgroup_id, uploadphoto_branchperson_id, hostgroup_uploadphoto_comment are required.");
-define("MSG_PHOTOUPLOADING_API_PARAMETER_ERROR002", "photo uploding failed.");
-define("MSG_PHOTOUPLOADING_API_PARAMETER_ERROR003", "photo data is required.");
+define("MSG_PHOTOUPLOADING_API_PARAMETER_ERROR001", "holdingDateYmd, hostGroupId, branchPersonId, comment, fileName, encodePhoto
+ are required.");
 
 define("MSG_DB_INSERT_ERROR001", "photo data is required.");
 

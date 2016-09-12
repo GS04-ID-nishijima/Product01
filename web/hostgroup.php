@@ -10,7 +10,7 @@ include __DIR__ . '/htmlparts/header_parts.php';
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="header-title"><a href="index.php">Favorite Marche</a></h2>
+                    <h2 class="header-title"><a href="./">Favorite Marche</a></h2>
                 </div>
             </div>
         </div>
@@ -105,16 +105,15 @@ $(document).ready(function(){
 
         insertHandlebarsHtml('#hostgroup_top_subcontents', '#hostgroup_top_subcontents_template', responseList);
 
-// TODO 一時的に非表示
-//        var hostGroupMap = new google.maps.Map(document.getElementById("hostgroup_map"), {
-//        center: new google.maps.LatLng(responseList['latitude'], responseList['longitude']),
-//        zoom: 15
-//        });
-//
-//        var marker = new google.maps.Marker({
-//            position: new google.maps.LatLng(responseList['latitude'], responseList['longitude']),
-//            map: hostGroupMap
-//        });
+        var hostGroupMap = new google.maps.Map(document.getElementById("hostgroup_map"), {
+        center: new google.maps.LatLng(responseList['latitude'], responseList['longitude']),
+        zoom: 15
+        });
+
+        var marker = new google.maps.Marker({
+            position: new google.maps.LatLng(responseList['latitude'], responseList['longitude']),
+            map: hostGroupMap
+        });
     });
 
     // カルーセル対応
@@ -163,8 +162,6 @@ $(document).ready(function(){
 $(document).ajaxError(function(){
         console.log('fail');
         console.log(XMLHttpRequest);
-        console.log(textStatus);
-        console.log(errorThrown);
 });
 
 // 開催情報タブ表示切替
@@ -438,7 +435,7 @@ $('#upload_photo_form').on('change', function() {
         var mpImg = new MegaPixImage(file);
 
         mpImg.render($('#hostgroup_uploadphoto_box_img')[0], {maxWidth: 1024, maxHeight: 1024, orientation: orientation });
-        mpImg.render($('#upload_photo_form')[0], {maxWidth: 1024, maxHeight: 1024, orientation: orientation });
+//        mpImg.render($('#hostgroup_uploadphoto_box_img')[0], { orientation: orientation });
     });
 
     $('#hostgroup_uploadphoto_box_comment').hide();
@@ -466,23 +463,30 @@ $('#hostgroup_uploadphoto_button').on("click", function(){
     }
 
     var formData = new FormData(document.forms[0]);
-    formData.append('uploadphoto_hostgroup_id', <?php echo $hostgroupid ?>);
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', '../api/v1/photouploading.php', true);
-    xhr.onload = function () {
-        if (this.status === 200) {
-            $('#hostgroup_uploadphoto_button').prop("disabled", true);
-            console.log(this.responseText);
-        }
+
+    var sendData;
+    sendData = {
+        holdingdate: formData.get('uploadphoto_holdingdate'),
+        hostgroupId: <?php echo $hostgroupid ?>,
+        branchpersonId: formData.get('uploadphoto_branchperson_id'),
+        photoComment: formData.get('hostgroup_uploadphoto_comment'),
+        photoFileName: $('#upload_photo_form').prop('files')[0].name,
+        photo: $('#hostgroup_uploadphoto_box_img').attr('src')
     };
 
-    // アップロードの進捗状況を把握
-    xhr.upload.onprogress = function (e) {
-        console.log('[uploadProgress]', e.loaded ,e.total);
-    };
+    var requet = $.ajax({
+        type: 'POST',
+        url: '../api/v1/photouploading.php',
+        cashe: false,
+        dataType: "json",
+        data: sendData,
+        timeout: 20000,
+        async: false
+    });
+    requet.done(function(responseList){
+console.dir(responseList);
+    });
 
-// フォームデータを送ります
-    xhr.send(formData);
 });
 
 
