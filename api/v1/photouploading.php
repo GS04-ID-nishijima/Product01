@@ -35,14 +35,77 @@ $photo = imagecreatefromstring(base64_decode(preg_replace("/data:[^,]+,/i","",$e
 $uploadFolder = __DIR__ . '/../../' . UPLOAD_DIR_HOLDGINDATE . $holdingDateYmd;
 
 if(!file_exists ($uploadFolder)) {
-    mkdir("$uploadFolder", 0644);
+    mkdir("$uploadFolder", 0777);
 }
 
-$fileName = getDateYmd() . '_' . $branchPersonId . '_' . date('His') . '.' . pathinfo($fileName)["extension"];
-$uploadFilePath = $uploadFolder . '/' . $fileName;
+$extension = pathinfo($fileName)["extension"];
 
-imagesavealpha($photo, TRUE);
-imagepng($photo, $uploadFilePath);
+$fileName = getDateYmd() . '_' . $branchPersonId . '_' . date('His') . '.' . $extension;
+$reductionFilename = getDateYmd() . '_' . $branchPersonId . '_' . date('His') . '_reduction.' . $extension;
+$thumbnailFilename = getDateYmd() . '_' . $branchPersonId . '_' . date('His') . '_thumbnail.' . $extension;
+$uploadFilePath = $uploadFolder . '/' . $fileName;
+$uploadReductionFilePath = $uploadFolder . '/' . $reductionFilename;
+$uploadThumbnailFilePath = $uploadFolder . '/' . $thumbnailFilename;
+
+// ファイル保存
+if(mb_strtolower($extension) === 'jpg' || mb_strtolower($extension) === 'jpeg') {
+    // jpg,jpeg
+    imagejpeg($photo, $uploadFilePath);
+} else {
+    // png
+    imagealphablending($photo, false);
+    imagesavealpha($photo, true);
+    imagepng($photo, $uploadFilePath);
+}
+
+list($originalWidth, $originalHeight)  = getimagesize($uploadFilePath);
+
+$proportion = $originalWidth / $originalHeight;
+
+// スマホ向け画像保存
+$reductionWidth = 640;
+if($proportion >= 1) {
+    $reductionHeight = $reductionWidth / $proportion;
+} else {
+    $reductionHeight = $reductionWidth;
+    $reductionWidth = $reductionWidth * $proportion;
+}
+$reductionPhoto = ImageCreateTrueColor($reductionWidth, $reductionHeight);
+ImageCopyResampled($reductionPhoto, $photo, 0, 0, 0, 0, $reductionWidth, $reductionHeight, $originalWidth, $originalHeight);
+
+if(mb_strtolower($extension) === 'jpg' || mb_strtolower($extension) === 'jpeg') {
+    // jpg,jpeg
+    imagejpeg($reductionPhoto, $uploadReductionFilePath);
+} else {
+    // png
+    imagealphablending($reductionPhoto, false);
+    imagesavealpha($reductionPhoto, true);
+    imagepng($reductionPhoto, $uploadReductionFilePath);
+}
+
+// サムネイル画像保存
+$thumbnailPhoto = ImageCreateTrueColor(180, 180);
+if($proportion >= 1) {
+    $originalStartX = $originalWidth / 2 - $originalWidth / $proportion / 2;
+    ImageCopyResampled($thumbnailPhoto, $photo, 0, 0, $originalStartX, 0, 180, 180, $originalHeight, $originalHeight);
+} else {
+    $originalStartY = $originalHeight / 2 - $originalHeight * $proportion / 2;
+    ImageCopyResampled($thumbnailPhoto, $photo, 0, 0, 0, $originalStartY, 180, 180, $originalWidth, $originalWidth);
+}
+
+if(mb_strtolower($extension) === 'jpg' || mb_strtolower($extension) === 'jpeg') {
+    // jpg,jpeg
+    imagejpeg($thumbnailPhoto, $uploadThumbnailFilePath);
+} else {
+    // png
+    imagealphablending($thumbnailPhoto, false);
+    imagesavealpha($thumbnailPhoto, true);
+    imagepng($thumbnailPhoto, $uploadThumbnailFilePath);
+}
+
+imagedestroy($photo);
+imagedestroy($reductionPhoto);
+imagedestroy($thumbnailPhoto);
 
 try {
     $pdo = createDbo();
@@ -53,8 +116,8 @@ try {
     $stmt->bindValue(':photo_type_division', PHOTO_TYPE_DIVISION_HOLDINGDATE, PDO::PARAM_STR);
     $stmt->bindValue(':filepath', UPLOAD_DIR_HOLDGINDATE . $holdingDateYmd . '/', PDO::PARAM_STR);
     $stmt->bindValue(':filename', $fileName, PDO::PARAM_STR);
-    $stmt->bindValue(':reduction_filename', '', PDO::PARAM_STR);
-    $stmt->bindValue(':thumbnail_filename', '', PDO::PARAM_STR);
+    $stmt->bindValue(':reduction_filename', $reductionFilename, PDO::PARAM_STR);
+    $stmt->bindValue(':thumbnail_filename', $thumbnailFilename, PDO::PARAM_STR);
     $stmt->bindValue(':comment', $comment, PDO::PARAM_STR);
     $stmt->bindValue(':ins_date', $ymdhis, PDO::PARAM_STR);
     $stmt->bindValue(':upd_date', $ymdhis, PDO::PARAM_STR);

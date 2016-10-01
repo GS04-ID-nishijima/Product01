@@ -75,7 +75,12 @@ $(document).ready(function(){
         var topCrouselHtml = "";
         for(var responseListArrayKey in responseList){
             var photoList = responseList[responseListArrayKey];
-            var carousel_photo_template = Handlebars.compile($('#carousel_photo_template').html());
+            var carousel_photo_template;
+            if(_ua.Mobile) {
+                carousel_photo_template = Handlebars.compile($('#carousel_photo_template_sp').html());
+            } else {
+                carousel_photo_template = Handlebars.compile($('#carousel_photo_template_except_sp').html());
+            }
             topCrouselHtml = topCrouselHtml + carousel_photo_template(photoList);
         }
         $('#top_carousel').html(topCrouselHtml);
@@ -122,8 +127,6 @@ $(document).ready(function(){
 $(document).ajaxError(function(){
         console.log('fail');
         console.log(XMLHttpRequest);
-        console.log(textStatus);
-        console.log(errorThrown);
 });
 
 // google Map 情報ウィンドウ表示
@@ -212,6 +215,7 @@ function viewHostinfoList(rangeMode, bounds){
                 var hostList = hostInfoList.hostList[hostListArrayKey];
 
                 hostList.markerCnt = markerCnt;
+                hostList.holdingDateYmd = hostInfoList['holdingDateYmd'];
                 hostinfoHtml += compileHandlebarsTemplate('#hostinfo_list_template', hostList);
 
                 // 合わせてマーカーのInfoWindow作成
@@ -235,7 +239,8 @@ function viewHostinfoList(rangeMode, bounds){
         for(i = 0; i < markerDataArray.length; i++){
             var marker = new google.maps.Marker({
                 position: markerDataArray[i].position,
-                map: marcheMap
+                map: marcheMap,
+                zIndex: markerDataArray.length - i
             });
             marker_list[i] = marker;
             attachMessage(marker, markerDataArray[i].content);

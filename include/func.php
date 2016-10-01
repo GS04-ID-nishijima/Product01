@@ -69,7 +69,7 @@ function getDateYmdAfterOneWeek() {
 function getDateYmd() {
 //  return date('Ymd');
 //  TODO テスト用
-    return '20160725';
+    return '20160730';
 }
 
 // 現在の日付年月日自分秒を取得

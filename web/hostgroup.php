@@ -5,6 +5,7 @@ include __DIR__ . '/htmlparts/header_parts.php';
 ?>
 <script src="lib/exif/exif.js"></script>
 <script src="lib/megapix-image/megapix-image.js"></script>
+<!--Copyright (c) 2012 Shinichi Tomita <shinichi.tomita@gmail.com>-->
 <body>
     <header>
         <div class="container">
@@ -50,10 +51,10 @@ include __DIR__ . '/htmlparts/header_parts.php';
                             </div>
                         </div>
                         <div id="upload_photo" class="tab-pane">
-            <form action="" method="post" enctype="multipart/form-data">
+                        <form action="" method="post" enctype="multipart/form-data">
                             <div class="col-md-7">
                                   <div class="hostgroup-uploadphoto-box border-solid" id="hostgroup_uploadphoto_box"><span id="hostgroup_uploadphoto_box_comment">写真を選択</span><img src="" alt="" id="hostgroup_uploadphoto_box_img" class="hostgroup-uploadphoto-box-img"></div>
-                                  <input type="file" id="upload_photo_form" name="upload_photo_form" accept="image/*" style="opacity:0;">
+
                             </div>
                             <div class="col-md-5 hostgroup-uploadphoto-input-col">
                                 <div class="hostgroup-uploadphoto-input-row1">
@@ -65,9 +66,10 @@ include __DIR__ . '/htmlparts/header_parts.php';
                                 <div class="hostgroup-uploadphoto-input-row2">
                                     <div class="hostgroup-uploadphoto-cation2 border-solid">コメント</div><div><textarea name="hostgroup_uploadphoto_comment" id="hostgroup_uploadphoto_comment" cols="10" rows="2" maxlength="15" class="hostgroup-uploadphoto-comment border-solid" placeholder="15文字以内で入力して下さい。"></textarea></div>
                                 </div>
-                            </div>
-            </form>
+                                <input type="file" id="upload_photo_form" name="upload_photo_form" accept="image/*" style="opacity:0;">
                                 <button class="hostgroup-uploadphoto-button border-solid" name="hostgroup_uploadphoto_button" id="hostgroup_uploadphoto_button" disabled>アップロード</button>
+                            </div>
+                        </form>
                         </div>
                     </div>
                 </div>
@@ -283,6 +285,8 @@ $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
 
     // アップロードタブ
     } else if(id === '#upload_photo') {
+        $('#hostgroup_uploadphoto_box').height($('#hostgroup_uploadphoto_box').width());
+        
         // 開催日取得
         var sendData;
         sendData = {
@@ -352,7 +356,12 @@ function getPhotoList(holdingDateYmd, accordionCnt) {
             if(!holdingDateYmdPhotoList.branchPersonName){
                 holdingDateYmdPhotoList['branchPersonName'] = "開催者アップロード";
             }
-            hostgroupPhotoCarouselHtml += compileHandlebarsTemplate('#hostgroup_photo_carousel_box_template', holdingDateYmdPhotoList);
+            if(_ua.Mobile) {
+                hostgroupPhotoCarouselHtml += compileHandlebarsTemplate('#hostgroup_photo_carousel_box_template_sp', holdingDateYmdPhotoList);
+            } else {
+                hostgroupPhotoCarouselHtml += compileHandlebarsTemplate('#hostgroup_photo_carousel_box_template_except_sp', holdingDateYmdPhotoList);
+            }
+
             groupCnt++;
         }
         $('#hostgroup_photo_card_list' + accordionCnt).html(hostgroupPhotoCarouselHtml);
@@ -435,7 +444,6 @@ $('#upload_photo_form').on('change', function() {
         var mpImg = new MegaPixImage(file);
 
         mpImg.render($('#hostgroup_uploadphoto_box_img')[0], {maxWidth: 1024, maxHeight: 1024, orientation: orientation });
-//        mpImg.render($('#hostgroup_uploadphoto_box_img')[0], { orientation: orientation });
     });
 
     $('#hostgroup_uploadphoto_box_comment').hide();
@@ -454,7 +462,6 @@ $('#hostgroup_uploadphoto_box_img').bind("load",function(){
 
 // アップロードボタンクリック
 $('#hostgroup_uploadphoto_button').on("click", function(){
-
     $('#hostgroup_uploadphoto_button').prop("disabled", true);
     if($('#hostgroup_uploadphoto_comment').val() === "") {
         alert('コメントは必ず入力して下さい。');
@@ -484,11 +491,16 @@ $('#hostgroup_uploadphoto_button').on("click", function(){
         async: false
     });
     requet.done(function(responseList){
-console.dir(responseList);
+//console.dir(responseList);
     });
 
+    return false;
 });
 
+// アップロードボックスのリサイズ
+$(window).on('load resize', function(){
+    $('#hostgroup_uploadphoto_box').height($('#hostgroup_uploadphoto_box').width());
+});
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzNXQMNe9MNNjRc6Ey4Eg-exdJymnaj-w"></script>

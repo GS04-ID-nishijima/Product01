@@ -129,7 +129,7 @@ body {
 }
 
 .latest-photo-col{
-    height: 280px;
+    height: 305px;
 }
 
 .top-carousel-box{
@@ -151,6 +151,19 @@ body {
     border-bottom: 2px solid #5CE600;
     margin: 5px auto 12px auto;
     padding-left: 10px;
+}
+
+.top-carousel-hostgroup{
+    background-color:#E3FFEB;
+    width: 180px;
+    height: 25px;
+    text-align: center;
+    padding-top: 1px;
+    margin-bottom: 0px;
+}
+
+.top-carousel-hostgroup{
+    align-content: center;
 }
 
 .top-carousel-comment{
@@ -337,18 +350,22 @@ body {
     font-size: 18px;
     text-align: center;
     margin-top: 20px;
-    width: 300px;
 }
 
 .hostgroup-uploadphoto-box{
-    width: 400px;
-    height: 400px;
+    max-width: 450px;
     background-color: #E3FFEB;
     font-size: 22px;
     color: #AAAAAA;
     text-align: center;
     margin: 20px auto;
-    padding-top: 170px;
+    position: relative;
+}
+
+.hostgroup-uploadphoto-box span{
+    position: absolute;
+    top: 50%;
+    margin: -2.0em;
 }
 
 .hostgroup-uploadphoto-box-img{
@@ -361,12 +378,13 @@ body {
 .hostgroup-uploadphoto-input-row1{
     height: 50px;
     width: 300px;
-    margin-bottom: 5px;
+    margin: 5px auto;
 }
 
 .hostgroup-uploadphoto-input-row2{
-    height: 75px;
+    height: 60px;
     width: 300px;
+    margin: 5px auto;
 }
 
 .hostgroup-uploadphoto-cation1{
@@ -401,7 +419,6 @@ body {
 .hostgroup-uploadphoto-button{
     width: 300px;
     height: 40px;
-    margin-top: 30px;
     color: #FFF;
     background-color: #5CE600;
 }
