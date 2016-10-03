@@ -51,7 +51,7 @@ $QUERY_BRANCHPERSONLIST_APPOINT =
         ,   US.name                                       AS  branch_person_name
         ,   COALESCE(
                 CONCAT(PH.filepath, PH.filename),
-                'photo/hostgroup/now_printing.jpg')       AS  thumbnail_photo_url
+                'photo/now_printing.jpg')                 AS  thumbnail_photo_url
         FROM
             HOST_INFO                AS  HI
             INNER JOIN BRANCH_PERSON AS  BP ON
@@ -84,7 +84,7 @@ $QUERY_BRANCHPERSONLIST_FUTURE =
     ,   US.name                                       AS  branch_person_name
     ,   COALESCE(
             CONCAT(PH.filepath, PH.filename),
-            'photo/hostgroup/now_printing.jpg')       AS  thumbnail_photo_url
+            'photo/now_printing.jpg')                 AS  thumbnail_photo_url
     FROM
         HOST_INFO                AS  HI
         INNER JOIN BRANCH_PERSON AS  BP ON

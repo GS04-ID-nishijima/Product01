@@ -15,7 +15,7 @@ $GET_HOSTLIST_BASE =
     ,   HG.branch_scale                               AS  branch_scale
     ,   COALESCE(
             CONCAT(PH.filepath, PH.filename),
-            'photo/hostgroup/now_printing.jpg')       AS  thumbnail_photo_url
+            'photo/now_printing.jpg')                 AS  thumbnail_photo_url
     "
 ;
 
