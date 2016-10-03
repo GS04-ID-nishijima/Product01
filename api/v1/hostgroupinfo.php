@@ -19,6 +19,8 @@ include __DIR__ . '/../../sql/sql.php';
  *         formalHpUrl
  *         facebookUrl
  *         twitterUrl
+ *         introductionPhotoUrl
+ *         introductionText
  *
  * @author nishijima
  **/

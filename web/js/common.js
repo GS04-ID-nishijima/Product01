@@ -14,6 +14,7 @@ const BRANCHPERSON_LIST_MODE_FUTURE = '2';
 
 const HOLDINGDATEYMD_LIST_MODE_FUTURE = '1';
 const HOLDINGDATEYMD_LIST_MODE_PAST = '2';
+const HOLDINGDATEYMD_LIST_MODE_PHOTO = '3';
 
 // 日付を表示用に変換
 function formatHoldingDateYmd(holdingDateYmd) {

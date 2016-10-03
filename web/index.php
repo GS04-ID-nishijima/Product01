@@ -90,36 +90,7 @@ $(document).ready(function(){
             infinite: false,
             slidesToShow: 5,
             slidesToScroll: 3,
-            responsive: [
-                {
-                  breakpoint: 1210,
-                  settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 2
-                  }
-                },
-                {
-                  breakpoint: 982,
-                  settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 2
-                  }
-                },
-                {
-                  breakpoint: 730,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1
-                  }
-                },
-                {
-                  breakpoint: 360,
-                  settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                  }
-                }
-            ]
+            variableWidth: true
         });
     });
 });
@@ -151,7 +122,7 @@ function initMap() {
     // #hostinfomap「GoogleMap」化
     marcheMap = new google.maps.Map(document.getElementById('hostinfomap'), {
        center: {lat: lat, lng: lon},
-       zoom: 14
+       zoom: 13
     });
 
     google.maps.event.addListener(marcheMap, 'idle', function(){

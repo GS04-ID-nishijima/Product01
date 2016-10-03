@@ -153,6 +153,10 @@ body {
     padding-left: 10px;
 }
 
+.slick-slide{
+    margin: 0 7px;
+}
+
 .top-carousel-hostgroup{
     background-color:#E3FFEB;
     width: 180px;
@@ -214,6 +218,10 @@ body {
 
 .hostgroup-name{
     margin-top: 0px;
+}
+
+.hostgroup-formal-hp-url{
+    font-size: 14px;
 }
 
 .hostgroup-top-photo{
@@ -324,7 +332,7 @@ body {
 
 .hostgroup-photo-card-list{
     margin: 0 auto;
-    height: 630px;
+    max-height: 630px;
     overflow-y: auto;
 }
 
@@ -371,8 +379,6 @@ body {
 .hostgroup-uploadphoto-box-img{
     width: auto;
     height: auto;
-    max-width: 396px;
-    max-height: 396px;
 }
 
 .hostgroup-uploadphoto-input-row1{

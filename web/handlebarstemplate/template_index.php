@@ -10,7 +10,7 @@
             <a href="javascript:hostinfolist_click({{markerCnt}})" class="hostinfo-name">{{hostGroupName}}</a>
         </p>
         <div class="clearfix">
-            <img src="../photo/sample_01.jpg" alt="{{hostGroupName}}" class="hostinfo-photo">
+            <img src="../{{thumbnailPhotoUrl}}" alt="{{hostGroupName}}" class="hostinfo-photo">
             <ul class="hostinfo-contents">
                 <li>{{placeName}}</li>
                 <li>{{branchScale}}</li>

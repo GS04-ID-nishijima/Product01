@@ -31,9 +31,7 @@ include __DIR__ . '/htmlparts/header_parts.php';
                     </ul>
                     <div class="hostgroup-contents border-solid tab-content">
                         <div id="hostgroup_top" class="tab-pane active">
-                            <div class="col-md-8">
-                                <img src="../photo/sample_01.jpg" alt="sample_01" class="hostgroup-top-photo">
-                                <p class="hostgroup-top-introduction">今日も晴天です。<br><br>６月は梅雨が始まり、曇りや雨の天気が多いですが、今年は比較的晴天の日が続いています。<br><br>それでも、湿気が多くジメっとした気候が続き、体には負担がかかります。<br>体調管理をしっかりして、本格的な夏の始まり前に、梅雨を万全に乗り切りましょう。<br><br>食も、肉類・脂っこいものだけではなく、野菜や魚など多様な摂り、体に滋養をつけましょう。</p>
+                            <div class="col-md-8" id="hostgroup_top_maincontents">
                             </div>
                             <div class="col-md-4 hostgroup-top-subcontents-col" id="hostgroup_top_subcontents">
                             </div>
@@ -85,6 +83,8 @@ include __DIR__ . '/htmlparts/footer_parts.php';
 // ID末尾の番号、100の桁でaccordionの位置を特定。10の桁、1の桁でaccordion内の開催団体ごとのカルーセルを特定
 var photoListStatus = {100: false, 200: false, 300: false, 400: false, 500: false};
 
+var boxChangeflag = true;
+
 $(document).ready(function(){
 
     // 開催団体情報取得
@@ -103,8 +103,9 @@ $(document).ready(function(){
     });
     requet.done(function(responseList){
         $('#page_title').html('Favorite Marche - ' + responseList['hostGroupName']);
-        $('#hostgrroup_name').html(responseList['hostGroupName']);
+        $('#hostgrroup_name').html(responseList['hostGroupName'] + '<span class="hostgroup-formal-hp-url"> - <a href="' + responseList['formalHpUrl'] + '">公式HP</a></span>');
 
+        insertHandlebarsHtml('#hostgroup_top_maincontents', '#hostgroup_top_maincontents_template', responseList);
         insertHandlebarsHtml('#hostgroup_top_subcontents', '#hostgroup_top_subcontents_template', responseList);
 
         var hostGroupMap = new google.maps.Map(document.getElementById("hostgroup_map"), {
@@ -118,52 +119,15 @@ $(document).ready(function(){
         });
     });
 
-    // カルーセル対応
-    $('.hostgroup-photo-carousel').slick({
-        infinite: false,
-        slidesToShow: 5,
-        slidesToScroll: 2,
-        responsive: [
-            {
-              breakpoint: 1210,
-              settings: {
-                slidesToShow: 4,
-                slidesToScroll: 2
-              }
-            },
-            {
-              breakpoint: 982,
-              settings: {
-                slidesToShow: 3,
-                slidesToScroll: 2
-              }
-            },
-            {
-              breakpoint: 730,
-              settings: {
-                slidesToShow: 2,
-                slidesToScroll: 1
-              }
-            },
-            {
-              breakpoint: 360,
-              settings: {
-                slidesToShow: 1,
-                slidesToScroll: 1
-              }
-            }
-        ]
-    });
-
     // preview用photoが設定されていない場合は、ボタンを無効（主に画面リロード時）
     if(!$('#hostgroup_uploadphoto_box_img').attr('src')){
         $('#hostgroup_uploadphoto_button').prop("disabled", true);
     }
 });
 
-$(document).ajaxError(function(){
-        console.log('fail');
-        console.log(XMLHttpRequest);
+$(document).ajaxError(function(xhr){
+    console.log('fail');
+    console.log(XMLHttpRequest);
 });
 
 // 開催情報タブ表示切替
@@ -237,9 +201,8 @@ $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
         var sendData;
         sendData = {
             userType: USER_TYPE_HOSTGROUP,
-            mode: HOLDINGDATEYMD_LIST_MODE_PAST,
-            id: <?php echo $hostgroupid ?>,
-            onlyPhotoDateFlag: FLAG_ON
+            mode: HOLDINGDATEYMD_LIST_MODE_PHOTO,
+            id: <?php echo $hostgroupid ?>
         };
 
         var requet = $.ajax({
@@ -285,15 +248,19 @@ $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
 
     // アップロードタブ
     } else if(id === '#upload_photo') {
-        $('#hostgroup_uploadphoto_box').height($('#hostgroup_uploadphoto_box').width());
-        
+        if(boxChangeflag) {
+            $('#hostgroup_uploadphoto_box').height($('#hostgroup_uploadphoto_box').width());
+            boxChangeflag = false;
+        } else {
+            $('#hostgroup_uploadphoto_box').height($('#hostgroup_uploadphoto_box').width() - parseInt($('#hostgroup_uploadphoto_box').css('padding-top'), 10));
+        }
+
         // 開催日取得
         var sendData;
         sendData = {
             userType: USER_TYPE_HOSTGROUP,
             mode: HOLDINGDATEYMD_LIST_MODE_FUTURE,
-            id: <?php echo $hostgroupid ?>,
-            onlyPhotoDateFlag: FLAG_OFF
+            id: <?php echo $hostgroupid ?>
         };
 
         var requet = $.ajax({
@@ -371,36 +338,7 @@ function getPhotoList(holdingDateYmd, accordionCnt) {
             infinite: false,
             slidesToShow: 5,
             slidesToScroll: 2,
-            responsive: [
-                {
-                  breakpoint: 1210,
-                  settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 2
-                  }
-                },
-                {
-                  breakpoint: 982,
-                  settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 2
-                  }
-                },
-                {
-                  breakpoint: 730,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1
-                  }
-                },
-                {
-                  breakpoint: 360,
-                  settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                  }
-                }
-            ]
+            variableWidth: true
         });
 
         photoListStatus[accordionCnt] = true;
@@ -452,10 +390,15 @@ $('#upload_photo_form').on('change', function() {
 
 // アップロードファイルの表示位置調整
 $('#hostgroup_uploadphoto_box_img').bind("load",function(){
-    // TODO 396をレスポンシブ向けに可変対応
-    if($(this).height() < 396) {
-        $('.hostgroup-uploadphoto-box').css('padding-top', (396 - $(this).height()) / 2);
+    $('.hostgroup-uploadphoto-box-img').css('max-height', $('#hostgroup_uploadphoto_box').width());
+    $('.hostgroup-uploadphoto-box-img').css('max-width', $('#hostgroup_uploadphoto_box').width());
+
+    var photoBoxWidth = $('#hostgroup_uploadphoto_box').width() -4;
+    if($(this).height() < photoBoxWidth) {
+        // 横長写真
+        $('.hostgroup-uploadphoto-box').css('padding-top', (photoBoxWidth - $(this).height()) / 2);
     } else {
+        // 縦長写真
         $('.hostgroup-uploadphoto-box').css('padding-top', '0px');
     }
 });
@@ -492,15 +435,38 @@ $('#hostgroup_uploadphoto_button').on("click", function(){
     });
     requet.done(function(responseList){
 //console.dir(responseList);
+
+    $('#info-message').remove();
+    // 通知領域を作成
+    var divInfo$ = $('<div></div>')
+        .attr('id', 'info-message')
+        .css({
+            'position' : 'absolute',
+            'left' : 0,
+            'width' : '100%',
+            'z-index' : 100,
+            'top' : 0,
+            'text-align' : 'center',
+            'opacity' : 0.8,
+            'background-color' : '#eee',
+            'font-size' : 'large'
+        });
+    // 作成したメッセージ領域を表示
+    divInfo$.html('<div style="padding:20px 15px;">アップロードが完了しました。</div>');
+    $('body').prepend(divInfo$);
+
+    // 1秒そのままにした後、slideUpして閉じる
+    divInfo$.delay(1000).slideUp('slow');
+
     });
 
     return false;
 });
 
 // アップロードボックスのリサイズ
-$(window).on('load resize', function(){
-    $('#hostgroup_uploadphoto_box').height($('#hostgroup_uploadphoto_box').width());
-});
+//$(window).on('load resize', function(){
+//    $('#hostgroup_uploadphoto_box').height($('#hostgroup_uploadphoto_box').width());
+//});
 
 </script>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzNXQMNe9MNNjRc6Ey4Eg-exdJymnaj-w"></script>

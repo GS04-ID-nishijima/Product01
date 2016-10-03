@@ -15,6 +15,7 @@ include __DIR__ . '/../../sql/sql.php';
  *             branchPersonList
  *                 branchPersonId
  *                 branchPersonName
+ *                 thumbnailPhotoUrl
  *
  * @author nishijima
  **/

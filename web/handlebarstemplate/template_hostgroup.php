@@ -1,3 +1,7 @@
+<script type="text/x-handlebars-template" id="hostgroup_top_maincontents_template">
+    <img src="../{{introductionPhotoUrl}}" alt="introductionPhoto" class="hostgroup-top-photo">
+    <p class="hostgroup-top-introduction">{{{introductionText}}}</p>
+</script>
 <script type="text/x-handlebars-template" id="hostgroup_top_subcontents_template">
     <div class="hostgroup-top-subcontents-header">開催スケジュール</div>
     <p class="hostgroup-top-subcontents-body">{{holdingSchedule}}</p>
@@ -85,7 +89,7 @@
 <script type="text/x-handlebars-template" id="branchperson_list_li_template">
     <li>
         <p class="hostgroup-branchperson-name"><span class="hostgroup-branchperson-text">{{branchPersonName}}</span></p>
-        <p><img src="../photo/sample_01.jpg" alt="{{branchPersonName}}" class="hostgroup-branchperson-photo"></p>
+        <p><img src="../{{thumbnailPhotoUrl}}" alt="{{branchPersonName}}" class="hostgroup-branchperson-photo"></p>
     </li>
 </script>
 <script type="text/x-handlebars-template" id="select_uploadphoto_holdingdate_template">
