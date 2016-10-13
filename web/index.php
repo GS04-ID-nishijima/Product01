@@ -55,6 +55,7 @@ include __DIR__ . '/htmlparts/footer_parts.php';
 var dispInfoWindow;
 var marcheMap;
 var rangeMode = HOSTINFO_LIST_RANGEMODE_ONE;
+var preMarkerDataArray = new Array();
 
 $(document).ready(function(){
     // 最新アップロード写真取得
@@ -65,7 +66,7 @@ $(document).ready(function(){
 
     var requet = $.ajax({
         type: 'GET',
-        url: '../api/v1/latestphotolist.php',
+        url: 'api/v1/latestphotolist.php',
         cashe: false,
         dataType: "json",
         data: sendData,
@@ -132,7 +133,7 @@ function initMap() {
 
 // 開催情報クリック
 function hostinfolist_click(i){
-    google.maps.event.trigger(marker_list[i], "click");
+    google.maps.event.trigger(marker_list.getAt(i), "click");
 };
 
 // 開催情報タブ表示切替
@@ -167,13 +168,14 @@ function viewHostinfoList(rangeMode, bounds){
 
     var requet = $.ajax({
         type: 'GET',
-        url: '../api/v1/hostinfolist.php',
+        url: 'api/v1/hostinfolist.php',
         cashe: false,
         dataType: "json",
         data: sendData,
         timeout: 10000
     });
     requet.done(function(responseList){
+
         var hostinfoHtml = "";
         var markerCnt = 0;
         for(var hostInfoListArrayKey in responseList['hostInfoList']){
@@ -206,6 +208,29 @@ function viewHostinfoList(rangeMode, bounds){
             $('#hostinfo_list_all').html(hostinfoHtml);
         }
 
+        var mapRendering = false;
+
+        if(preMarkerDataArray.length == 0) {
+            preMarkerDataArray = markerDataArray;
+        } else {
+            for(i = 0; i < markerDataArray.length; i++){
+                
+                if(markerDataArray.length != preMarkerDataArray.length || markerDataArray[i].position.lat() !== preMarkerDataArray[i].position.lat() || markerDataArray[i].position.lng() !== preMarkerDataArray[i].position.lng()) {
+                    mapRendering = true;
+                    preMarkerDataArray = markerDataArray;
+                    break;
+                }
+            }
+            if(!mapRendering) {
+                return;
+            }
+        }
+
+        for(i = 0; i < marker_list.getLength(); i++){
+            marker_list.getAt(i).setMap(null);
+        }
+        marker_list = new google.maps.MVCArray();
+
         // Marker作成
         for(i = 0; i < markerDataArray.length; i++){
             var marker = new google.maps.Marker({
@@ -213,7 +238,7 @@ function viewHostinfoList(rangeMode, bounds){
                 map: marcheMap,
                 zIndex: markerDataArray.length - i
             });
-            marker_list[i] = marker;
+            marker_list.push(marker);
             attachMessage(marker, markerDataArray[i].content);
         }
     });

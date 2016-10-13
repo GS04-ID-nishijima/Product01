@@ -140,7 +140,9 @@ $QUERY_HOSTGROUPINFO =
     ,   US.formal_hp_url                           AS  formal_hp_url
     ,   US.facebook_url                            AS  facebook_url
     ,   US.twitter_url                             AS  twitter_url
-    ,   CONCAT(PH.filepath, PH.filename)           AS  introduction_photo_url
+    ,   COALESCE(
+            CONCAT(PH.filepath, PH.filename),
+            'photo/now_printing.jpg')              AS  introduction_photo_url
     ,   HG.introduction_text                       AS  introduction_text
     FROM
         USER                    AS   US

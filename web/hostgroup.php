@@ -95,7 +95,7 @@ $(document).ready(function(){
 
     var requet = $.ajax({
         type: 'GET',
-        url: '../api/v1/hostgroupinfo.php',
+        url: 'api/v1/hostgroupinfo.php',
         cashe: false,
         dataType: "json",
         data: sendData,
@@ -147,7 +147,7 @@ $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
 
         var requet = $.ajax({
             type: 'GET',
-            url: '../api/v1/branchpersonlist.php',
+            url: 'api/v1/branchpersonlist.php',
             cashe: false,
             dataType: "json",
             data: sendData,
@@ -207,7 +207,7 @@ $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
 
         var requet = $.ajax({
             type: 'GET',
-            url: '../api/v1/holdingdateymdlist.php',
+            url: 'api/v1/holdingdateymdlist.php',
             cashe: false,
             dataType: "json",
             data: sendData,
@@ -231,6 +231,10 @@ $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
 
                 accordionCnt = accordionCnt + 100;
                 hostgroupPhotoHtml += '</div></div></div>';
+            }
+
+            if(responseList.length == 0) {
+                return;
             }
 
             // 最初の日のみ写真リストを取得
@@ -265,7 +269,7 @@ $('a[data-toggle="pill"]').on('shown.bs.tab', function (e) {
 
         var requet = $.ajax({
             type: 'GET',
-            url: '../api/v1/holdingdateymdlist.php',
+            url: 'api/v1/holdingdateymdlist.php',
             cashe: false,
             dataType: "json",
             data: sendData,
@@ -306,7 +310,7 @@ function getPhotoList(holdingDateYmd, accordionCnt) {
 
     var requet = $.ajax({
         type: 'GET',
-        url: '../api/v1/holdingdateymdphotolist.php',
+        url: 'api/v1/holdingdateymdphotolist.php',
         cashe: false,
         dataType: "json",
         data: sendData,
@@ -356,7 +360,7 @@ function getholdingDateBranchPersonList(holdingDateYmd) {
 
     var requet = $.ajax({
         type: 'GET',
-        url: '../api/v1/branchpersonlist.php',
+        url: 'api/v1/branchpersonlist.php',
         cashe: false,
         dataType: "json",
         data: sendData,
@@ -426,7 +430,7 @@ $('#hostgroup_uploadphoto_button').on("click", function(){
 
     var requet = $.ajax({
         type: 'POST',
-        url: '../api/v1/photouploading.php',
+        url: 'api/v1/photouploading.php',
         cashe: false,
         dataType: "json",
         data: sendData,
