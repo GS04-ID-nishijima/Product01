@@ -3,16 +3,24 @@ body {
 }
 
 .clearfix:after{
-    display:block;
-    clear:both;
-    height:0px;
-    visibility:hidden;
-    content:".";
+    display: block;
+    clear: both;
+    height: 0px;
+    visibility: hidden;
+    content: ".";
 }
-
 
 .header-title{
     border-bottom: 2px solid #5CE600;
+}
+
+.header-title a:link{
+    color:#000000;
+    text-decoration:none
+}
+.header-title a:visited{
+    color:#000000;
+    text-decoration:none
 }
 
 .border-solid{
@@ -45,7 +53,6 @@ body {
     border-bottom: 2px solid #5CE600;
     overflow-y: scroll;
 }
-
 
 .nav-pills>li.active>a,
 .nav-pills>li.active>a:focus,
@@ -122,7 +129,7 @@ body {
 }
 
 .latest-photo-col{
-    height: 280px;
+    height: 305px;
 }
 
 .top-carousel-box{
@@ -146,6 +153,23 @@ body {
     padding-left: 10px;
 }
 
+.slick-slide{
+    margin: 0 7px;
+}
+
+.top-carousel-hostgroup{
+    background-color:#E3FFEB;
+    width: 180px;
+    height: 25px;
+    text-align: center;
+    padding-top: 1px;
+    margin-bottom: 0px;
+}
+
+.top-carousel-hostgroup{
+    align-content: center;
+}
+
 .top-carousel-comment{
     background-color:#E3FFEB;
     width: 180px;
@@ -158,6 +182,257 @@ body {
 
 .top-carousel-comment-text{
     align-content: center;
+}
+
+/*開催団体ページ*/
+.panel{
+    box-shadow: none;
+}
+
+.panel-default{
+    border-style: none;
+    margin-top: 10px;
+}
+
+.panel-default > .panel-heading{
+    background-color: transparent;
+    border-style: none;
+    border-bottom: 2px solid #5CE600;
+}
+
+.panel-default > .panel-heading + .panel-collapse > .panel-body{
+    padding-bottom: 0px;
+}
+
+.panel-group .panel-heading + .panel-collapse > .list-group, .panel-group .panel-heading + .panel-collapse > .panel-body{
+    padding-top: 5px;
+    border-style: none;
+}
+
+.hostgroup-contents{
+    min-height: 750px;
+    height: auto !important;
+    height: 750px;
+    margin-top: -2px;
+}
+
+.hostgroup-name{
+    margin-top: 0px;
+}
+
+.hostgroup-formal-hp-url{
+    font-size: 14px;
+}
+
+.hostgroup-top-photo{
+    padding-top: 13px;
+    max-width: 100%;
+    max-height: 440px;
+}
+
+.hostgroup-top-introduction{
+    margin-top: 10px;
+}
+
+.hostgroup-top-subcontents-col{
+    border-left: 1px solid #D9D9D9;
+    min-height: 750px;
+    height: auto !important;
+    height: 750px;
+    padding: 0px;
+}
+
+.hostgroup-top-subcontents-header{
+    width: 100%;
+    height: 40px;
+    background-color: #E3FFEB;
+    box-shadow: 0px 2px 2px 1px #CCCCCC;
+    font-size: 18px;
+    padding-top: 6px;
+    padding-left: 10px;
+}
+
+.hostgroup-top-subcontents-body{
+    height: 40px;
+    margin-bottom: 0px;
+    font-size: 18px;
+    padding-top: 6px;
+    padding-left: 10px;
+}
+
+.hostgroup-top-subcontents-map{
+    width: 98%;
+    height: 200px;
+}
+
+.hostgroup-top-map{
+    width: 90%;
+    height: 200px;
+    margin: 0 auto;
+    border: 1px solid #5CE600;
+}
+
+.hostgroup-branchperson-list{
+    margin-top: 10px;
+/*    position: relative;*/
+/*    overflow: hidden;*/
+    min-height: 230px;
+    max-height: 500px;
+    overflow-y: auto;
+}
+
+.hostgroup-branchperson-list ul{
+    list-style-type: none;
+    padding-left: 0px;
+/*    position: relative;*/
+/*    left: 50%;*/
+/*    float: left;*/
+}
+
+.hostgroup-branchperson-list ul li{
+/*    position: relative;*/
+/*    left: -50%;*/
+    float: left;
+}
+
+.hostgroup-branchperson-list ul li:not(:first-child){
+    padding-left: 20px;
+}
+
+.hostgroup-branchperson-photo{
+    width: 180px;
+    height: 180px;
+}
+
+.hostgroup-branchperson-name{
+    background-color:#E3FFEB;
+    width: 180px;
+    height: 40px;
+    text-align: center;
+    margin-bottom: 0px;
+    padding-top: 9px;
+}
+
+.hostgroup-branchperson-blank{
+    width: 180px;
+    height: 40px;
+    text-align: center;
+    margin-bottom: 0px;
+    padding-top: 9px;
+}
+
+.hostgroup-branchperson-text{
+    text-align: center;
+}
+
+.hostgroup-photo-box{
+    margin: 0 auto;
+    height: 730px;
+    overflow-y: auto;
+}
+
+.hostgroup-photo-card-list{
+    margin: 0 auto;
+    max-height: 630px;
+    overflow-y: auto;
+}
+
+.hostgroup-photo-card{
+    width: 98%;
+    height: 280px;
+    margin: 0px auto 15px auto;
+    box-shadow: 0px 2px 2px 1px #CCCCCC;
+}
+
+.hostgroup-photo-carousel-box{
+    width: 93%;
+    margin: 0 auto;
+}
+
+.hostgroup-photo-branchperson-name{
+    padding-top: 7px;
+    padding-left: 10px;
+    font-size: 18px;
+}
+
+.hostgroup-uploadphoto-input-col{
+    font-size: 18px;
+    text-align: center;
+    margin-top: 20px;
+}
+
+.hostgroup-uploadphoto-box{
+    max-width: 450px;
+    background-color: #E3FFEB;
+    font-size: 22px;
+    color: #AAAAAA;
+    text-align: center;
+    margin: 20px auto;
+    position: relative;
+}
+
+.hostgroup-uploadphoto-box span{
+    position: absolute;
+    top: 50%;
+    margin: -2.0em;
+}
+
+.hostgroup-uploadphoto-box-img{
+    width: auto;
+    height: auto;
+}
+
+.hostgroup-uploadphoto-input-row1{
+    height: 50px;
+    width: 300px;
+    margin: 5px auto;
+}
+
+.hostgroup-uploadphoto-input-row2{
+    height: 60px;
+    width: 300px;
+    margin: 5px auto;
+}
+
+.hostgroup-uploadphoto-cation1{
+    height: 40px;
+    width: 100px;
+    padding-top: 4px;
+    float: left;
+}
+
+.hostgroup-uploadphoto-cation2{
+    height: 60px;
+    width: 100px;
+    padding-top: 14px;
+    float: left;
+}
+
+.hostgroup-uploadphoto-select{
+    height: 40px;
+    width: 200px;
+    background-color: #E3FFEB;
+    float: left;
+}
+
+.hostgroup-uploadphoto-comment{
+    height: 60px;
+    width: 200px;
+    resize: none;
+    background-color: #E3FFEB;
+    float: left;
+}
+
+.hostgroup-uploadphoto-button{
+    width: 300px;
+    height: 40px;
+    color: #FFF;
+    background-color: #5CE600;
+}
+
+.hostgroup-uploadphoto-button:disabled{
+    background-color: #ddeddf;
+    color: #999999;
 }
 
 .footer-row{
@@ -233,9 +508,9 @@ body {
         margin-top: 11px;
     }
 
-.latest-photo-title{
-    padding-left: 0px;
-    width: 98%;
-}
+    .latest-photo-title{
+        padding-left: 0px;
+        width: 98%;
+    }
 
 }
