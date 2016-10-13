@@ -10,14 +10,13 @@ include __DIR__ . '/parameter.php';
  * @author nishijima
  **/
 function exitAsJson($resultArray) {
-    global $contentType01;
 
     if(array_key_exists('callback', $_GET)) {
         $json = $_GET['callback'] . "(" . json_encode($resultArray) . ");";
     } else {
         $json = json_encode($resultArray);
     }
-    header($contentType01);
+    header(CONTENT_TYPE_01);
     echo $json;
     exit(0);
 }
@@ -30,11 +29,10 @@ function exitAsJson($resultArray) {
  * @author nishijima
  **/
 function exitWithErrorAsJson($resultArray) {
-    global $contentType01;
 
     $json = json_encode($resultArray);
     header("MSG_HTTP_400_ERROR001");
-    header($contentType01);
+    header(CONTENT_TYPE_01);
     echo $json;
     exit(0);
 }
@@ -47,13 +45,11 @@ function htmlEnc($value) {
 
 // DBO作成
 function createDbo() {
-    global $datasource, $dbUser,$dbPass;
-
     return
         new PDO(
-            $datasource,
-            $dbUser,
-            $dbPass,
+            DATA_SOURCE,
+            DB_USER,
+            DB_PASS,
             array(
                 PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
                 PDO::ATTR_EMULATE_PREPARES => false,
@@ -73,7 +69,12 @@ function getDateYmdAfterOneWeek() {
 function getDateYmd() {
 //  return date('Ymd');
 //  TODO テスト用
-    return '20160723';
+    return '20160730';
+}
+
+// 現在の日付年月日自分秒を取得
+function getDateYmdHis() {
+    return date('YmdHis');
 }
 
 // エラーメッセージ用連想配列作成

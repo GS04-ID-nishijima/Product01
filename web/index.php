@@ -1,5 +1,5 @@
 <?php
-include __DIR__ . '\htmlparts\header_parts.php';
+include __DIR__ . '/htmlparts/header_parts.php';
 ?>
 
 <body>
@@ -7,7 +7,7 @@ include __DIR__ . '\htmlparts\header_parts.php';
         <div class="container">
             <div class="row">
                 <div class="col-md-12">
-                    <h2 class="header-title"><a href="index.php">Favorite Marche</a></h2>
+                    <h2 class="header-title"><a href="./">Favorite Marche</a></h2>
                 </div>
             </div>
         </div>
@@ -47,7 +47,7 @@ include __DIR__ . '\htmlparts\header_parts.php';
             </div>
         </div>
 <?php
-include __DIR__ . '\htmlparts\footer_parts.php';
+include __DIR__ . '/htmlparts/footer_parts.php';
 ?>
     </div>
 
@@ -55,17 +55,18 @@ include __DIR__ . '\htmlparts\footer_parts.php';
 var dispInfoWindow;
 var marcheMap;
 var rangeMode = HOSTINFO_LIST_RANGEMODE_ONE;
+var preMarkerDataArray = new Array();
 
 $(document).ready(function(){
     // 最新アップロード写真取得
     var sendData;
     sendData = {
-        number : 30
+        number : 15
     };
 
     var requet = $.ajax({
         type: 'GET',
-        url: '../api/v1/latestphotolist.php',
+        url: 'api/v1/latestphotolist.php',
         cashe: false,
         dataType: "json",
         data: sendData,
@@ -75,7 +76,12 @@ $(document).ready(function(){
         var topCrouselHtml = "";
         for(var responseListArrayKey in responseList){
             var photoList = responseList[responseListArrayKey];
-            var carousel_photo_template = Handlebars.compile($('#carousel_photo_template').html());
+            var carousel_photo_template;
+            if(_ua.Mobile) {
+                carousel_photo_template = Handlebars.compile($('#carousel_photo_template_sp').html());
+            } else {
+                carousel_photo_template = Handlebars.compile($('#carousel_photo_template_except_sp').html());
+            }
             topCrouselHtml = topCrouselHtml + carousel_photo_template(photoList);
         }
         $('#top_carousel').html(topCrouselHtml);
@@ -85,36 +91,7 @@ $(document).ready(function(){
             infinite: false,
             slidesToShow: 5,
             slidesToScroll: 3,
-            responsive: [
-                {
-                  breakpoint: 1210,
-                  settings: {
-                    slidesToShow: 4,
-                    slidesToScroll: 2
-                  }
-                },
-                {
-                  breakpoint: 982,
-                  settings: {
-                    slidesToShow: 3,
-                    slidesToScroll: 2
-                  }
-                },
-                {
-                  breakpoint: 730,
-                  settings: {
-                    slidesToShow: 2,
-                    slidesToScroll: 1
-                  }
-                },
-                {
-                  breakpoint: 360,
-                  settings: {
-                    slidesToShow: 1,
-                    slidesToScroll: 1
-                  }
-                }
-            ]
+            variableWidth: true
         });
     });
 });
@@ -122,8 +99,6 @@ $(document).ready(function(){
 $(document).ajaxError(function(){
         console.log('fail');
         console.log(XMLHttpRequest);
-        console.log(textStatus);
-        console.log(errorThrown);
 });
 
 // google Map 情報ウィンドウ表示
@@ -148,7 +123,7 @@ function initMap() {
     // #hostinfomap「GoogleMap」化
     marcheMap = new google.maps.Map(document.getElementById('hostinfomap'), {
        center: {lat: lat, lng: lon},
-       zoom: 14
+       zoom: 13
     });
 
     google.maps.event.addListener(marcheMap, 'idle', function(){
@@ -158,7 +133,7 @@ function initMap() {
 
 // 開催情報クリック
 function hostinfolist_click(i){
-    google.maps.event.trigger(marker_list[i], "click");
+    google.maps.event.trigger(marker_list.getAt(i), "click");
 };
 
 // 開催情報タブ表示切替
@@ -193,13 +168,14 @@ function viewHostinfoList(rangeMode, bounds){
 
     var requet = $.ajax({
         type: 'GET',
-        url: '../api/v1/hostinfolist.php',
+        url: 'api/v1/hostinfolist.php',
         cashe: false,
         dataType: "json",
         data: sendData,
         timeout: 10000
     });
     requet.done(function(responseList){
+
         var hostinfoHtml = "";
         var markerCnt = 0;
         for(var hostInfoListArrayKey in responseList['hostInfoList']){
@@ -212,6 +188,7 @@ function viewHostinfoList(rangeMode, bounds){
                 var hostList = hostInfoList.hostList[hostListArrayKey];
 
                 hostList.markerCnt = markerCnt;
+                hostList.holdingDateYmd = hostInfoList['holdingDateYmd'];
                 hostinfoHtml += compileHandlebarsTemplate('#hostinfo_list_template', hostList);
 
                 // 合わせてマーカーのInfoWindow作成
@@ -231,13 +208,37 @@ function viewHostinfoList(rangeMode, bounds){
             $('#hostinfo_list_all').html(hostinfoHtml);
         }
 
+        var mapRendering = false;
+
+        if(preMarkerDataArray.length == 0) {
+            preMarkerDataArray = markerDataArray;
+        } else {
+            for(i = 0; i < markerDataArray.length; i++){
+                
+                if(markerDataArray.length != preMarkerDataArray.length || markerDataArray[i].position.lat() !== preMarkerDataArray[i].position.lat() || markerDataArray[i].position.lng() !== preMarkerDataArray[i].position.lng()) {
+                    mapRendering = true;
+                    preMarkerDataArray = markerDataArray;
+                    break;
+                }
+            }
+            if(!mapRendering) {
+                return;
+            }
+        }
+
+        for(i = 0; i < marker_list.getLength(); i++){
+            marker_list.getAt(i).setMap(null);
+        }
+        marker_list = new google.maps.MVCArray();
+
         // Marker作成
         for(i = 0; i < markerDataArray.length; i++){
             var marker = new google.maps.Marker({
                 position: markerDataArray[i].position,
-                map: marcheMap
+                map: marcheMap,
+                zIndex: markerDataArray.length - i
             });
-            marker_list[i] = marker;
+            marker_list.push(marker);
             attachMessage(marker, markerDataArray[i].content);
         }
     });
@@ -247,7 +248,7 @@ function viewHostinfoList(rangeMode, bounds){
 <script async defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDzNXQMNe9MNNjRc6Ey4Eg-exdJymnaj-w&callback=initMap"></script>
 <script src="lib/lightbox/js/lightbox.min.js"></script>
 <?php
-include __DIR__ . '\handlebarstemplate\template_index.php';
+include __DIR__ . '/handlebarstemplate/template_index.php';
 ?>
 </body>
 </html>

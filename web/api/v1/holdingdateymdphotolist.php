@@ -110,7 +110,7 @@ foreach($stmt as $row) {
 }
 
 // 取得データが0件の場合
-if(count($holdingDateYmdPhotoList) === 0) {
+if(count($holdingDateYmdPhotoList) === 0 && $photoList === 0) {
     $holdingDateYmdPhotoList = array();
     exitAsJson($holdingDateYmdPhotoList);
 } else {

@@ -24,6 +24,7 @@ include __DIR__ . '/../../sql/sql.php';
  *                 longitude
  *                 eventName
  *                 branchScale
+ *                 thumbnailPhotoUrl
  *
  * @author nishijima
  **/

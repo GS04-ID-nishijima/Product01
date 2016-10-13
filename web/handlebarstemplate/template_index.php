@@ -10,7 +10,7 @@
             <a href="javascript:hostinfolist_click({{markerCnt}})" class="hostinfo-name">{{hostGroupName}}</a>
         </p>
         <div class="clearfix">
-            <img src="../photo/sample_01.jpg" alt="{{hostGroupName}}" class="hostinfo-photo">
+            <img src="{{thumbnailPhotoUrl}}" alt="{{hostGroupName}}" class="hostinfo-photo">
             <ul class="hostinfo-contents">
                 <li>{{placeName}}</li>
                 <li>{{branchScale}}</li>
@@ -20,15 +20,24 @@
     <div class="hostinfo-space"></div>
 </script>
 <script type="text/x-handlebars-template" id="infoWindowText_template">
-    <p><a href="hostgroup.php?hostgroupid={{hostGroupId}}" class="hostinfo-name">{{hostGroupName}}</a></p>
+    <p><a href="hostgroup?hostgroupid={{hostGroupId}}" class="hostinfo-name">{{hostGroupName}}</a></p>
     <ul class="infoWindow-ul">
+        <li>{{#formatHoldingDateYmd holdingDateYmd}}{{/formatHoldingDateYmd}}開催</li>
         <li>{{placeName}}</li>
         <li>{{branchScale}}</li>
     </ul>
 </script>
-<script type="text/x-handlebars-template" id="carousel_photo_template">
+<script type="text/x-handlebars-template" id="carousel_photo_template_except_sp">
     <div>
-        <p><a href="{{filepath}}{{filename}}" data-lightbox="latest-photo-group"><img src="{{filepath}}{{reductionFilename}}" alt="{{comment}}" class="top-carousel-photo"></a></p>
+        <p class="top-carousel-hostgroup"><a href="hostgroup?hostgroupid={{hostGroupId}}">{{hostGroupName}}</a></p>
+        <p><a href="{{filepath}}{{filename}}" data-lightbox="latest-photo-group" data-title="{{comment}}"><img src="{{filepath}}{{thumbnailFilename}}" alt="{{comment}}" class="top-carousel-photo"></a></p>
+        <p class="top-carousel-comment"><span class="top-carousel-comment-text">{{comment}}</span></p>
+    </div>
+</script>
+<script type="text/x-handlebars-template" id="carousel_photo_template_sp">
+    <div>
+        <p class="top-carousel-hostgroup"><a href="hostgroup?hostgroupid={{hostGroupId}}">{{hostGroupName}}</a></p>
+        <p><a href="{{filepath}}{{reductionFilename}}" data-lightbox="latest-photo-group" data-title="{{comment}}"><img src="{{filepath}}{{thumbnailFilename}}" alt="{{comment}}" class="top-carousel-photo"></a></p>
         <p class="top-carousel-comment"><span class="top-carousel-comment-text">{{comment}}</span></p>
     </div>
 </script>

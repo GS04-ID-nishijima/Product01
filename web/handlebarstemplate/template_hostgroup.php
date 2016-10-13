@@ -1,3 +1,7 @@
+<script type="text/x-handlebars-template" id="hostgroup_top_maincontents_template">
+    <img src="{{introductionPhotoUrl}}" alt="introductionPhoto" class="hostgroup-top-photo">
+    <p class="hostgroup-top-introduction">{{{introductionText}}}</p>
+</script>
 <script type="text/x-handlebars-template" id="hostgroup_top_subcontents_template">
     <div class="hostgroup-top-subcontents-header">開催スケジュール</div>
     <p class="hostgroup-top-subcontents-body">{{holdingSchedule}}</p>
@@ -52,14 +56,29 @@
         <div class="panel-body">
             <div class="hostgroup-photo-card-list" id="hostgroup_photo_card_list{{accordionCnt}}">
 </script>
-<script type="text/x-handlebars-template" id="hostgroup_photo_carousel_box_template">
+<script type="text/x-handlebars-template" id="hostgroup_photo_carousel_box_template_except_sp">
     <div class="hostgroup-photo-card">
         <p class="hostgroup-photo-branchperson-name">{{branchPersonName}}</p>
         <div class="hostgroup-photo-carousel-box">
             <div class="hostgroup-photo-carousel{{accordionCnt}}" id="hostgroup_photo_carousel{{groupCnt}}">
                 {{#each photoList}}
                 <div>
-                    <p><a href="{{filepath}}{{filename}}" data-lightbox="hostgroup-photo-group{{../groupCnt}}"><img src="{{filepath}}{{filename}}" alt="{{comment}}" class="top-carousel-photo"></a></p>
+                    <p><a href="{{filepath}}{{filename}}" data-lightbox="hostgroup-photo-group{{groupCnt}}" data-title="{{comment}}"><img src="{{filepath}}{{thumbnailFilename}}" alt="{{comment}}" class="top-carousel-photo"></a></p>
+                    <p class="top-carousel-comment"><span class="top-carousel-comment-text">{{comment}}</span></p>
+                </div>
+                {{/each}}
+            </div>
+        </div>
+    </div>
+</script>
+<script type="text/x-handlebars-template" id="hostgroup_photo_carousel_box_template_sp">
+    <div class="hostgroup-photo-card">
+        <p class="hostgroup-photo-branchperson-name">{{branchPersonName}}</p>
+        <div class="hostgroup-photo-carousel-box">
+            <div class="hostgroup-photo-carousel{{accordionCnt}}" id="hostgroup_photo_carousel{{groupCnt}}">
+                {{#each photoList}}
+                <div>
+                    <p><a href="{{filepath}}{{reductionFilename}}" data-lightbox="hostgroup-photo-group{{groupCnt}}" data-title="{{comment}}"><img src="{{filepath}}{{thumbnailFilename}}" alt="{{comment}}" class="top-carousel-photo"></a></p>
                     <p class="top-carousel-comment"><span class="top-carousel-comment-text">{{comment}}</span></p>
                 </div>
                 {{/each}}
@@ -70,7 +89,7 @@
 <script type="text/x-handlebars-template" id="branchperson_list_li_template">
     <li>
         <p class="hostgroup-branchperson-name"><span class="hostgroup-branchperson-text">{{branchPersonName}}</span></p>
-        <p><img src="../photo/sample_01.jpg" alt="{{branchPersonName}}" class="hostgroup-branchperson-photo"></p>
+        <p><img src="{{thumbnailPhotoUrl}}" alt="{{branchPersonName}}" class="hostgroup-branchperson-photo"></p>
     </li>
 </script>
 <script type="text/x-handlebars-template" id="select_uploadphoto_holdingdate_template">

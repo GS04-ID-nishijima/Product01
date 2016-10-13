@@ -8,9 +8,8 @@ include __DIR__ . '/../../sql/sql.php';
  * 開催団体、出店者の開催日（出店日）リストを返す
  *
  * @param userType: 1:開催団体、2:出店者
- * @param mode: 1:当日から未来分(5日分)、2:当日から過去分(5日分)
+ * @param mode: 1:当日から未来分(5日分)、2:当日から過去分(5日分)、3:写真（全て）
  * @param id: 開催団体ID、出店者ID
- * @param onlyPhotoDateFlag: 写真掲載済み日付のみフラグ(デフォルトOFF、過去モード時のみ使用)
  * @return holdingDateYmdList
  *             holdingDateYmd
  *
@@ -19,10 +18,10 @@ include __DIR__ . '/../../sql/sql.php';
 $mode = (string)filter_input(INPUT_GET, 'mode');
 $userType = (string)filter_input(INPUT_GET, 'userType');
 $id = (int)filter_input(INPUT_GET, 'id');
-$onlyPhotoDateFlag = (string)filter_input(INPUT_GET, 'onlyPhotoDateFlag');
 
 define("MODE_FUTURE", "1");
 define("MODE_PAST", "2");
+define("MODE_PHOTO", "3");
 
 // 必須チェック
 if(empty($userType) || empty($mode) || empty($id)) {
@@ -35,7 +34,7 @@ if($userType !== USERTYPE_HOSTGROUP && $userType !== USERTYPE_BRANCHPERSON){
 }
 
 // パラメータmodeの値チェック
-if($mode !== MODE_FUTURE && $mode !== MODE_PAST){
+if($mode !== MODE_FUTURE && $mode !== MODE_PAST && $mode !== MODE_PHOTO){
     exitWithErrorAsJson(getErrorMessageArray(MSG_HOLDINGDATEYMDLISTAPI_PARAMETER_ERROR003));
 }
 
@@ -48,32 +47,32 @@ try {
         if($mode === MODE_FUTURE) {
             // 当日から未来分(5日分)
             $stmt = $pdo->prepare($QUERY_HOLDINGDATEYMDLIST_HOSTGROUP_FUTURE);
+            $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
         } else if($mode === MODE_PAST) {
             // 当日から過去分(5日分)
-            if($onlyPhotoDateFlag === FLAG_ON) {
-                $stmt = $pdo->prepare($QUERY_HOLDINGDATEYMDLIST_HOSTGROUP_PAST_PHOTODATE);
-            } else {
-                $stmt = $pdo->prepare($QUERY_HOLDINGDATEYMDLIST_HOSTGROUP_PAST);
-            }
+            $stmt = $pdo->prepare($QUERY_HOLDINGDATEYMDLIST_HOSTGROUP_PAST);
+            $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
+        } else if($mode === MODE_PHOTO) {
+            // 写真のみ
+            $stmt = $pdo->prepare($QUERY_HOLDINGDATEYMDLIST_HOSTGROUP_PHOTODATE);
         }
         $stmt->bindValue(':host_group_id', $id, PDO::PARAM_INT);
-        $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
         $stmt->execute();
     } else if($userType === USERTYPE_BRANCHPERSON) {
         // 出店者
         if($mode === MODE_FUTURE) {
             // 当日から未来分(5日分)
+            $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
             $stmt = $pdo->prepare($QUERY_HOLDINGDATEYMDLIST_BRANCHPERSON_FUTURE);
         } else if($mode === MODE_PAST) {
             // 当日から過去分(5日分)
-            if($onlyPhotoDateFlag === FLAG_ON) {
-                $stmt = $pdo->prepare($QUERY_HOLDINGDATEYMDLIST_BRANCHPERSON_PAST_PHOTODATE);
-            } else {
-                $stmt = $pdo->prepare($QUERY_HOLDINGDATEYMDLIST_BRANCHPERSON_PAST);
-            }
+            $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
+            $stmt = $pdo->prepare($QUERY_HOLDINGDATEYMDLIST_BRANCHPERSON_PAST);
+        } else if($mode === MODE_PHOTO) {
+            // 写真のみ
+            $stmt = $pdo->prepare($QUERY_HOLDINGDATEYMDLIST_BRANCHPERSON_PAST_PHOTODATE);
         }
         $stmt->bindValue(':branch_person_id', $id, PDO::PARAM_INT);
-        $stmt->bindValue(':current_date_ymd', getDateYmd(), PDO::PARAM_STR);
         $stmt->execute();
     }
 

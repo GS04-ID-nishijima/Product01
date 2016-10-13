@@ -14,6 +14,7 @@ const BRANCHPERSON_LIST_MODE_FUTURE = '2';
 
 const HOLDINGDATEYMD_LIST_MODE_FUTURE = '1';
 const HOLDINGDATEYMD_LIST_MODE_PAST = '2';
+const HOLDINGDATEYMD_LIST_MODE_PHOTO = '3';
 
 // 日付を表示用に変換
 function formatHoldingDateYmd(holdingDateYmd) {
@@ -36,6 +37,25 @@ function compileHandlebarsTemplate(templateId, data) {
 function insertHandlebarsHtml(htmlId, templateId, data) {
     $(htmlId).html(compileHandlebarsTemplate(templateId, data));
 };
+
+// ユーザーエージェント判断
+var _ua = (function(u){
+  return {
+    Tablet:(u.indexOf("windows") != -1 && u.indexOf("touch") != -1 && u.indexOf("tablet pc") == -1) 
+      || u.indexOf("ipad") != -1
+      || (u.indexOf("android") != -1 && u.indexOf("mobile") == -1)
+      || (u.indexOf("firefox") != -1 && u.indexOf("tablet") != -1)
+      || u.indexOf("kindle") != -1
+      || u.indexOf("silk") != -1
+      || u.indexOf("playbook") != -1,
+    Mobile:(u.indexOf("windows") != -1 && u.indexOf("phone") != -1)
+      || u.indexOf("iphone") != -1
+      || u.indexOf("ipod") != -1
+      || (u.indexOf("android") != -1 && u.indexOf("mobile") != -1)
+      || (u.indexOf("firefox") != -1 && u.indexOf("mobile") != -1)
+      || u.indexOf("blackberry") != -1
+  }
+})(window.navigator.userAgent.toLowerCase());
 
 // Handlebars向け関数
 // 日付フォーマット変換

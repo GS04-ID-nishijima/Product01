@@ -19,6 +19,8 @@ include __DIR__ . '/../../sql/sql.php';
  *         formalHpUrl
  *         facebookUrl
  *         twitterUrl
+ *         introductionPhotoUrl
+ *         introductionText
  *
  * @author nishijima
  **/
@@ -58,12 +60,6 @@ $returnList = array();
 
 foreach($keys as $key) {
     $returnList[toCamelCase($key)] = $row[$key];
-}
-
-// 取得データが0件の場合
-if(count($returnList) === 0) {
-    $returnList[] = array();
-    exitAsJson($returnList);
 }
 
 exitAsJson($returnList);
